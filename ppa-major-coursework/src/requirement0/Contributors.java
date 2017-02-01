@@ -6,5 +6,6 @@ public class Contributors {
 		System.out.println("Muhammed Hasan");
 		System.out.println("Aflal Asker");
 		System.out.println("Baha Aboukoura");
+		System.out.println("Jaman Salique");
 	}
 }
