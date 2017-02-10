@@ -87,7 +87,10 @@ public class GUI {
 	private void createCenter() {
 		
 	}
-	
+	/**
+	 * This method contains code required to construct the south section of the
+	 * BorderLayout.
+	 */
 	private void createSouth() {
 
 		// add a separate panel to the south part of the frame, giving it a
@@ -178,8 +181,5 @@ public class GUI {
 		this.buttonRight.setEnabled(enabled);
 	}
 
-	/**
-	 * This method contains code required to construct the south section of the
-	 * BorderLayout.
-	 */
+	
 }
