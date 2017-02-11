@@ -48,7 +48,7 @@ public class GUI {
 
 		lastUpdate = new JLabel();
 		welcomeText = new JLabel();
-		
+
 		buttonLeft = new JButton("<");
 		buttonRight = new JButton(">");
 
@@ -78,15 +78,20 @@ public class GUI {
 
 		createNorth();
 
+		createCenter();
+
 		createSouth();
-		
+
 		frame.setVisible(true);
 
 	}
 
 	private void createCenter() {
-		
+		center.add(welcomeText, BorderLayout.CENTER);
+		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
+		welcomeText.setFont(new Font(null, 0, 16));
 	}
+
 	/**
 	 * This method contains code required to construct the south section of the
 	 * BorderLayout.
@@ -101,7 +106,7 @@ public class GUI {
 		south.add(southContainer, BorderLayout.SOUTH);
 
 		lastUpdate.setHorizontalAlignment(SwingConstants.CENTER);
-		lastUpdate.setFont(new Font(null,0, 15));
+		lastUpdate.setFont(new Font(null, 0, 15));
 		southContainer.add(buttonLeft, BorderLayout.WEST);
 		southContainer.add(buttonRight, BorderLayout.EAST);
 		southContainer.add(lastUpdate, BorderLayout.CENTER);
@@ -145,7 +150,7 @@ public class GUI {
 		comboBoxContainer.add(to);
 		comboBoxContainer.add(dateTo);
 	}
-	
+
 	/**
 	 * Used to set the text of the lastUpdate label to a given string.
 	 * 
@@ -155,6 +160,26 @@ public class GUI {
 	 */
 	public void setLastUpdate(String text) {
 		this.lastUpdate.setText(text);
+	}
+
+	/**
+	 * Used to set the text property of the welcomeText label.
+	 * 
+	 * @param text
+	 *            The text to set the welcomeText to is passed in here.
+	 */
+	public void setWelcomeText(String text) {
+
+		this.welcomeText.setText(text);
+	}
+
+	/**
+	 * Used to retrieve the string stored within the welcomeText label
+	 * 
+	 * @return The text within the welcomeText label is returned.
+	 */
+	public String getWelcomeText() {
+		return this.welcomeText.getText();
 	}
 
 	/**
@@ -181,5 +206,4 @@ public class GUI {
 		this.buttonRight.setEnabled(enabled);
 	}
 
-	
 }
