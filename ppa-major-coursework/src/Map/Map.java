@@ -39,7 +39,7 @@ public class Map extends JPanel {
 		
 		averageFrequency = averageFrequency/points.size();
 		
-		System.out.println("Average frequency is: " + averageFrequency);
+		System.out.println("Average frequency is: " + Math.ceil(averageFrequency));
 		
 		int currentFrequency;
 		int scaleFactor;
@@ -55,17 +55,17 @@ public class Map extends JPanel {
 				scaleFactor = 1;
 				currentFrequency = points.get(point);
 				System.out.println(point + " " + points.get(point));
-				if (currentFrequency > Math.floor(averageFrequency) && currentFrequency > 2 * Math.floor(averageFrequency)) scaleFactor = 4;
-				if (currentFrequency > Math.floor(averageFrequency) ) scaleFactor = 3;
-				if (currentFrequency == Math.floor(averageFrequency)) scaleFactor = 2;
-				if (currentFrequency < Math.floor(averageFrequency)) scaleFactor = 1;
+				if (currentFrequency > Math.ceil(averageFrequency) && currentFrequency > 2 * Math.ceil(averageFrequency)) scaleFactor = 60;
+				if (currentFrequency > Math.ceil(averageFrequency) ) scaleFactor = 20;
+				if (currentFrequency == Math.ceil(averageFrequency)) scaleFactor = 10;
+				if (currentFrequency < Math.ceil(averageFrequency)) scaleFactor = 1;
 				
-				Image newImg = img.getScaledInstance(15 * scaleFactor, 15 * scaleFactor, Image.SCALE_SMOOTH);
+				Image newImg = img.getScaledInstance(25 + scaleFactor, 25 + scaleFactor, Image.SCALE_SMOOTH);
 				ImageIcon alienDone = new ImageIcon(newImg);
 				alienDone.paintIcon(this, g, x, y);
 				
 				JPanel alienPanel = new JPanel();
-				alienPanel.setSize(15 * scaleFactor, 15 * scaleFactor);
+				alienPanel.setSize(15 + scaleFactor, 15 + scaleFactor);
 				alienPanel.setLocation(x, y);
 				alienPanel.setOpaque(false);
 				add(alienPanel);

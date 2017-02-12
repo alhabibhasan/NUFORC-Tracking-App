@@ -1,4 +1,5 @@
 package GUI;
+
 import Map.Map;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -30,18 +31,23 @@ import api.ripley.Ripley;
  */
 public class GUI {
 	private JFrame frame; // the main frame
-	private JPanel north, contentPanel, initCenter, south, mapCenter; // different panels for the different sections
-									// of the frame.
+	private JPanel north, contentPanel, initCenter, south, mapCenter; // different
+																		// panels
+																		// for
+																		// the
+																		// different
+																		// sections
+	// of the frame.
 	private JComboBox<Integer> dateFrom, dateTo;
 	private JLabel lastUpdate, welcomeText, acknowledgement;
 	private JButton buttonLeft, buttonRight;
 
 	private Font font = new Font(null, 0, 15);
-	
-	private Map map; 
 
+	private Map map;
+	private String currentScreen = "";
 	private CardLayout cardLayout = new CardLayout();
-	
+
 	/**
 	 * The constructor which will initialise the fields within the class.
 	 */
@@ -52,8 +58,6 @@ public class GUI {
 		initCenter = new JPanel();
 		mapCenter = new JPanel();
 		south = new JPanel();
-		
-		
 
 		dateFrom = new JComboBox<Integer>();
 		dateTo = new JComboBox<Integer>();
@@ -65,10 +69,27 @@ public class GUI {
 		buttonLeft = new JButton("<");
 		buttonRight = new JButton(">");
 
+		buttonRight.setEnabled(false);
 		buttonLeft.setEnabled(false);
+		
+		buttonLeft.addActionListener(e -> {
+			if (currentScreen.equals("mapScreen")) {
+				currentScreen = "firstScreen";
+				cardLayout.show(contentPanel, "firstScreen");
+			} 
+			if (currentScreen.equals("firstScreen")) {
+				buttonLeft.setEnabled(false);
+				buttonRight.setEnabled(true);
+			}
+		});
 		buttonRight.addActionListener(e -> {
-			createMapCenter(map);
-			cardLayout.show(contentPanel, "mapScreen");
+			if (currentScreen.equals("firstScreen")) {
+				createMapCenter(map);
+				currentScreen = "mapScreen";
+				cardLayout.show(contentPanel, "mapScreen");
+				buttonLeft.setEnabled(true);
+				buttonRight.setEnabled(false);
+			}
 		});
 	}
 
@@ -76,6 +97,9 @@ public class GUI {
 	 * The createGUI method will create components and define their properties.
 	 */
 	public void createGUI() {
+		currentScreen = "firstScreen";
+		if (currentScreen.equals("firstScreen"))
+			buttonLeft.setEnabled(false);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setSize(new Dimension(1100, 770));
 		frame.setLayout(new BorderLayout());
@@ -92,10 +116,10 @@ public class GUI {
 		frame.getContentPane().add(south, BorderLayout.SOUTH);
 
 		contentPanel.setLayout(cardLayout);
-		
+
 		createNorth();
 		createInitCenter();
-		
+
 		createSouth();
 
 		addComboBoxElements();
@@ -133,7 +157,7 @@ public class GUI {
 	public void addToMap(JPanel pointer) {
 		mapCenter.add(pointer);
 	}
-	
+
 	/**
 	 * This method contains code required to construct the south section of the
 	 * BorderLayout.
@@ -152,7 +176,6 @@ public class GUI {
 		southContainer.add(buttonLeft, BorderLayout.WEST);
 		southContainer.add(buttonRight, BorderLayout.EAST);
 		southContainer.add(lastUpdate, BorderLayout.CENTER);
-		
 
 	}
 
@@ -204,7 +227,7 @@ public class GUI {
 	public void setLastUpdate(String text) {
 		this.lastUpdate.setText(text);
 	}
-	
+
 	public void setAcknowledgement(String text) {
 		this.acknowledgement.setText(text);
 	}
@@ -252,7 +275,7 @@ public class GUI {
 	public void rightButtonEnabled(boolean enabled) {
 		this.buttonRight.setEnabled(enabled);
 	}
-	
+
 	private void addComboBoxElements() {
 		Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
 		int earliest = api.getStartYear();

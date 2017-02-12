@@ -40,6 +40,7 @@ public class testDriver {
 		long time2 = System.currentTimeMillis();
 
 		System.out.println("Time taken: " + (time2 - time1) / 1000 + " seconds.");
+		gui.rightButtonEnabled(true);
 	}
 	
 	private static HashMap<String, Integer> getData(Ripley api, String startYear, String endYear) {
