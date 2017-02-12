@@ -1,20 +1,26 @@
 package GUI;
-
+import Map.Map;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import api.ripley.Ripley;
 
 /**
  * This class will be used to construct the GUI for the program.
@@ -23,29 +29,36 @@ import javax.swing.border.LineBorder;
  *
  */
 public class GUI {
-	JFrame frame; // the main frame
-	JPanel north, center, south; // different panels for the different sections
+	private JFrame frame; // the main frame
+	private JPanel north, contentPanel, initCenter, south, mapCenter; // different panels for the different sections
 									// of the frame.
-	JComboBox<Integer> dateFrom, dateTo;
-	JLabel lastUpdate, welcomeText;
-	JButton buttonLeft, buttonRight;
+	private JComboBox<Integer> dateFrom, dateTo;
+	private JLabel lastUpdate, welcomeText, acknowledgement;
+	private JButton buttonLeft, buttonRight;
 
+	private Font font = new Font(null, 0, 15);
+	
+	private Map map; 
+
+	private CardLayout cardLayout = new CardLayout();
+	
 	/**
 	 * The constructor which will initialise the fields within the class.
 	 */
 	public GUI() {
 		frame = new JFrame();
 		north = new JPanel();
-		center = new JPanel();
-		// this centre ^ panel may be renamed and re-purposed as the initial
-		// panel to be visible. We will then have separate panels for each
-		// view so that when the buttons are pressed to slide through panels,
-		// the visibility of each panel is changed.
+		contentPanel = new JPanel();
+		initCenter = new JPanel();
+		mapCenter = new JPanel();
 		south = new JPanel();
+		
+		
 
 		dateFrom = new JComboBox<Integer>();
 		dateTo = new JComboBox<Integer>();
 
+		acknowledgement = new JLabel();
 		lastUpdate = new JLabel();
 		welcomeText = new JLabel();
 
@@ -53,7 +66,10 @@ public class GUI {
 		buttonRight = new JButton(">");
 
 		buttonLeft.setEnabled(false);
-		buttonRight.setEnabled(false);
+		buttonRight.addActionListener(e -> {
+			createMapCenter(map);
+			cardLayout.show(contentPanel, "mapScreen");
+		});
 	}
 
 	/**
@@ -61,37 +77,63 @@ public class GUI {
 	 */
 	public void createGUI() {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		frame.setSize(new Dimension(1000, 800));
+		frame.setSize(new Dimension(1100, 770));
 		frame.setLayout(new BorderLayout());
 
 		north.setLayout(new BorderLayout());
-		center.setLayout(new BorderLayout());
+		contentPanel.setLayout(cardLayout);
+		initCenter.setLayout(new BorderLayout());
+		mapCenter.setLayout(new BorderLayout());
 		south.setLayout(new BorderLayout());
 
 		// add the panels to the jframe's border layout
 		frame.getContentPane().add(north, BorderLayout.NORTH);
-		frame.getContentPane().add(center, BorderLayout.CENTER);
+		frame.getContentPane().add(contentPanel, BorderLayout.CENTER);
 		frame.getContentPane().add(south, BorderLayout.SOUTH);
 
-		// give the centre a border
-		center.setBorder(new LineBorder(Color.BLACK, 1, false));
-
+		contentPanel.setLayout(cardLayout);
+		
 		createNorth();
-
-		createCenter();
-
+		createInitCenter();
+		
 		createSouth();
 
+		addComboBoxElements();
 		frame.setVisible(true);
 
 	}
 
-	private void createCenter() {
-		center.add(welcomeText, BorderLayout.CENTER);
+	private void createInitCenter() {
+		initCenter.add(welcomeText, BorderLayout.CENTER);
+		initCenter.setBorder(new LineBorder(Color.BLACK, 1, false));
 		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
-		welcomeText.setFont(new Font(null, 0, 16));
+		welcomeText.setFont(font);
+
+		initCenter.add(welcomeText, BorderLayout.CENTER);
+		contentPanel.add(initCenter, "firstScreen");
 	}
 
+	private void createMapCenter(Map map) {
+		map.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println(e.getX() + ", " + e.getY());
+			}
+		});
+
+		mapCenter.add(map);
+
+		contentPanel.add(mapCenter, "mapScreen");
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
+	}
+
+	public void addToMap(JPanel pointer) {
+		mapCenter.add(pointer);
+	}
+	
 	/**
 	 * This method contains code required to construct the south section of the
 	 * BorderLayout.
@@ -110,6 +152,7 @@ public class GUI {
 		southContainer.add(buttonLeft, BorderLayout.WEST);
 		southContainer.add(buttonRight, BorderLayout.EAST);
 		southContainer.add(lastUpdate, BorderLayout.CENTER);
+		
 
 	}
 
@@ -161,6 +204,10 @@ public class GUI {
 	public void setLastUpdate(String text) {
 		this.lastUpdate.setText(text);
 	}
+	
+	public void setAcknowledgement(String text) {
+		this.acknowledgement.setText(text);
+	}
 
 	/**
 	 * Used to set the text property of the welcomeText label.
@@ -204,6 +251,19 @@ public class GUI {
 	 */
 	public void rightButtonEnabled(boolean enabled) {
 		this.buttonRight.setEnabled(enabled);
+	}
+	
+	private void addComboBoxElements() {
+		Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
+		int earliest = api.getStartYear();
+		int latest = api.getLatestYear();
+
+		dateFrom.setFont(font);
+		dateTo.setFont(font);
+		for (int i = earliest; i <= latest; i++) {
+			dateFrom.addItem(i);
+			dateTo.addItem(i);
+		}
 	}
 
 }

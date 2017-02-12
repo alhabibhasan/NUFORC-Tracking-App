@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="C:/Users/ASUS/Documents/repositories/Ripley JARS/ripley.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/ASUS/Documents/ripley/doc/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/ASUS/Documents/repositories/Ripley JARS/ripley-docs.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/ASUS/Documents/repositories/Ripley%20JARS/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/ASUS/git/ppa-major-coursework/ppa-major-coursework/natty-0.14-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/git/ppa-major-coursework/ppa-major-coursework/ripley.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/git/ppa-major-coursework/ppa-major-coursework/ripley-docs.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/git/ppa-major-coursework/ppa-major-coursework/slf4j-simple-1.7.22.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
