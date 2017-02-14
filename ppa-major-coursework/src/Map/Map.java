@@ -66,8 +66,8 @@ public class Map extends JPanel {
 				alienDone.paintIcon(this, g, x, y);
 				
 				JPanel alienPanel = new JPanel();
-				alienPanel.setSize(15 + scaleFactor, 15 + scaleFactor);
-				alienPanel.setLocation(x, y);
+				alienPanel.setSize(25 , 25 );
+				alienPanel.setLocation(x + 5, y + 5);
 				alienPanel.setOpaque(false);
 				add(alienPanel);
 				alienPanel.addMouseListener(new MouseListener() {

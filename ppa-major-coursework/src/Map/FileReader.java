@@ -9,8 +9,10 @@ public class FileReader {
 
 	private Scanner reader;
 	private HashMap<String, Integer[]> locations;
+	private HashMap<String, String> abrevToName;
 	
 	public FileReader() {
+		abrevToName = new HashMap<String, String>();
 		locations = new HashMap<String, Integer[]>();
 	}
 	public HashMap<String, Integer[]> getLocations() {
@@ -31,17 +33,19 @@ public class FileReader {
 	}
 	
 	private void readFile() {
-		String state = "";
+		String stateName = "";
+		String stateAbrev = "";
 		Integer x = 0;
 		Integer y = 0;
 		while(reader.hasNext()) {
-			state = reader.next();
+			stateName = reader.next();
+			stateAbrev = reader.next();
 			x = Integer.parseInt(reader.next());
 			y = Integer.parseInt(reader.next());
 			
 			Integer coords[] = {x, y};
-			
-			locations.put(state, coords);
+			abrevToName.put(stateAbrev, stateName);
+			locations.put(stateAbrev, coords);
 		}
 		
 		System.out.println("State coordinates loaded into the system as expected.");

@@ -1,8 +1,49 @@
-WA 100 15
-MO 583 270
-WY 305 160
-OR 132 110
-FL 845 500
-NV 130 210
-CA 37 205
-MT 251 127
+Alabama AL 730 412
+Arizona AZ 220 365
+Arkansas AR 598 416
+California CA 27 221
+Colorado CO 312 265
+Connecticut CT 966 168
+Delaware DE 939 251
+Florida FL 848 511
+Georgia GA 794 409
+Idaho ID 182 136
+Illinois IL 665 238
+Indiana IN 717 236
+Iowa IA 557 206
+Kansas KS 444 296
+Kentucky KY 763 304
+Louisiana LA 610 480
+Maine ME 988 27
+Maryland MD 929 246
+Massachusetts MA 967 151
+Michigan MI 667 93
+Minnesota MN 545 128
+Mississippi MS 671 451
+Missouri MO 582 287
+Montana MT 240 54
+Nebraska NE 498 229
+Nevada NV 133 279
+New-Hampshire NH 972 117
+New-Jersey NJ 938 196
+New-Mexico NM 323 374
+New-York NY 902 119
+North-Carolina NC 897 331
+North-Dakota ND 435 66
+Ohio OH 769 233
+Oklahoma OK 502 377
+Oregon OR 56 113
+Pennsylvania PA 863 200
+Rhode-Island RI 991 163
+South-Carolina SC 858 400
+South-Dakota SD 433 146
+Tennessee TN 733 358
+Texas TX 456 511
+Utah UT 223 302
+Vermont VT 946 97
+Virginia VA 877 283
+Washington WA 109 30
+Washington-DC DC 910 260
+West-Virginia WV 827 273
+Wisconsin WI 616 124
+Wyoming WY 289 164
