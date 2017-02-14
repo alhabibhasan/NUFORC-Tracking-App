@@ -44,6 +44,7 @@ public class Map extends JPanel {
 		int currentFrequency;
 		int scaleFactor;
 		for (String point : points.keySet()) {
+			System.out.println(point + " " + points.get(point));
 			if (locations.keySet().contains(point)) {
 				Integer coord[] = locations.get(point);
 				Integer x, y;
@@ -54,7 +55,7 @@ public class Map extends JPanel {
 				Image img = alien.getImage();
 				scaleFactor = 1;
 				currentFrequency = points.get(point);
-				System.out.println(point + " " + points.get(point));
+				
 				if (currentFrequency > Math.ceil(averageFrequency) && currentFrequency > 2 * Math.ceil(averageFrequency)) scaleFactor = 60;
 				if (currentFrequency > Math.ceil(averageFrequency) ) scaleFactor = 20;
 				if (currentFrequency == Math.ceil(averageFrequency)) scaleFactor = 10;
@@ -109,6 +110,10 @@ public class Map extends JPanel {
 
 		
 
+	}
+	
+	public void flushPoints() {
+		this.points.clear();
 	}
 
 }

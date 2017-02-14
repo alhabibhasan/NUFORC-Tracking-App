@@ -22,24 +22,10 @@ public class testDriver {
 	 */
 	public static void main(String[] args) {
 		long time1 = System.currentTimeMillis();
-
 		GUI gui = new GUI();
-		Ripley test = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
 		gui.createGUI();
-		gui.setWelcomeText("<html>Welcome to the Ripley API v" + test.getVersion()
-				+ " Please select from the dates above, in order to begin analysing UFO sighting data. </html>");
-		gui.setAcknowledgement(test.getAcknowledgementString());
-
-		gui.setLastUpdate(test.getLastUpdated());
-
-		Process data = new Process(test);
 		
-		data.getData("2016", "2017");
 		
-		HashMap<String, Integer> dataPoints = data.getStateFrequency();
-
-		Map d = new Map(dataPoints);
-		gui.setMap(d);
 
 		long time2 = System.currentTimeMillis();
 

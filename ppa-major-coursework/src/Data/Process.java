@@ -65,7 +65,7 @@ public class Process {
 			stateFrequency.put(state, Collections.frequency(incidentStates, state));
 		}
 		
-		// outputHashMap(stateFrequency); // use when needed.
+		outputHashMap(stateFrequency); // use when needed.
 		return stateFrequency;
 	}
 

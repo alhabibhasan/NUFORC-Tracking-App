@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,6 +22,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import Data.Process;
 import api.ripley.Ripley;
 
 /**
@@ -38,13 +40,13 @@ public class GUI {
 																		// different
 																		// sections
 	// of the frame.
+	private Ripley api;
 	private JComboBox<Integer> dateFrom, dateTo;
 	private JLabel lastUpdate, welcomeText, acknowledgement;
 	private JButton buttonLeft, buttonRight;
 
 	private Font font = new Font(null, 0, 15);
 
-	private Map map;
 	private String currentScreen = "";
 	private CardLayout cardLayout = new CardLayout();
 
@@ -52,6 +54,7 @@ public class GUI {
 	 * The constructor which will initialise the fields within the class.
 	 */
 	public GUI() {
+
 		frame = new JFrame();
 		north = new JPanel();
 		contentPanel = new JPanel();
@@ -66,31 +69,88 @@ public class GUI {
 		lastUpdate = new JLabel();
 		welcomeText = new JLabel();
 
+		completeAPILoad();
+
 		buttonLeft = new JButton("<");
 		buttonRight = new JButton(">");
 
 		buttonRight.setEnabled(false);
 		buttonLeft.setEnabled(false);
-		
+
 		buttonLeft.addActionListener(e -> {
 			if (currentScreen.equals("mapScreen")) {
 				currentScreen = "firstScreen";
 				cardLayout.show(contentPanel, "firstScreen");
-			} 
+				mapCenter.removeAll();
+			}
 			if (currentScreen.equals("firstScreen")) {
 				buttonLeft.setEnabled(false);
 				buttonRight.setEnabled(true);
 			}
 		});
+
 		buttonRight.addActionListener(e -> {
+
+			
 			if (currentScreen.equals("firstScreen")) {
-				createMapCenter(map);
-				currentScreen = "mapScreen";
-				cardLayout.show(contentPanel, "mapScreen");
-				buttonLeft.setEnabled(true);
-				buttonRight.setEnabled(false);
-			}
+					if (getMapData()) {
+						currentScreen = "mapScreen";
+						cardLayout.show(contentPanel, "mapScreen");
+
+						buttonLeft.setEnabled(true);
+						buttonRight.setEnabled(false);
+					}
+				}
 		});
+	}
+
+	private boolean validateDateRange() {
+		if (((int) dateTo.getSelectedItem() - (int) dateFrom.getSelectedItem() > 10)) {
+			JOptionPane.showMessageDialog(new JFrame(),
+					"The date range you have selected is too large, please select a smaller range.");
+			return false;
+		} else if ((int) dateTo.getSelectedItem() < (int) dateFrom.getSelectedItem()) {
+			JOptionPane.showMessageDialog(new JFrame(), "The start date must be smaller than the end date.");
+			return false;
+		}
+
+		return true;
+
+	}
+
+	private boolean getMapData() {
+		Process data = new Process(api);
+
+		if (validateDateRange()) {
+			data.getData(dateFrom.getSelectedItem().toString(), dateTo.getSelectedItem().toString());
+		} else {
+			return false;
+		}
+		
+		System.out.println(dateFrom.getSelectedItem().toString());
+		System.out.println(dateTo.getSelectedItem().toString());
+
+		HashMap<String, Integer> dataPoints = data.getStateFrequency();
+
+		
+		this.createMapCenter(new Map(dataPoints));
+		
+		
+	
+		
+		return true;
+
+	}
+
+	private void completeAPILoad() {
+		api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
+
+		this.setWelcomeText("<html>Welcome to the Ripley API v" + api.getVersion()
+				+ " Please select from the dates above, in order to begin analysing UFO sighting data. </html>");
+
+		this.setAcknowledgement(api.getAcknowledgementString());
+
+		this.setLastUpdate(api.getLastUpdated());
 	}
 
 	/**
@@ -148,14 +208,6 @@ public class GUI {
 		mapCenter.add(map);
 
 		contentPanel.add(mapCenter, "mapScreen");
-	}
-
-	public void setMap(Map map) {
-		this.map = map;
-	}
-
-	public void addToMap(JPanel pointer) {
-		mapCenter.add(pointer);
 	}
 
 	/**
