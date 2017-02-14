@@ -107,13 +107,7 @@ public class Map extends JPanel {
 				
 			}
 		}
-
-		
-
 	}
 	
-	public void flushPoints() {
-		this.points.clear();
-	}
 
 }

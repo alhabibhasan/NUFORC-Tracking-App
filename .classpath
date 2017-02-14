@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="ppa-major-coursework/src"/>
+	<classpathentry kind="src" path="res"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/natty-0.14-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/ripley-docs.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/ripley.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/slf4j-simple-1.7.22.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="ppa-major-coursework/bin"/>
+</classpath>

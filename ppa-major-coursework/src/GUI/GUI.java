@@ -189,6 +189,12 @@ public class GUI {
 
 	private void createInitCenter() {
 		initCenter.add(welcomeText, BorderLayout.CENTER);
+		
+		acknowledgement.setHorizontalAlignment(SwingConstants.CENTER);
+		acknowledgement.setFont(font);
+		initCenter.add(acknowledgement, BorderLayout.SOUTH); // DO NOT REMOVE OTHERWISE WE WILL GET ZERO MARKS7
+		
+		
 		initCenter.setBorder(new LineBorder(Color.BLACK, 1, false));
 		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeText.setFont(font);
