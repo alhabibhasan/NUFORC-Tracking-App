@@ -43,7 +43,7 @@ Utah UT 223 302
 Vermont VT 946 97
 Virginia VA 877 283
 Washington WA 109 30
-Washington-DC DC 910 260
+Washington-DC DC 896 250
 West-Virginia WV 827 273
 Wisconsin WI 616 124
 Wyoming WY 289 164
