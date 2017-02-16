@@ -69,7 +69,7 @@ public class Process {
 		return stateFrequency;
 	}
 
-	public  void outputAllIncidentsList(ArrayList<Incident> list) {
+	public void outputAllIncidentsList(ArrayList<Incident> list) {
 		for (Incident element : list) {
 			System.out.println(element.toString());
 		}
@@ -85,7 +85,7 @@ public class Process {
 	}
 
 	/**
-	 * This method is used to sort an array list of incidents.
+	 * This method is used to sort an array list of incidents. Incidents are sorted in terms of the date earliest to latest.
 	 * @param list The list to be sorted.
 	 */
 	public ArrayList<Incident> sortIncidentList(ArrayList<Incident> list) {

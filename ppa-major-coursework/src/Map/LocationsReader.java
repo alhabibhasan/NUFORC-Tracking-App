@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class FileReader {
+public class LocationsReader {
 
 	private Scanner reader;
 	private HashMap<String, Integer[]> locations;
 	private HashMap<String, String> abrevToName;
 	
-	public FileReader() {
+	public LocationsReader() {
 		abrevToName = new HashMap<String, String>();
 		locations = new HashMap<String, Integer[]>();
 	}

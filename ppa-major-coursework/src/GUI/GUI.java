@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -33,13 +34,8 @@ import api.ripley.Ripley;
  */
 public class GUI {
 	private JFrame frame; // the main frame
-	private JPanel north, contentPanel, initCenter, south, mapCenter; // different
-																		// panels
-																		// for
-																		// the
-																		// different
-																		// sections
-	// of the frame.
+	private JPanel north, contentPanel, initCenter, south, mapCenter, statsCenter;
+
 	private Ripley api;
 	private JComboBox<Integer> dateFrom, dateTo;
 	private JLabel lastUpdate, welcomeText, acknowledgement;
@@ -61,6 +57,7 @@ public class GUI {
 		initCenter = new JPanel();
 		mapCenter = new JPanel();
 		south = new JPanel();
+		statsCenter = new JPanel();
 
 		dateFrom = new JComboBox<Integer>();
 		dateTo = new JComboBox<Integer>();
@@ -80,27 +77,51 @@ public class GUI {
 		buttonLeft.addActionListener(e -> {
 			if (currentScreen.equals("mapScreen")) {
 				currentScreen = "firstScreen";
+				System.out.println(currentScreen);
 				cardLayout.show(contentPanel, "firstScreen");
 				mapCenter.removeAll();
 			}
 			if (currentScreen.equals("firstScreen")) {
 				buttonLeft.setEnabled(false);
 				buttonRight.setEnabled(true);
+
+				dateFrom.setEnabled(true);
+				dateTo.setEnabled(true);
+
+				frame.setResizable(true);
+			}
+
+			if (currentScreen.equals("statsScreen")) {
+				cardLayout.show(contentPanel, "mapScreen");
+				currentScreen = "mapScreen";
+				System.out.println(currentScreen);
 			}
 		});
 
 		buttonRight.addActionListener(e -> {
 
-			
+			if (currentScreen.equals("mapScreen")) {
+				cardLayout.show(contentPanel, "statsScreen");
+				currentScreen = "statsScreen";
+				System.out.println(currentScreen);
+			}
 			if (currentScreen.equals("firstScreen")) {
-					if (getMapData()) {
-						currentScreen = "mapScreen";
-						cardLayout.show(contentPanel, "mapScreen");
+				if (getMapData()) {
+					currentScreen = "mapScreen";
+					System.out.println(currentScreen);
+					cardLayout.show(contentPanel, "mapScreen");
 
-						buttonLeft.setEnabled(true);
-						buttonRight.setEnabled(false);
-					}
+					dateFrom.setEnabled(false);
+					dateTo.setEnabled(false);
+
+					buttonLeft.setEnabled(true);
+					buttonRight.setEnabled(true);
+
+					frame.setResizable(false);
+
 				}
+			}
+
 		});
 	}
 
@@ -118,6 +139,38 @@ public class GUI {
 
 	}
 
+	private void createStatCenter() {
+		statsCenter.setLayout(new GridLayout(2, 2));
+		Font font = new Font(null, 0, 15);
+
+		JPanel stat1 = new JPanel();
+		stat1.setLayout(new BorderLayout());
+		JPanel stat2 = new JPanel();
+		stat2.setLayout(new BorderLayout());
+		JPanel stat3 = new JPanel();
+		stat1.setLayout(new BorderLayout());
+		JPanel stat4 = new JPanel();
+		stat1.setLayout(new BorderLayout());
+
+		JButton stat1Left, stat1Right, stat2Left, stat2right, stat3Left, stat3Right, stat4Left, stat4right;
+
+		stat1Left = new JButton("<");
+		stat1Right = new JButton(">");
+		stat1Left.setFont(font);
+		stat1Right.setFont(font);
+
+		stat1.add(stat1Left, BorderLayout.WEST);
+		stat1.add(stat1Right, BorderLayout.EAST);
+
+		statsCenter.add(stat1);
+		statsCenter.add(stat2);
+		statsCenter.add(stat3);
+		statsCenter.add(stat4);
+
+		contentPanel.add(statsCenter, "statsScreen");
+
+	}
+
 	private boolean getMapData() {
 		Process data = new Process(api);
 
@@ -126,18 +179,14 @@ public class GUI {
 		} else {
 			return false;
 		}
-		
+
 		System.out.println(dateFrom.getSelectedItem().toString());
 		System.out.println(dateTo.getSelectedItem().toString());
 
 		HashMap<String, Integer> dataPoints = data.getStateFrequency();
 
-		
 		this.createMapCenter(new Map(dataPoints));
-		
-		
-	
-		
+
 		return true;
 
 	}
@@ -148,7 +197,7 @@ public class GUI {
 		this.setWelcomeText("<html>Welcome to the Ripley API v" + api.getVersion()
 				+ " Please select from the dates above, in order to begin analysing UFO sighting data. </html>");
 
-		this.setAcknowledgement(api.getAcknowledgementString());
+		this.acknowledgement.setText(api.getAcknowledgementString());
 
 		this.setLastUpdate(api.getLastUpdated());
 	}
@@ -163,7 +212,7 @@ public class GUI {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setSize(new Dimension(1100, 770));
 		frame.setLayout(new BorderLayout());
-
+		frame.setTitle("Ripley");
 		north.setLayout(new BorderLayout());
 		contentPanel.setLayout(cardLayout);
 		initCenter.setLayout(new BorderLayout());
@@ -179,7 +228,7 @@ public class GUI {
 
 		createNorth();
 		createInitCenter();
-
+		createStatCenter();
 		createSouth();
 
 		addComboBoxElements();
@@ -189,12 +238,14 @@ public class GUI {
 
 	private void createInitCenter() {
 		initCenter.add(welcomeText, BorderLayout.CENTER);
-		
+
 		acknowledgement.setHorizontalAlignment(SwingConstants.CENTER);
 		acknowledgement.setFont(font);
-		initCenter.add(acknowledgement, BorderLayout.SOUTH); // DO NOT REMOVE OTHERWISE WE WILL GET ZERO MARKS7
-		
-		
+		initCenter.add(acknowledgement, BorderLayout.SOUTH); // DO NOT REMOVE
+																// OTHERWISE WE
+																// WILL GET ZERO
+																// MARKS
+
 		initCenter.setBorder(new LineBorder(Color.BLACK, 1, false));
 		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeText.setFont(font);
@@ -216,10 +267,6 @@ public class GUI {
 		contentPanel.add(mapCenter, "mapScreen");
 	}
 
-	/**
-	 * This method contains code required to construct the south section of the
-	 * BorderLayout.
-	 */
 	private void createSouth() {
 
 		// add a separate panel to the south part of the frame, giving it a
@@ -237,11 +284,6 @@ public class GUI {
 
 	}
 
-	/**
-	 * This method is used to compartmentalise the GUI code. This method handles
-	 * the code for the north section of the BorderLayout given to the frame
-	 * field.
-	 */
 	private void createNorth() {
 
 		// add another panel for the combo boxes
@@ -284,10 +326,6 @@ public class GUI {
 	 */
 	public void setLastUpdate(String text) {
 		this.lastUpdate.setText(text);
-	}
-
-	public void setAcknowledgement(String text) {
-		this.acknowledgement.setText(text);
 	}
 
 	/**
@@ -335,7 +373,6 @@ public class GUI {
 	}
 
 	private void addComboBoxElements() {
-		Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
 		int earliest = api.getStartYear();
 		int latest = api.getLatestYear();
 
