@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -74,13 +75,9 @@ public class GUI {
 		buttonRight.setEnabled(false);
 		buttonLeft.setEnabled(false);
 
+	
 		buttonLeft.addActionListener(e -> {
-			if (currentScreen.equals("mapScreen")) {
-				currentScreen = "firstScreen";
-				System.out.println(currentScreen);
-				cardLayout.show(contentPanel, "firstScreen");
-				mapCenter.removeAll();
-			}
+			
 			if (currentScreen.equals("firstScreen")) {
 				buttonLeft.setEnabled(false);
 				buttonRight.setEnabled(true);
@@ -90,6 +87,13 @@ public class GUI {
 
 				frame.setResizable(true);
 			}
+			if (currentScreen.equals("mapScreen")) {
+				currentScreen = "firstScreen";
+				System.out.println(currentScreen);
+				cardLayout.show(contentPanel, "firstScreen");
+				mapCenter.removeAll();
+			}
+			
 
 			if (currentScreen.equals("statsScreen")) {
 				cardLayout.show(contentPanel, "mapScreen");
@@ -184,7 +188,7 @@ public class GUI {
 		System.out.println(dateTo.getSelectedItem().toString());
 
 		HashMap<String, Integer> dataPoints = data.getStateFrequency();
-
+ 
 		this.createMapCenter(new Map(dataPoints));
 
 		return true;

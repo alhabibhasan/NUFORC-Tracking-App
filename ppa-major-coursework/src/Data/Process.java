@@ -28,7 +28,7 @@ public class Process {
 	 * @return The list of incidents which occured between the start and the end year.
 	 */
 	public void getData(String startYear, String endYear) {
-		this.allIncidents = api.getIncidentsInRange( startYear + "-01-01 00:00:00", endYear + "-01-02 00:00:00");
+		this.allIncidents = api.getIncidentsInRange( startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
 	}
 	
 	public ArrayList<Incident> getAllIncidents() {
