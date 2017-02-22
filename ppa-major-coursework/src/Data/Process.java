@@ -16,7 +16,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 public class Process {
 
 	private static Ripley api;
-	private ArrayList<Incident> allIncidents;
+	private static ArrayList<Incident> allIncidents;
 	
 	public Process(Ripley api) {
 		this.api = api;
@@ -28,11 +28,11 @@ public class Process {
 	 * @return The list of incidents which occured between the start and the end year.
 	 */
 	public void getData(String startYear, String endYear) {
-		this.allIncidents = api.getIncidentsInRange( startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
+		Process.allIncidents = api.getIncidentsInRange( startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
 	}
 	
-	public ArrayList<Incident> getAllIncidents() {
-		return this.allIncidents;
+	public static ArrayList<Incident> getAllIncidents() {
+		return Process.allIncidents;
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public class Process {
 	 * This method is used to sort an array list of incidents. Incidents are sorted in terms of the date earliest to latest.
 	 * @param list The list to be sorted.
 	 */
-	public ArrayList<Incident> sortIncidentList(ArrayList<Incident> list) {
+	public static ArrayList<Incident> sortIncidentList(ArrayList<Incident> list) {
 		Collections.sort(list, new Comparator<Incident>() {
 
 			@Override
@@ -125,4 +125,16 @@ public class Process {
 		return list;
 	}
 	
+	public static ArrayList<Incident> sortListForState(ArrayList<Incident> list, String state) {
+		
+		ArrayList<Incident> sortedList = new ArrayList<Incident>();
+		
+		for(Incident incid: list){
+			if(incid.getState().equals(state)){
+				sortedList.add(incid);
+			}
+		}
+		return sortedList;
+		
+	}
 }

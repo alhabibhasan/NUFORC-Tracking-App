@@ -56,4 +56,7 @@ public class LocationsReader {
 		System.out.println("File closed.");
 	}
 	
+	public HashMap<String, String> getAbrevToState() {
+		return this.abrevToName;
+	}
 }

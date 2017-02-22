@@ -10,16 +10,21 @@ import javax.swing.ImageIcon;
 
 import javax.swing.JPanel;
 
+import GUI.InfoGUI;
+
 public class Map extends JPanel {
 
 	private Graphics g;
 	private HashMap<String, Integer[]> locationsFromFile;
 	private HashMap<String, Integer> locationsToPlot;
+	private HashMap<String, String> abrevToName;
+	
 
 	public Map(HashMap<String, Integer> locationsToPlot) {
 		LocationsReader reader = new LocationsReader();
 		locationsFromFile = reader.getLocations();
 		this.locationsToPlot = locationsToPlot;
+		this.abrevToName = reader.getAbrevToState();
 	}
 
 	/**
@@ -49,6 +54,8 @@ public class Map extends JPanel {
 		for (String point : locationsToPlot.keySet()) {
 			System.out.println(point + " " + locationsToPlot.get(point));
 			if (locationsFromFile.keySet().contains(point)) {
+				String stateAbrev = point;
+				String stateName = abrevToName.get(point);
 				Integer coord[] = locationsFromFile.get(point);
 				Integer x, y;
 				x = coord[0];
@@ -83,6 +90,10 @@ public class Map extends JPanel {
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
 						System.out.println("Mouse clicked on: " + point);
+						InfoGUI gui = new InfoGUI(stateAbrev, stateName);
+						gui.createGUI();
+	
+					
 
 					}
 
