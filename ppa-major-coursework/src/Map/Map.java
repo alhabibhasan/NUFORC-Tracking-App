@@ -30,7 +30,7 @@ public class Map extends JPanel {
 	/**
 	 * This method draws the map with the aliens drawn on to it.
 	 */
-	public void paintComponent(Graphics g) {
+	public void paint(Graphics g) {
 		super.paintComponent(g);
 		ImageIcon map = new ImageIcon("res\\usa.png");
 		map.paintIcon(this, g, 0, 0);
