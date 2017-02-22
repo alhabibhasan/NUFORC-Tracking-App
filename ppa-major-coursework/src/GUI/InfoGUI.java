@@ -81,8 +81,8 @@ public class InfoGUI extends JFrame {
 		stringArr = new String[allIncids.size()];
 		allIncids.toArray(incidentArr);
 		for (int i = 0; i <= incidentArr.length - 1; i++) {
-			stringArr[i] = incidentArr[i].getDateAndTime() + " " + incidentArr[i].getCity() + " "
-					+ incidentArr[i].getDuration() + " " + incidentArr[i].getPosted();
+			stringArr[i] = "Date and Time: " + incidentArr[i].getDateAndTime() + " " + "City: " + incidentArr[i].getCity() + " "
+					+"Duration: " + incidentArr[i].getDuration() + " " + "Posted: " + incidentArr[i].getPosted();
 		}
 		list = new JList(stringArr);
 		list.setVisibleRowCount(20);
