@@ -1,16 +1,13 @@
 package GUI;
 
-import Map.Map;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -25,12 +22,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import Data.Process;
+import Map.Map;
+import Statistics.Stats;
 import api.ripley.Ripley;
 
 /**
  * This class will be used to construct the GUI for the program.
  * 
- * @author Muhammed Hasan
+ * @author Muhammed Hasan, Aflal Asker
  *
  */
 public class GUI {
@@ -75,9 +74,8 @@ public class GUI {
 		buttonRight.setEnabled(false);
 		buttonLeft.setEnabled(false);
 
-	
 		buttonLeft.addActionListener(e -> {
-			
+
 			if (currentScreen.equals("firstScreen")) {
 				buttonLeft.setEnabled(false);
 				buttonRight.setEnabled(true);
@@ -93,7 +91,6 @@ public class GUI {
 				cardLayout.show(contentPanel, "firstScreen");
 				mapCenter.removeAll();
 			}
-			
 
 			if (currentScreen.equals("statsScreen")) {
 				cardLayout.show(contentPanel, "mapScreen");
@@ -144,33 +141,8 @@ public class GUI {
 	}
 
 	private void createStatCenter() {
-		statsCenter.setLayout(new GridLayout(2, 2));
-		Font font = new Font(null, 0, 15);
-
-		JPanel stat1 = new JPanel();
-		stat1.setLayout(new BorderLayout());
-		JPanel stat2 = new JPanel();
-		stat2.setLayout(new BorderLayout());
-		JPanel stat3 = new JPanel();
-		stat1.setLayout(new BorderLayout());
-		JPanel stat4 = new JPanel();
-		stat1.setLayout(new BorderLayout());
-
-		JButton stat1Left, stat1Right, stat2Left, stat2right, stat3Left, stat3Right, stat4Left, stat4right;
-
-		stat1Left = new JButton("<");
-		stat1Right = new JButton(">");
-		stat1Left.setFont(font);
-		stat1Right.setFont(font);
-
-		stat1.add(stat1Left, BorderLayout.WEST);
-		stat1.add(stat1Right, BorderLayout.EAST);
-
-		statsCenter.add(stat1);
-		statsCenter.add(stat2);
-		statsCenter.add(stat3);
-		statsCenter.add(stat4);
-
+		Stats stats = new Stats();
+		statsCenter = stats.getPanel();
 		contentPanel.add(statsCenter, "statsScreen");
 
 	}
@@ -188,7 +160,7 @@ public class GUI {
 		System.out.println(dateTo.getSelectedItem().toString());
 
 		HashMap<String, Integer> dataPoints = data.getStateFrequency();
- 
+
 		this.createMapCenter(new Map(dataPoints));
 
 		return true;
