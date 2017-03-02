@@ -25,11 +25,9 @@ public class testDriver {
 		GUI gui = new GUI();
 		gui.createGUI();
 		
-		
-
 		long time2 = System.currentTimeMillis();
 
-		System.out.println("Time taken: " + (time2 - time1) / 1000 + " seconds.");
+		System.out.println("Time taken to create GUI: " + (time2 - time1) / 1000 + " seconds.");
 		gui.rightButtonEnabled(true);
 	}
 	

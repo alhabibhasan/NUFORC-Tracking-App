@@ -28,7 +28,13 @@ public class Process {
 	 * @return The list of incidents which occured between the start and the end year.
 	 */
 	public void getData(String startYear, String endYear) {
+		long startTime = System.currentTimeMillis();
 		Process.allIncidents = api.getIncidentsInRange( startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
+		long endTime = System.currentTimeMillis();
+		
+		long totalTimeSeconds = (endTime - startTime) / 1000;
+		
+		System.out.println("Seconds required: " + totalTimeSeconds);
 	}
 	
 	public static ArrayList<Incident> getAllIncidents() {

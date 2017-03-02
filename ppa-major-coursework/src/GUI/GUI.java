@@ -14,19 +14,19 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import ButtonControllers.LeftButtonListener;
-import ButtonControllers.RightButtonListener;
 import Data.Process;
 import Map.Map;
 import Statistics.Stats;
 import api.ripley.Ripley;
+import controllers.ComboBoxListener;
+import controllers.LeftButtonListener;
+import controllers.RightButtonListener;
 
 /**
  * This class will be used to construct the GUI for the program.
@@ -40,16 +40,17 @@ public class GUI {
 
 	private Ripley api;
 	private JComboBox<Integer> dateFrom, dateTo;
-	private JLabel lastUpdate, welcomeText, acknowledgement, timeTaken;
+	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData, timeTaken;
 	private JButton buttonLeft, buttonRight;
 
 	private Font font = new Font(null, 0, 15);
-	
+
 	private String currentScreen = "";
 	private CardLayout cardLayout = new CardLayout();
 
 	/**
-	 * The constructor which will initialise the GUI components within the class.
+	 * The constructor which will initialise the GUI components within the
+	 * class.
 	 */
 	public GUI() {
 
@@ -63,11 +64,13 @@ public class GUI {
 
 		dateFrom = new JComboBox<Integer>();
 		dateTo = new JComboBox<Integer>();
+		
 
 		acknowledgement = new JLabel();
 		lastUpdate = new JLabel();
 		welcomeText = new JLabel();
 		timeTaken = new JLabel();
+		gettingData = new JLabel("Grabbing data...");
 
 		completeAPILoad();
 
@@ -80,36 +83,27 @@ public class GUI {
 		buttonLeft.addActionListener(new LeftButtonListener(this));
 
 		buttonRight.addActionListener(new RightButtonListener(this));
+		
+		addComboBoxElements();
+		ComboBoxListener comboxListener = new ComboBoxListener(dateFrom, dateTo, this);
+		dateFrom.addActionListener(comboxListener);
+		dateTo.addActionListener(comboxListener);
 	}
 
 	public void clearMapCenter() {
 		mapCenter.removeAll();
 	}
-	
+
 	public void setCardLayout(String changeTo) {
 		cardLayout.show(contentPanel, changeTo);
 	}
-	
+
 	public void setCurrentScreen(String currentScreen) {
 		this.currentScreen = currentScreen;
 	}
-	
+
 	public String getCurrentScreen() {
 		return this.currentScreen;
-	}
-	
-	private boolean validateDateRange() {
-		if (((int) dateTo.getSelectedItem() - (int) dateFrom.getSelectedItem() > 10)) {
-			JOptionPane.showMessageDialog(new JFrame(),
-					"The date range you have selected is too large, please select a smaller range.");
-			return false;
-		} else if ((int) dateTo.getSelectedItem() < (int) dateFrom.getSelectedItem()) {
-			JOptionPane.showMessageDialog(new JFrame(), "The start date must be smaller than the end date.");
-			return false;
-		}
-
-		return true;
-
 	}
 
 	private void createStatCenter() {
@@ -120,17 +114,15 @@ public class GUI {
 	}
 
 	/**
-	 * Loads the map data into the map center within the GUI class. 
-	 * @return If the load was successful, true is returned otherwise false is returned.
+	 * Loads the map data into the map center within the GUI class.
+	 * 
+	 * @return If the load was successful, true is returned otherwise false is
+	 *         returned.
 	 */
 	public boolean getMapData() {
 		Process data = new Process(api);
 
-		if (validateDateRange()) {
-			data.getData(dateFrom.getSelectedItem().toString(), dateTo.getSelectedItem().toString());
-		} else {
-			return false;
-		}
+		data.getData(dateFrom.getSelectedItem().toString(), dateTo.getSelectedItem().toString());
 
 		System.out.println(dateFrom.getSelectedItem().toString());
 		System.out.println(dateTo.getSelectedItem().toString());
@@ -156,12 +148,13 @@ public class GUI {
 
 	/**
 	 * 
-	 * @param resizeable True to make frame resizable, false to make it non resizeable.
+	 * @param resizeable
+	 *            True to make frame resizable, false to make it non resizeable.
 	 */
-	public void setFrameResizeable(boolean resizeable){
+	public void setFrameResizeable(boolean resizeable) {
 		frame.setResizable(resizeable);
 	}
-	
+
 	/**
 	 * The createGUI method will create components and define their properties.
 	 */
@@ -191,7 +184,7 @@ public class GUI {
 		createStatCenter();
 		createSouth();
 
-		addComboBoxElements();
+		
 		frame.setVisible(true);
 
 	}
@@ -334,21 +327,23 @@ public class GUI {
 
 	/**
 	 * 
-	 * @param setTo Boolean value to set the combo boxes to.
+	 * @param setTo
+	 *            Boolean value to set the combo boxes to.
 	 */
 	public void setComboBoxes(boolean setTo) {
 		dateFrom.setEnabled(setTo);
 		dateTo.setEnabled(setTo);
 	}
-	
+
 	/**
 	 * 
-	 * @return Boolean value based on whether the combo boxes are enabled or not.
+	 * @return Boolean value based on whether the combo boxes are enabled or
+	 *         not.
 	 */
 	public boolean isComboBoxEnabled() {
 		return dateFrom.isEnabled() && dateTo.isEnabled();
 	}
-	
+
 	private void addComboBoxElements() {
 		int earliest = api.getStartYear();
 		int latest = api.getLatestYear();
