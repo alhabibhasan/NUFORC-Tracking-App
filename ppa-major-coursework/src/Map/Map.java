@@ -19,7 +19,10 @@ public class Map extends JPanel {
 	private HashMap<String, Integer> locationsToPlot;
 	private HashMap<String, String> abrevToName;
 	
-
+	/**
+	 * Initialises the map class.
+	 * @param locationsToPlot The values to be draw onto the map are passed in here.
+	 */
 	public Map(HashMap<String, Integer> locationsToPlot) {
 		LocationsReader reader = new LocationsReader();
 		locationsFromFile = reader.getLocations();
@@ -91,10 +94,6 @@ public class Map extends JPanel {
 					public void mouseClicked(MouseEvent arg0) {
 						System.out.println("Mouse clicked on: " + point);
 						InfoGUI gui = new InfoGUI(stateAbrev, stateName);
-						gui.createGUI();
-	
-					
-
 					}
 
 					@Override

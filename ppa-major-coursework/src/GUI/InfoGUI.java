@@ -31,7 +31,12 @@ public class InfoGUI extends JFrame {
 	private static String[] stringArr;
 	private static Incident[] incidentArr;
 	private String stateAbrev, stateName;
-
+	
+	/**
+	 * Creates a JFrame which display the relevant information
+	 * @param stateAbrev The abbreviation of the state about which info. should be displayed.
+	 * @param stateName The name of the state in question.
+	 */
 	public InfoGUI(String stateAbrev, String stateName) {
 		this.stateAbrev = stateAbrev;
 		this.stateName = stateName;
@@ -40,10 +45,11 @@ public class InfoGUI extends JFrame {
 		north = new JPanel();
 		center = new JPanel();
 		comboBox = new JComboBox<String>();
-
+		createGUI();
 	}
-
-	public void createGUI() {
+	
+	
+	private void createGUI() {
 
 		frame.setLayout(new BorderLayout());
 		frame.setTitle(stateName + " " + "(" + stateAbrev + ")");
@@ -74,7 +80,7 @@ public class InfoGUI extends JFrame {
 
 	}
 
-	public void setupList() {
+	private void setupList() {
 
 		ArrayList<Incident> allIncids = Process.sortListForState(Process.getAllIncidents(), stateAbrev);
 		incidentArr = new Incident[allIncids.size()];

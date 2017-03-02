@@ -10,11 +10,17 @@ public class LocationsReader {
 	private Scanner reader;
 	private HashMap<String, Integer[]> locations;
 	private HashMap<String, String> abrevToName;
-	
+	/**
+	 * Initialises the locations reader which reads the locations from file.
+	 */
 	public LocationsReader() {
 		abrevToName = new HashMap<String, String>();
 		locations = new HashMap<String, Integer[]>();
 	}
+	/**
+	 * 
+	 * @return returns the complete set of locations read from file.
+	 */
 	public HashMap<String, Integer[]> getLocations() {
 		openFile();
 		readFile();

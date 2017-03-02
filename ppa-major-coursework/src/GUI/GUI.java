@@ -47,7 +47,7 @@ public class GUI {
 	private CardLayout cardLayout = new CardLayout();
 
 	/**
-	 * The constructor which will initialise the fields within the class.
+	 * The constructor which will initialise the GUI components within the class.
 	 */
 	public GUI() {
 
@@ -76,7 +76,12 @@ public class GUI {
 
 		buttonLeft.addActionListener(e -> {
 
-			if (currentScreen.equals("firstScreen")) {
+			if (currentScreen.equals("mapScreen")) {
+				currentScreen = "firstScreen";
+				System.out.println(currentScreen);
+				cardLayout.show(contentPanel, "firstScreen");
+				mapCenter.removeAll();
+				
 				buttonLeft.setEnabled(false);
 				buttonRight.setEnabled(true);
 
@@ -84,12 +89,6 @@ public class GUI {
 				dateTo.setEnabled(true);
 
 				frame.setResizable(true);
-			}
-			if (currentScreen.equals("mapScreen")) {
-				currentScreen = "firstScreen";
-				System.out.println(currentScreen);
-				cardLayout.show(contentPanel, "firstScreen");
-				mapCenter.removeAll();
 			}
 
 			if (currentScreen.equals("statsScreen")) {
