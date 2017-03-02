@@ -21,6 +21,8 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import ButtonControllers.LeftButtonListener;
+import ButtonControllers.RightButtonListener;
 import Data.Process;
 import Map.Map;
 import Statistics.Stats;
@@ -38,11 +40,11 @@ public class GUI {
 
 	private Ripley api;
 	private JComboBox<Integer> dateFrom, dateTo;
-	private JLabel lastUpdate, welcomeText, acknowledgement;
+	private JLabel lastUpdate, welcomeText, acknowledgement, timeTaken;
 	private JButton buttonLeft, buttonRight;
 
 	private Font font = new Font(null, 0, 15);
-
+	
 	private String currentScreen = "";
 	private CardLayout cardLayout = new CardLayout();
 
@@ -65,6 +67,7 @@ public class GUI {
 		acknowledgement = new JLabel();
 		lastUpdate = new JLabel();
 		welcomeText = new JLabel();
+		timeTaken = new JLabel();
 
 		completeAPILoad();
 
@@ -74,57 +77,27 @@ public class GUI {
 		buttonRight.setEnabled(false);
 		buttonLeft.setEnabled(false);
 
-		buttonLeft.addActionListener(e -> {
+		buttonLeft.addActionListener(new LeftButtonListener(this));
 
-			if (currentScreen.equals("mapScreen")) {
-				currentScreen = "firstScreen";
-				System.out.println(currentScreen);
-				cardLayout.show(contentPanel, "firstScreen");
-				mapCenter.removeAll();
-				
-				buttonLeft.setEnabled(false);
-				buttonRight.setEnabled(true);
-
-				dateFrom.setEnabled(true);
-				dateTo.setEnabled(true);
-
-				frame.setResizable(true);
-			}
-
-			if (currentScreen.equals("statsScreen")) {
-				cardLayout.show(contentPanel, "mapScreen");
-				currentScreen = "mapScreen";
-				System.out.println(currentScreen);
-			}
-		});
-
-		buttonRight.addActionListener(e -> {
-
-			if (currentScreen.equals("mapScreen")) {
-				cardLayout.show(contentPanel, "statsScreen");
-				currentScreen = "statsScreen";
-				System.out.println(currentScreen);
-			}
-			if (currentScreen.equals("firstScreen")) {
-				if (getMapData()) {
-					currentScreen = "mapScreen";
-					System.out.println(currentScreen);
-					cardLayout.show(contentPanel, "mapScreen");
-
-					dateFrom.setEnabled(false);
-					dateTo.setEnabled(false);
-
-					buttonLeft.setEnabled(true);
-					buttonRight.setEnabled(true);
-
-					frame.setResizable(false);
-
-				}
-			}
-
-		});
+		buttonRight.addActionListener(new RightButtonListener(this));
 	}
 
+	public void clearMapCenter() {
+		mapCenter.removeAll();
+	}
+	
+	public void setCardLayout(String changeTo) {
+		cardLayout.show(contentPanel, changeTo);
+	}
+	
+	public void setCurrentScreen(String currentScreen) {
+		this.currentScreen = currentScreen;
+	}
+	
+	public String getCurrentScreen() {
+		return this.currentScreen;
+	}
+	
 	private boolean validateDateRange() {
 		if (((int) dateTo.getSelectedItem() - (int) dateFrom.getSelectedItem() > 10)) {
 			JOptionPane.showMessageDialog(new JFrame(),
@@ -146,7 +119,11 @@ public class GUI {
 
 	}
 
-	private boolean getMapData() {
+	/**
+	 * Loads the map data into the map center within the GUI class. 
+	 * @return If the load was successful, true is returned otherwise false is returned.
+	 */
+	public boolean getMapData() {
 		Process data = new Process(api);
 
 		if (validateDateRange()) {
@@ -177,6 +154,14 @@ public class GUI {
 		this.setLastUpdate(api.getLastUpdated());
 	}
 
+	/**
+	 * 
+	 * @param resizeable True to make frame resizable, false to make it non resizeable.
+	 */
+	public void setFrameResizeable(boolean resizeable){
+		frame.setResizable(resizeable);
+	}
+	
 	/**
 	 * The createGUI method will create components and define their properties.
 	 */
@@ -347,6 +332,23 @@ public class GUI {
 		this.buttonRight.setEnabled(enabled);
 	}
 
+	/**
+	 * 
+	 * @param setTo Boolean value to set the combo boxes to.
+	 */
+	public void setComboBoxes(boolean setTo) {
+		dateFrom.setEnabled(setTo);
+		dateTo.setEnabled(setTo);
+	}
+	
+	/**
+	 * 
+	 * @return Boolean value based on whether the combo boxes are enabled or not.
+	 */
+	public boolean isComboBoxEnabled() {
+		return dateFrom.isEnabled() && dateTo.isEnabled();
+	}
+	
 	private void addComboBoxElements() {
 		int earliest = api.getStartYear();
 		int latest = api.getLatestYear();
