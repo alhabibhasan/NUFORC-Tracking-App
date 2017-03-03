@@ -23,7 +23,6 @@ import javax.swing.border.LineBorder;
 import Data.Process;
 import Map.Map;
 import Statistics.Stats;
-import api.ripley.Ripley;
 import controllers.ComboBoxListener;
 import controllers.LeftButtonListener;
 import controllers.RightButtonListener;
@@ -38,7 +37,7 @@ public class GUI {
 	private JFrame frame; // the main frame
 	private JPanel north, contentPanel, initCenter, south, mapCenter, statsCenter;
 
-	private Ripley api;
+	private Process data;
 	private JComboBox<Integer> dateFrom, dateTo;
 	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData, timeTaken;
 	private JButton buttonLeft, buttonRight;
@@ -71,8 +70,8 @@ public class GUI {
 		welcomeText = new JLabel();
 		timeTaken = new JLabel();
 		gettingData = new JLabel("Grabbing data...");
-
-		completeAPILoad();
+		
+		completeDataLoad();
 
 		buttonLeft = new JButton("<");
 		buttonRight = new JButton(">");
@@ -119,8 +118,8 @@ public class GUI {
 	 * @return If the load was successful, true is returned otherwise false is
 	 *         returned.
 	 */
-	public boolean getMapData() {
-		Process data = new Process(api);
+	public boolean getData() {
+		Process data = new Process();
 
 		data.getData(dateFrom.getSelectedItem().toString(), dateTo.getSelectedItem().toString());
 
@@ -135,15 +134,15 @@ public class GUI {
 
 	}
 
-	private void completeAPILoad() {
-		api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
+	private void completeDataLoad() {
 
-		this.setWelcomeText("<html>Welcome to the Ripley API v" + api.getVersion()
+		data = new Process();
+		this.setWelcomeText("<html>Welcome to the Ripley API v" + data.getVersion()
 				+ " Please select from the dates above, in order to begin analysing UFO sighting data. </html>");
 
-		this.acknowledgement.setText(api.getAcknowledgementString());
+		this.acknowledgement.setText(data.getAcknowledgementString());
 
-		this.setLastUpdate(api.getLastUpdated());
+		this.setLastUpdate(data.getLastUpdated());
 	}
 
 	/**
@@ -345,8 +344,8 @@ public class GUI {
 	}
 
 	private void addComboBoxElements() {
-		int earliest = api.getStartYear();
-		int latest = api.getLatestYear();
+		int earliest = data.getStartYear();
+		int latest = data.getLatestYear();
 
 		dateFrom.setFont(font);
 		dateTo.setFont(font);

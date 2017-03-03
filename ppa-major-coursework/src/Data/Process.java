@@ -17,9 +17,9 @@ public class Process {
 
 	private static Ripley api;
 	private static ArrayList<Incident> allIncidents;
-	
-	public Process(Ripley api) {
-		this.api = api;
+	private int dataStart, dataEnd;
+	public Process() {
+		this.api =  new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
 	}
 	/**
 	 * This method uses the Ripley API to download data from the database between the given years.
@@ -28,6 +28,8 @@ public class Process {
 	 * @return The list of incidents which occured between the start and the end year.
 	 */
 	public void getData(String startYear, String endYear) {
+		this.dataStart =Integer.parseInt(startYear);
+		this.dataEnd = Integer.parseInt(endYear);
 		long startTime = System.currentTimeMillis();
 		Process.allIncidents = api.getIncidentsInRange( startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
 		long endTime = System.currentTimeMillis();
@@ -37,6 +39,12 @@ public class Process {
 		System.out.println("Seconds required: " + totalTimeSeconds);
 	}
 	
+	public int getDataStart() {
+		return dataStart;
+	}
+	public int getDataEnd() {
+		return dataEnd;
+	}
 	public static ArrayList<Incident> getAllIncidents() {
 		return Process.allIncidents;
 	}
@@ -142,5 +150,25 @@ public class Process {
 		}
 		return sortedList;
 		
+	}
+	
+	public String getAcknowledgementString() {
+		return api.getAcknowledgementString();
+	}
+	
+	public String getLastUpdated() {
+		return api.getLastUpdated();
+	}
+	
+	public double getVersion() {
+		return api.getVersion();
+	}
+	
+	public int getStartYear() {
+		return api.getStartYear();
+	}
+	
+	public int getLatestYear() {
+		return api.getLatestYear();
 	}
 }

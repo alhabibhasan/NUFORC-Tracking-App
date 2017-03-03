@@ -20,7 +20,7 @@ public class RightButtonListener implements ActionListener {
 			System.out.println(gui.getCurrentScreen());
 		}
 		if (gui.getCurrentScreen().equals("firstScreen")) {
-			 if (gui.getMapData()) {
+			 if (gui.getData()) {
 				gui.setCurrentScreen("mapScreen"); 
 				System.out.println(gui.getCurrentScreen());
 				gui.setCardLayout("mapScreen");
@@ -36,4 +36,6 @@ public class RightButtonListener implements ActionListener {
 		}
 		
 	}
+	
+	
 }
