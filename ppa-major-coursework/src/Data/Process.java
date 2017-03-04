@@ -27,7 +27,7 @@ public class Process {
 	 * @param endYear The end year.
 	 * @return The list of incidents which occured between the start and the end year.
 	 */
-	public void getData(String startYear, String endYear) {
+	public ArrayList<Incident> getData(String startYear, String endYear) {
 		this.dataStart =Integer.parseInt(startYear);
 		this.dataEnd = Integer.parseInt(endYear);
 		long startTime = System.currentTimeMillis();
@@ -37,14 +37,37 @@ public class Process {
 		long totalTimeSeconds = (endTime - startTime) / 1000;
 		
 		System.out.println("Seconds required: " + totalTimeSeconds);
+		
+		return allIncidents;
+	}
+	/**
+	 * returns one of data to be used for processing. The data retreieved is not stored in the system. Rather, the data is used and then disposed of.
+	 * @param startYear
+	 * @param endYear
+	 * @return The data from the given range.
+	 */
+	public ArrayList<Incident> getOneOfData(String startYear, String endYear) {
+		return api.getIncidentsInRange( startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
 	}
 	
+	/**
+	 * Returns the earliest year from the current set of incidents not for all incidents.
+	 * @return
+	 */
 	public int getDataStart() {
 		return dataStart;
 	}
+	/**
+	 * Returns the latest year from the current set of incidents.
+	 * @return
+	 */
 	public int getDataEnd() {
 		return dataEnd;
 	}
+	/**
+	 * Returns the array list of all incidents within the years stored in getDataStart() and getDataEnd().
+	 * @return
+	 */
 	public static ArrayList<Incident> getAllIncidents() {
 		return Process.allIncidents;
 	}
@@ -83,12 +106,20 @@ public class Process {
 		return stateFrequency;
 	}
 
+	/**
+	 * prints details of all incident stored in the current set of incidents to the console
+	 * @param list
+	 */
 	public void outputAllIncidentsList(ArrayList<Incident> list) {
 		for (Incident element : list) {
 			System.out.println(element.toString());
 		}
 	}
-
+	
+	/**
+	 * Prints the hashmap of states with the frequnecy of alien sightings. To be used for testing purposes only.
+	 * @param map
+	 */
 	public void outputHashMap(HashMap<String, Integer> map) {
 		for (String state : map.keySet()) {
 			String key = state.toString();
@@ -110,16 +141,16 @@ public class Process {
 				Parser parse = new Parser();
 
 				List<DateGroup> a = parse.parse(i1.getDateAndTime());
-				DateGroup dateFor = a.get(0);
-				String date = dateFor.getDates().toString();
+				DateGroup dateParsed = a.get(0);
+				String date = dateParsed.getDates().toString();
 				String year = date.substring(25, 29);
 
 				int yearA = Integer.parseInt(year);
 
 				List<DateGroup> b = parse.parse(i2.getDateAndTime());
-				dateFor = b.get(0);
+				dateParsed = b.get(0);
 
-				date = dateFor.getDates().toString();
+				date = dateParsed.getDates().toString();
 				year = date.substring(25, 29);
 
 				int yearB = Integer.parseInt(year);
@@ -139,11 +170,15 @@ public class Process {
 		return list;
 	}
 	
-	public static ArrayList<Incident> sortListForState(ArrayList<Incident> list, String state) {
+	/**
+	 * Cycles through a list of all incidents. Then returns the incidents which took place in the given state. 
+	 * @param state The state to sort by.
+	 * @return All incidents which took place in the given state.
+	 */
+	public static ArrayList<Incident> sortListForState(String state) {
 		
 		ArrayList<Incident> sortedList = new ArrayList<Incident>();
-		
-		for(Incident incid: list){
+		for(Incident incid: allIncidents){
 			if(incid.getState().equals(state)){
 				sortedList.add(incid);
 			}
@@ -152,22 +187,41 @@ public class Process {
 		
 	}
 	
+	/**
+	 * 
+	 * @return Acknowledgement String from the Ripley API.
+	 */
 	public String getAcknowledgementString() {
 		return api.getAcknowledgementString();
 	}
-	
+	/**
+	 * 
+	 * @return time and date of last update of the UFO database
+	 */
 	public String getLastUpdated() {
 		return api.getLastUpdated();
 	}
 	
+	/**
+	 * 
+	 * @return Current api version being used.
+	 */
 	public double getVersion() {
 		return api.getVersion();
 	}
 	
+	/**
+	 * 
+	 * @return The earliest year of records.
+	 */
 	public int getStartYear() {
 		return api.getStartYear();
 	}
 	
+	/**
+	 * 
+	 * @return The latest year of records.
+	 */
 	public int getLatestYear() {
 		return api.getLatestYear();
 	}

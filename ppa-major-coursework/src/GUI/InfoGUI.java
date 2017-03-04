@@ -82,7 +82,7 @@ public class InfoGUI extends JFrame {
 
 	private void setupList() {
 
-		ArrayList<Incident> allIncids = Process.sortListForState(Process.getAllIncidents(), stateAbrev);
+		ArrayList<Incident> allIncids = Process.sortListForState(stateAbrev);
 		incidentArr = new Incident[allIncids.size()];
 		stringArr = new String[allIncids.size()];
 		allIncids.toArray(incidentArr);

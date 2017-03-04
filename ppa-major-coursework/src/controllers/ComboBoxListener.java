@@ -19,14 +19,12 @@ public class ComboBoxListener implements ActionListener {
 	}
 
 	private boolean checkValidRange() {
-		if (((int) to.getSelectedItem() - (int) from.getSelectedItem() > 10)) {
-			JOptionPane.showMessageDialog(new JFrame(),
-					"The date range you have selected is too large, please select a smaller range.");
-			from.setSelectedItem(to.getSelectedItem());
+		if (((int) to.getSelectedItem() > (int) from.getSelectedItem() + 50)) {
+			to.setSelectedItem((int) from.getSelectedItem() + 50);
 			return false;
-		} else if ((int) to.getSelectedItem() < (int) from.getSelectedItem()) {
-			JOptionPane.showMessageDialog(new JFrame(), "The start date must be smaller than the end date.");
-			to.setSelectedItem(from.getSelectedItem());
+		}
+		if ((int) to.getSelectedItem() < (int) from.getSelectedItem()) {
+			to.setSelectedItem((int) from.getSelectedItem());
 			return false;
 		}
 
@@ -36,9 +34,9 @@ public class ComboBoxListener implements ActionListener {
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		
-			checkValidRange();
-		
+
+		checkValidRange();
+
 	}
 
 }
