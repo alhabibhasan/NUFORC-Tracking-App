@@ -55,7 +55,6 @@ public class Map extends JPanel {
 		int currentFrequency;
 		int scaleFactor;
 		for (String point : locationsToPlot.keySet()) {
-			System.out.println(point + " " + locationsToPlot.get(point));
 			if (locationsFromFile.keySet().contains(point)) {
 				String stateAbrev = point;
 				String stateName = abrevToName.get(point);

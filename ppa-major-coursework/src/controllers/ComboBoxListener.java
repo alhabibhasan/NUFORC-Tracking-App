@@ -19,13 +19,11 @@ public class ComboBoxListener implements ActionListener {
 	}
 
 	private boolean checkValidRange() {
-		if (((int) to.getSelectedItem() > (int) from.getSelectedItem() + 50)) {
-			to.setSelectedItem((int) from.getSelectedItem() + 50);
-			return false;
+		if (((int) to.getSelectedItem() > (int) from.getSelectedItem() + 2000)) {
+			to.setSelectedItem((int) from.getSelectedItem() + 2000);
 		}
 		if ((int) to.getSelectedItem() < (int) from.getSelectedItem()) {
 			to.setSelectedItem((int) from.getSelectedItem());
-			return false;
 		}
 
 		return true;
@@ -35,7 +33,9 @@ public class ComboBoxListener implements ActionListener {
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
 		// TODO Auto-generated method stub
 
-		checkValidRange();
+		if (checkValidRange()) {
+			gui.getData();
+		}
 
 	}
 

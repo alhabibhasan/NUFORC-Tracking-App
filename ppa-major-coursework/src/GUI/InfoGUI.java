@@ -1,8 +1,6 @@
 package GUI;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
@@ -11,15 +9,13 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import Data.CustomIncident;
 import Data.Process;
 import api.ripley.Incident;
-import api.ripley.Ripley;
 
 public class InfoGUI extends JFrame {
 
@@ -29,7 +25,7 @@ public class InfoGUI extends JFrame {
 	private JScrollPane pane;
 	private JList list;
 	private static String[] stringArr;
-	private static Incident[] incidentArr;
+	private static CustomIncident[] incidentArr;
 	private String stateAbrev, stateName;
 	
 	/**
@@ -82,8 +78,8 @@ public class InfoGUI extends JFrame {
 
 	private void setupList() {
 
-		ArrayList<Incident> allIncids = Process.sortListForState(stateAbrev);
-		incidentArr = new Incident[allIncids.size()];
+		ArrayList<CustomIncident> allIncids = Process.sortListForState(stateAbrev);
+		incidentArr = new CustomIncident[allIncids.size()];
 		stringArr = new String[allIncids.size()];
 		allIncids.toArray(incidentArr);
 		for (int i = 0; i <= incidentArr.length - 1; i++) {

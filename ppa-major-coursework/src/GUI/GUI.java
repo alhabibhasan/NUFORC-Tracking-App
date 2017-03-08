@@ -121,7 +121,7 @@ public class GUI {
 	public boolean getData() {
 		Process data = new Process();
 
-		data.getData(dateFrom.getSelectedItem().toString(), dateTo.getSelectedItem().toString());
+		Process.getDataFromRange(dateFrom.getSelectedItem().toString(), dateTo.getSelectedItem().toString());
 
 		System.out.println(dateFrom.getSelectedItem().toString());
 		System.out.println(dateTo.getSelectedItem().toString());

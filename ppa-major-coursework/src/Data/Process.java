@@ -1,10 +1,21 @@
 package Data;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
@@ -15,111 +26,235 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 public class Process {
 
-	private static Ripley api;
-	private static ArrayList<Incident> allIncidents;
-	private int dataStart, dataEnd;
+	private static Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
+	private static Properties props = new Properties();
+	private static ArrayList<Incident> incidentsFromAPI;
+	private static ArrayList<CustomIncident> currentIncidents;
+	private static List<CustomIncident> incidentsFromFile;
+	private static String dataStart;
+	private static String dataEnd;
+	private static String apiLastUpdate;
+
 	public Process() {
-		this.api =  new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
 	}
-	/**
-	 * This method uses the Ripley API to download data from the database between the given years.
-	 * @param startYear The start year.
-	 * @param endYear The end year.
-	 * @return The list of incidents which occured between the start and the end year.
-	 */
-	public ArrayList<Incident> getData(String startYear, String endYear) {
-		this.dataStart =Integer.parseInt(startYear);
-		this.dataEnd = Integer.parseInt(endYear);
-		long startTime = System.currentTimeMillis();
-		Process.allIncidents = api.getIncidentsInRange( startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
-		long endTime = System.currentTimeMillis();
-		
-		long totalTimeSeconds = (endTime - startTime) / 1000;
-		
-		System.out.println("Seconds required: " + totalTimeSeconds);
-		
-		return allIncidents;
+
+	public static ArrayList<CustomIncident> getDataFromRange(String dateFrom, String dateTo) {
+		try {
+			checkForUpdate();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			System.out.println("Failed to check for updates.");
+		}
+		long time1 = System.currentTimeMillis();
+		dataStart = dateFrom;
+		dataEnd = dateTo;
+
+		System.out.println("Start: " + dataStart);
+		System.out.println("End: " + dataEnd);
+		ArrayList<CustomIncident> incidentsInRange = new ArrayList<CustomIncident>();
+		ArrayList<String> dates = new ArrayList<String>();
+		for (CustomIncident incid : incidentsFromFile) {
+			int year = Integer.parseInt((incid.getDateAndTime().substring(0, 4)));
+			if (year >= Integer.parseInt(dateFrom) && year <= Integer.parseInt(dateTo)) {
+				incidentsInRange.add(incid);
+				dates.add(incid.getDateAndTime());
+			}
+		}
+
+		long time2 = System.currentTimeMillis();
+
+		System.out.println("Time taken to get data within range: " + (time2 - time1) + " miliseconds.");
+		System.out.println(incidentsInRange.size());
+		currentIncidents = incidentsInRange;
+		return incidentsInRange;
 	}
-	/**
-	 * returns one of data to be used for processing. The data retreieved is not stored in the system. Rather, the data is used and then disposed of.
-	 * @param startYear
-	 * @param endYear
-	 * @return The data from the given range.
-	 */
-	public ArrayList<Incident> getOneOfData(String startYear, String endYear) {
-		return api.getIncidentsInRange( startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
+
+	public static ArrayList<CustomIncident> getCurrentIncidents() {
+		return currentIncidents;
 	}
 	
-	/**
-	 * Returns the earliest year from the current set of incidents not for all incidents.
-	 * @return
-	 */
-	public int getDataStart() {
+	private static void pullLocalData() throws JsonParseException, JsonMappingException {
+		long time1 = System.currentTimeMillis();
+		ObjectMapper incidentMapper = new ObjectMapper();
+		TypeReference<HashMap<String, CustomIncident>> typeRef = new TypeReference<HashMap<String, CustomIncident>>() {
+		};
+		try {
+			Map<String, CustomIncident> incidentMap = incidentMapper.readValue(new File("res//incidents.json"),
+					typeRef);
+
+			incidentsFromFile = new ArrayList<>();
+			for (Map.Entry<String, CustomIncident> entry : incidentMap.entrySet()) {
+				incidentsFromFile.add(entry.getValue());
+			}
+			long time2 = System.currentTimeMillis();
+			System.out.println("Time taken: " + ((time2 - time1) / 1000) + " seconds");
+			System.out.println("Size of records: " + incidentsFromFile.size());
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			System.out.println("JSON file not found.");
+		}
+	}
+
+	private static void pullLatestDataFromAPI() {
+		System.out.println("need to get data from API current data out of date");
+		long time1 = System.currentTimeMillis();
+
+		incidentsFromAPI = Process.getAPIData(String.valueOf(api.getStartYear()), String.valueOf(api.getLatestYear()));
+		long time1sort = System.currentTimeMillis();
+		System.out.println("Sorting...");
+
+		incidentsFromAPI = Process.sortIncidentList(incidentsFromAPI);
+		long time1sortend = System.currentTimeMillis();
+		System.out.println("Sorting finished " + ((time1sortend - time1sort) / 1000) + " seconds needed.");
+
+
+		System.out.println("Size of records: " + incidentsFromAPI.size());
+		ObjectMapper mapper = new ObjectMapper();
+
+		Map<String, CustomIncident> incidentMap = new HashMap<>();
+
+		TypeReference ref = new TypeReference<Map<String, Incident>>() {
+		};
+
+		for (Incident incident : incidentsFromAPI) {
+			incidentMap.put("inident" + incidentsFromAPI.indexOf(incident), new CustomIncident(incident));
+		}
+
+		try {
+			mapper.writeValue(new File("res//incidents.json"), incidentMap);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			updateLastFetch(apiLastUpdate);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		long time2 = System.currentTimeMillis();
+		long totalTime = (((time2 - time1)));
+		System.out.println("Data fetch and save completed in " + (totalTime / 1000) + " seconds.");
+		try {
+			System.out.println("Pulling local data");
+			pullLocalData();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private static void checkForUpdate() throws IOException {
+		FileInputStream in = new FileInputStream("res//api.properties");
+		props.load(in);
+		in.close();
+
+		Parser parse = new Parser();
+		List<DateGroup> a = parse.parse(api.getLastUpdated());
+		DateGroup dateFromAPI = a.get(0);
+		apiLastUpdate = dateFromAPI.getDates().toString();
+
+		System.out.println("API last updated: " + apiLastUpdate);
+
+		if (!props.getProperty("api.lastUpdate").equals("null")) {
+			System.out.println("File not null");
+			String localDataLastUpdate = props.getProperty("api.lastUpdate");
+
+			String localDate = parse.parse(localDataLastUpdate).get(0).getDates().toString();
+
+			if (!localDate.equals(apiLastUpdate)) {
+				pullLatestDataFromAPI(); // pull and save to local storage
+			} else {
+				System.out.println("Local data is up to date");
+				System.out.println("Pulling local data.");
+				System.out.println("API last update: " + apiLastUpdate);
+				System.out.println("Local data last update: " + localDate);
+				pullLocalData();
+			}
+		} else {
+			System.out.println("need to get data no data available at all at the moment");
+			pullLatestDataFromAPI();
+
+		}
+
+		System.out.println("Done");
+	}
+
+	private static void updateLastFetch(String lastUpdate) throws IOException {
+		FileOutputStream out = new FileOutputStream("res//api.properties");
+		props.setProperty("api.lastUpdate", lastUpdate);
+		props.store(out, null);
+		out.close();
+	}
+
+	private static ArrayList<Incident> getAPIData(String startYear, String endYear) {
+		return api.getIncidentsInRange(startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
+	}
+
+	public String getDataStart() {
 		return dataStart;
 	}
-	/**
-	 * Returns the latest year from the current set of incidents.
-	 * @return
-	 */
-	public int getDataEnd() {
+
+	public String getDataEnd() {
 		return dataEnd;
 	}
-	/**
-	 * Returns the array list of all incidents within the years stored in getDataStart() and getDataEnd().
-	 * @return
-	 */
-	public static ArrayList<Incident> getAllIncidents() {
-		return Process.allIncidents;
+
+	public static ArrayList<CustomIncident> getAllIncidents() {
+		return Process.currentIncidents;
 	}
-	
+
 	/**
-	 * This method uses the list of all incidents stored within the process class and returns the states within which aliens were sighted as well as the frequency.
-	 * This data is returned in the form of a hash map.
-	 * @return The hash map with each state mapping to the frequency of sightings for that state.
+	 * This method uses the list of all incidents stored within the process
+	 * class and returns the states within which aliens were sighted as well as
+	 * the frequency. This data is returned in the form of a hash map.
+	 * 
+	 * @return The hash map with each state mapping to the frequency of
+	 *         sightings for that state.
 	 */
 	public HashMap<String, Integer> getStateFrequency() {
-		
+
 		ArrayList<String> incidentStates = new ArrayList<String>();
 
-		//below we are adding all states within the list of incidents to an array list, this will allow us to check the frequency of visits to a given state.
-		for (Incident incident : allIncidents) {
+		// below we are adding all states within the list of incidents to an
+		// array list, this will allow us to check the frequency of visits to a
+		// given state.
+		for (CustomIncident incident : currentIncidents) {
 			incidentStates.add(incident.getState());
 		}
 
-		// the states are derived from each incident object within the list of incidents. we are now using a hash set as we do not want to have repeated values for the states
+		// the states are derived from each incident object within the list of
+		// incidents. we are now using a hash set as we do not want to have
+		// repeated values for the states
 		HashSet<String> states = new HashSet<String>();
-		for (Incident i : allIncidents) {
+		for (CustomIncident i : currentIncidents) {
 			states.add(i.getState().toString());
 		}
-		
-		System.out.println("Total size: " + allIncidents.size());
+
+		System.out.println("Total size: " + currentIncidents.size());
 		System.out.println("Total States: " + states.size());
-		
+
 		HashMap<String, Integer> stateFrequency = new HashMap<String, Integer>();
-		
-		// we are now placing the states along with the frequency at which they appear in the original list of states
+
+		// we are now placing the states along with the frequency at which they
+		// appear in the original list of states
 		for (String state : states) {
 			stateFrequency.put(state, Collections.frequency(incidentStates, state));
 		}
-		
-		outputHashMap(stateFrequency); // use when needed.
+
+		// outputHashMap(stateFrequency); // use when needed.
 		return stateFrequency;
 	}
 
-	/**
-	 * prints details of all incident stored in the current set of incidents to the console
-	 * @param list
-	 */
 	public void outputAllIncidentsList(ArrayList<Incident> list) {
 		for (Incident element : list) {
 			System.out.println(element.toString());
 		}
 	}
-	
-	/**
-	 * Prints the hashmap of states with the frequnecy of alien sightings. To be used for testing purposes only.
-	 * @param map
-	 */
+
 	public void outputHashMap(HashMap<String, Integer> map) {
 		for (String state : map.keySet()) {
 			String key = state.toString();
@@ -130,98 +265,65 @@ public class Process {
 	}
 
 	/**
-	 * This method is used to sort an array list of incidents. Incidents are sorted in terms of the date earliest to latest.
-	 * @param list The list to be sorted.
+	 * This method is used to sort an array list of incidents. Incidents are
+	 * sorted in terms of the date earliest to latest.
+	 * 
+	 * @param list
+	 *            The list to be sorted.
 	 */
 	public static ArrayList<Incident> sortIncidentList(ArrayList<Incident> list) {
 		Collections.sort(list, new Comparator<Incident>() {
 
 			@Override
 			public int compare(Incident i1, Incident i2) {
-				Parser parse = new Parser();
 
-				List<DateGroup> a = parse.parse(i1.getDateAndTime());
-				DateGroup dateParsed = a.get(0);
-				String date = dateParsed.getDates().toString();
-				String year = date.substring(25, 29);
+				int year1 = Integer.parseInt(i1.getDateAndTime().substring(0, 4));
+				int year2 = Integer.parseInt(i2.getDateAndTime().substring(0, 4));
 
-				int yearA = Integer.parseInt(year);
-
-				List<DateGroup> b = parse.parse(i2.getDateAndTime());
-				dateParsed = b.get(0);
-
-				date = dateParsed.getDates().toString();
-				year = date.substring(25, 29);
-
-				int yearB = Integer.parseInt(year);
-
-				if (yearA > yearB)
+				if (year1 > year2)
 					return 1;
-				if (yearA == yearB)
+				if (year1 == year2)
 					return 0;
-				if (yearA < yearB)
+				if (year1 < year2)
 					return -1;
 
 				return 0;
 			}
 
 		});
-		
+
 		return list;
 	}
-	
-	/**
-	 * Cycles through a list of all incidents. Then returns the incidents which took place in the given state. 
-	 * @param state The state to sort by.
-	 * @return All incidents which took place in the given state.
-	 */
-	public static ArrayList<Incident> sortListForState(String state) {
-		
-		ArrayList<Incident> sortedList = new ArrayList<Incident>();
-		for(Incident incid: allIncidents){
-			if(incid.getState().equals(state)){
+
+	public static ArrayList<CustomIncident> sortListForState(String state) {
+
+		ArrayList<CustomIncident> sortedList = new ArrayList<CustomIncident>();
+
+		for (CustomIncident incid : currentIncidents) {
+			if (incid.getState().equals(state)) {
 				sortedList.add(incid);
 			}
 		}
 		return sortedList;
-		
+
 	}
-	
-	/**
-	 * 
-	 * @return Acknowledgement String from the Ripley API.
-	 */
+
 	public String getAcknowledgementString() {
 		return api.getAcknowledgementString();
 	}
-	/**
-	 * 
-	 * @return time and date of last update of the UFO database
-	 */
+
 	public String getLastUpdated() {
 		return api.getLastUpdated();
 	}
-	
-	/**
-	 * 
-	 * @return Current api version being used.
-	 */
+
 	public double getVersion() {
 		return api.getVersion();
 	}
-	
-	/**
-	 * 
-	 * @return The earliest year of records.
-	 */
+
 	public int getStartYear() {
 		return api.getStartYear();
 	}
-	
-	/**
-	 * 
-	 * @return The latest year of records.
-	 */
+
 	public int getLatestYear() {
 		return api.getLatestYear();
 	}
