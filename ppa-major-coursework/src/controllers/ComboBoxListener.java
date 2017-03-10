@@ -5,17 +5,19 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import Data.Process;
 
 import GUI.GUI;
 
 public class ComboBoxListener implements ActionListener {
 	private GUI gui;
 	private JComboBox<Integer> from, to;
-
-	public ComboBoxListener(JComboBox<Integer> from, JComboBox<Integer> to, GUI gui) {
+	private Process apiData;
+	public ComboBoxListener(JComboBox<Integer> from, JComboBox<Integer> to, GUI gui, Process api) {
 		this.from = from;
 		this.to = to;
 		this.gui = gui;
+		this.apiData = api;
 	}
 
 	private boolean checkValidRange() {
@@ -34,7 +36,7 @@ public class ComboBoxListener implements ActionListener {
 		// TODO Auto-generated method stub
 
 		if (checkValidRange()) {
-			gui.getData();
+			this.apiData.getDataFromRange(from.getSelectedItem().toString(), to.getSelectedItem().toString());
 		}
 
 	}

@@ -8,7 +8,10 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,6 +23,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import Data.CustomIncident;
 import Data.Process;
 import Map.Map;
 import Statistics.Stats;
@@ -33,7 +37,7 @@ import controllers.RightButtonListener;
  * @author Muhammed Hasan, Aflal Asker
  *
  */
-public class GUI {
+public class GUI implements Observer{
 	private JFrame frame; // the main frame
 	private JPanel north, contentPanel, initCenter, south, mapCenter, statsCenter;
 
@@ -52,7 +56,6 @@ public class GUI {
 	 * class.
 	 */
 	public GUI() {
-
 		frame = new JFrame();
 		north = new JPanel();
 		contentPanel = new JPanel();
@@ -84,7 +87,7 @@ public class GUI {
 		buttonRight.addActionListener(new RightButtonListener(this));
 		
 		addComboBoxElements();
-		ComboBoxListener comboxListener = new ComboBoxListener(dateFrom, dateTo, this);
+		ComboBoxListener comboxListener = new ComboBoxListener(dateFrom, dateTo, this, new Process(this));
 		dateFrom.addActionListener(comboxListener);
 		dateTo.addActionListener(comboxListener);
 	}
@@ -112,31 +115,22 @@ public class GUI {
 
 	}
 
-	/**
-	 * Loads the map data into the map center within the GUI class.
-	 * 
-	 * @return If the load was successful, true is returned otherwise false is
-	 *         returned.
-	 */
-	public boolean getData() {
-		Process data = new Process();
-
-		Process.getDataFromRange(dateFrom.getSelectedItem().toString(), dateTo.getSelectedItem().toString());
-
-		System.out.println(dateFrom.getSelectedItem().toString());
-		System.out.println(dateTo.getSelectedItem().toString());
-
-		HashMap<String, Integer> dataPoints = data.getStateFrequency();
-
-		this.createMapCenter(new Map(dataPoints));
-
-		return true;
-
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o instanceof Process) {
+			HashMap<String, Integer> currentIncidents = (HashMap<String, Integer>) arg;
+			this.createMapCenter(new Map(currentIncidents));
+			Stats stats = new Stats();
+			statsCenter = stats.getPanel();
+			contentPanel.add(statsCenter, "statsScreen");
+			System.out.println("Called ~~~~~#####");
+		}
+		
 	}
-
+	
 	private void completeDataLoad() {
 
-		data = new Process();
+		data = new Process(this);
 		this.setWelcomeText("<html>Welcome to the Ripley API v" + data.getVersion()
 				+ " Please select from the dates above, in order to begin analysing UFO sighting data. </html>");
 
@@ -180,7 +174,6 @@ public class GUI {
 
 		createNorth();
 		createInitCenter();
-		createStatCenter();
 		createSouth();
 
 		
@@ -215,7 +208,6 @@ public class GUI {
 		});
 
 		mapCenter.add(map);
-
 		contentPanel.add(mapCenter, "mapScreen");
 	}
 
@@ -354,5 +346,7 @@ public class GUI {
 			dateTo.addItem(i);
 		}
 	}
+
+	
 
 }

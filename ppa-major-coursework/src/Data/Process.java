@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Properties;
 
 import org.codehaus.jackson.JsonParseException;
@@ -20,11 +21,12 @@ import org.codehaus.jackson.type.TypeReference;
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
+import GUI.GUI;
 import api.ripley.Incident;
 import api.ripley.Ripley;
 import edu.emory.mathcs.backport.java.util.Collections;
 
-public class Process {
+public class Process extends Observable{
 
 	private static Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
 	private static Properties props = new Properties();
@@ -35,10 +37,11 @@ public class Process {
 	private static String dataEnd;
 	private static String apiLastUpdate;
 
-	public Process() {
+	public Process(GUI observer) {
+		this.addObserver(observer);
 	}
 
-	public static ArrayList<CustomIncident> getDataFromRange(String dateFrom, String dateTo) {
+	public ArrayList<CustomIncident> getDataFromRange(String dateFrom, String dateTo) {
 		try {
 			checkForUpdate();
 		} catch (IOException ioe) {
@@ -66,6 +69,8 @@ public class Process {
 		System.out.println("Time taken to get data within range: " + (time2 - time1) + " miliseconds.");
 		System.out.println(incidentsInRange.size());
 		currentIncidents = incidentsInRange;
+		setChanged();
+		notifyObservers(getStateFrequency());
 		return incidentsInRange;
 	}
 
