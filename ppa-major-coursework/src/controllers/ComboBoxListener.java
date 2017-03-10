@@ -34,11 +34,13 @@ public class ComboBoxListener implements ActionListener {
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
 		// TODO Auto-generated method stub
-
+		
 		if (checkValidRange()) {
+			
+			gui.setSelectedDates("Data range selected, " + from.getSelectedItem().toString() +  "-" +  to.getSelectedItem().toString());
 			this.apiData.getDataFromRange(from.getSelectedItem().toString(), to.getSelectedItem().toString());
 		}
-
+		
 	}
 
 }

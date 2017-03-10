@@ -6,9 +6,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,7 +23,6 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import Data.CustomIncident;
 import Data.Process;
 import Map.Map;
 import Statistics.Stats;
@@ -43,7 +42,7 @@ public class GUI implements Observer{
 
 	private Process data;
 	private JComboBox<Integer> dateFrom, dateTo;
-	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData, timeTaken;
+	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData, timeTaken, selectedDates;
 	private JButton buttonLeft, buttonRight;
 
 	private Font font = new Font(null, 0, 15);
@@ -73,6 +72,7 @@ public class GUI implements Observer{
 		welcomeText = new JLabel();
 		timeTaken = new JLabel();
 		gettingData = new JLabel("Grabbing data...");
+		selectedDates = new JLabel();
 		
 		completeDataLoad();
 
@@ -137,6 +137,7 @@ public class GUI implements Observer{
 		this.acknowledgement.setText(data.getAcknowledgementString());
 
 		this.setLastUpdate(data.getLastUpdated());
+		
 	}
 
 	/**
@@ -182,20 +183,28 @@ public class GUI implements Observer{
 	}
 
 	private void createInitCenter() {
-		initCenter.add(welcomeText, BorderLayout.CENTER);
-
+	
+		JPanel initCenter2 = new JPanel(new GridLayout(5,1));
 		acknowledgement.setHorizontalAlignment(SwingConstants.CENTER);
 		acknowledgement.setFont(font);
 		initCenter.add(acknowledgement, BorderLayout.SOUTH); // DO NOT REMOVE
 																// OTHERWISE WE
 																// WILL GET ZERO
 																// MARKS
-
+		initCenter.add(initCenter2,BorderLayout.CENTER);
+		initCenter2.add(welcomeText);
+		initCenter2.add(selectedDates);
+		initCenter2.add(gettingData);
+		initCenter2.add(timeTaken);
+		
 		initCenter.setBorder(new LineBorder(Color.BLACK, 1, false));
 		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeText.setFont(font);
-
-		initCenter.add(welcomeText, BorderLayout.CENTER);
+		gettingData.setHorizontalAlignment(SwingConstants.CENTER);
+		gettingData.setFont(font);
+		selectedDates.setHorizontalAlignment(SwingConstants.CENTER);
+		selectedDates.setFont(font);
+		
 		contentPanel.add(initCenter, "firstScreen");
 	}
 
@@ -347,6 +356,11 @@ public class GUI implements Observer{
 		}
 	}
 
-	
+	public String getSelectedDates(){
+		return selectedDates.getText();
+	}
 
+	public void setSelectedDates(String text){
+		this.selectedDates.setText(text);
+	}
 }
