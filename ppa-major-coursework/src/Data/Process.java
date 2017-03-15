@@ -41,6 +41,12 @@ public class Process extends Observable{
 		this.addObserver(observer);
 	}
 
+	/**
+	 * This method retrieves data from the api (if necessary) after checking that the current data is out of date.
+	 * @param dateFrom
+	 * @param dateTo
+	 * @return The arraylist of all incidents within the current given start and end dates.
+	 */
 	public ArrayList<CustomIncident> getDataFromRange(String dateFrom, String dateTo) {
 		try {
 			checkForUpdate();
@@ -74,10 +80,19 @@ public class Process extends Observable{
 		return incidentsInRange;
 	}
 
+	/**
+	 * 
+	 * @return List of incidents within the range given in the method getDataFromRange()
+	 */
 	public static ArrayList<CustomIncident> getCurrentIncidents() {
 		return currentIncidents;
 	}
 	
+	/**
+	 * This method retrieves data stored in JSON format from the local machine
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 */
 	private static void pullLocalData() throws JsonParseException, JsonMappingException {
 		long time1 = System.currentTimeMillis();
 		ObjectMapper incidentMapper = new ObjectMapper();
@@ -100,6 +115,10 @@ public class Process extends Observable{
 		}
 	}
 
+	/**
+	 * In the case that the current data is out of date, this method is called to retrieve data from the api
+	 * and then save the data in JSON format. CustomIncident objects are required in order to save the incidents.
+	 */
 	private static void pullLatestDataFromAPI() {
 		System.out.println("need to get data from API current data out of date");
 		long time1 = System.currentTimeMillis();
@@ -153,6 +172,11 @@ public class Process extends Observable{
 		}
 	}
 
+	/**
+	 * This method is used to check that local data is up to date, if data is not up to date, then data is retrieved 
+	 * and local data is updated.
+	 * @throws IOException
+	 */
 	private static void checkForUpdate() throws IOException {
 		FileInputStream in = new FileInputStream("res//api.properties");
 		props.load(in);
@@ -189,21 +213,39 @@ public class Process extends Observable{
 		System.out.println("Done");
 	}
 
+	/**
+	 * This method is used to update the last update time of the local data - which is stored on the local machine.
+	 * This is called every time the local data store is updated.
+	 * @param lastUpdate The time of the latest update.
+	 * @throws IOException
+	 */
 	private static void updateLastFetch(String lastUpdate) throws IOException {
 		FileOutputStream out = new FileOutputStream("res//api.properties");
 		props.setProperty("api.lastUpdate", lastUpdate);
 		props.store(out, null);
 		out.close();
 	}
-
+	/**
+	 * This is the only method within the solution. It is used to download all data from the API.
+	 * @param startYear
+	 * @param endYear
+	 * @return
+	 */
 	private static ArrayList<Incident> getAPIData(String startYear, String endYear) {
 		return api.getIncidentsInRange(startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
 	}
 
+	/**
+	 * 
+	 * @return The start date for the current data set.
+	 */
 	public String getDataStart() {
 		return dataStart;
 	}
-
+	/**
+	 * 
+	 * @return The end date for the current data set.
+	 */
 	public String getDataEnd() {
 		return dataEnd;
 	}
