@@ -76,11 +76,9 @@ public class Stats {
 		stat1Cont1 = new JPanel();
 		stat1Cont2 = new JPanel();
 
-		stat1Cont1.setBackground(Color.WHITE); // add stuff to the respective
-												// panels here
-		stat1Cont1.add(new JLabel("Likeliest State:\n " + 
-				data.likeliestState()));
-		stat1Cont2.setBackground(Color.WHITE);
+		stat1Cont1.add(new JLabel("<html><span style='font-size:20px'>"
+						+"Likeliest State:" + "<br><br><br><br><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+data.likeliestState()+ "</span></html>"));
 		stat1Cont2.add(new JLabel("Panel 2"));
 
 		stat1Center.add(stat1Cont1, "stat1Pan1");
@@ -89,9 +87,9 @@ public class Stats {
 		stat2Cont1 = new JPanel();
 		stat2Cont2 = new JPanel();
 		
-		stat2Cont1.setBackground(Color.CYAN); // add the stuff to the panel here
-		stat2Cont1.add(new JLabel("Number of Hoax: " + String.valueOf(data.numberOfHoax())));
-		stat2Cont2.setBackground(Color.GREEN);
+		stat2Cont1.add(new JLabel("<html><span style='font-size:20px'>" 
+				+ "Number of Hoax:" +"<br><br><br><br><br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+ String.valueOf(data.numberOfHoax()) + "</span></html>"));
 
 		stat2Center.add(stat2Cont1, "stat2Pan1");
 		stat2Center.add(stat2Cont2, "stat2Pan2");
@@ -99,9 +97,9 @@ public class Stats {
 		stat3Cont1 = new JPanel();
 		stat3Cont2 = new JPanel();
 
-		stat3Cont1.setBackground(Color.RED); // add stuff to the respective
-		stat3Cont1.add(new JLabel("Number of non US sightings" + String.valueOf(data.nonUSSightings()))); // panels here
-		stat3Cont2.setBackground(Color.YELLOW);
+		stat3Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Number of non US sightings" +"<br><br><br><br><br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+				+ String.valueOf(data.nonUSSightings())+ "</span></html>"));
 
 		stat3Center.add(stat3Cont1, "stat3Pan1");
 		stat3Center.add(stat3Cont2, "stat3Pan2");
@@ -109,13 +107,8 @@ public class Stats {
 		stat4Cont1 = new JPanel();
 		stat4Cont2 = new JPanel();
 
-		stat4Cont1.setBackground(Color.PINK); // add stuff to the respective
-												// panels here
-		stat4Cont2.setBackground(Color.MAGENTA);
-
 		stat4Center.add(stat4Cont1, "stat4Pan1");
 		stat4Center.add(stat4Cont2, "stat4Pan2");
-
 	}
 
 	private void setUpCenters() {
@@ -134,7 +127,6 @@ public class Stats {
 		stat4Center = new JPanel();
 		stat4Center.setLayout(card4);
 		stat4.add(stat4Center, BorderLayout.CENTER);
-
 	}
 
 	private void setUpButton() {
@@ -181,6 +173,5 @@ public class Stats {
 
 		stat4Left.addActionListener(e -> card4.show(stat4Center, "stat4Pan1"));
 		stat4Right.addActionListener(e -> card4.show(stat4Center, "stat4Pan2"));
-
 	}
 }
