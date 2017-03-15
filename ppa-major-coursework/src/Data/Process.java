@@ -220,7 +220,7 @@ public class Process extends Observable{
 	 * @return The hash map with each state mapping to the frequency of
 	 *         sightings for that state.
 	 */
-	public HashMap<String, Integer> getStateFrequency() {
+	public static HashMap<String, Integer> getStateFrequency() {
 
 		ArrayList<String> incidentStates = new ArrayList<String>();
 

@@ -22,7 +22,6 @@ public class Stats {
 	private final String PANEL2_PREF = "panel2_pref";
 	private final String PANEL3_PREF = "panel3_pref";
 	private final String PANEL4_PREF = "panel4_pref";
-
 	public Stats() {
 		stats = new JPanel(new GridLayout(2, 2)); // give the frame a 2x2 layout
 
@@ -48,6 +47,8 @@ public class Stats {
 		setUpContentPanels();
 
 		showPreferedPanels();
+		
+		
 	}
 
 	private void showPreferedPanels() {
@@ -70,22 +71,26 @@ public class Stats {
 	}
 
 	private void setUpContentPanels() {
+		AnalyseData data = new AnalyseData();
+		
 		stat1Cont1 = new JPanel();
 		stat1Cont2 = new JPanel();
 
 		stat1Cont1.setBackground(Color.WHITE); // add stuff to the respective
 												// panels here
-		stat1Cont1.add(new JLabel("Panel 1"));
+		stat1Cont1.add(new JLabel("Likeliest State:\n " + 
+				data.likeliestState()));
 		stat1Cont2.setBackground(Color.WHITE);
 		stat1Cont2.add(new JLabel("Panel 2"));
 
 		stat1Center.add(stat1Cont1, "stat1Pan1");
 		stat1Center.add(stat1Cont2, "stat1Pan2");
-
+		
 		stat2Cont1 = new JPanel();
 		stat2Cont2 = new JPanel();
-
+		
 		stat2Cont1.setBackground(Color.CYAN); // add the stuff to the panel here
+		stat2Cont1.add(new JLabel("Number of Hoax: " + String.valueOf(data.numberOfHoax())));
 		stat2Cont2.setBackground(Color.GREEN);
 
 		stat2Center.add(stat2Cont1, "stat2Pan1");
@@ -95,7 +100,7 @@ public class Stats {
 		stat3Cont2 = new JPanel();
 
 		stat3Cont1.setBackground(Color.RED); // add stuff to the respective
-												// panels here
+		stat3Cont1.add(new JLabel("Number of non US sightings" + String.valueOf(data.nonUSSightings()))); // panels here
 		stat3Cont2.setBackground(Color.YELLOW);
 
 		stat3Center.add(stat3Cont1, "stat3Pan1");
