@@ -127,7 +127,7 @@ public class Process extends Observable{
 		long time1sort = System.currentTimeMillis();
 		System.out.println("Sorting...");
 
-		incidentsFromAPI = Process.sortIncidentList(incidentsFromAPI);
+		
 		long time1sortend = System.currentTimeMillis();
 		System.out.println("Sorting finished " + ((time1sortend - time1sort) / 1000) + " seconds needed.");
 
@@ -318,11 +318,11 @@ public class Process extends Observable{
 	 * @param list
 	 *            The list to be sorted.
 	 */
-	public static ArrayList<Incident> sortIncidentList(ArrayList<Incident> list) {
-		Collections.sort(list, new Comparator<Incident>() {
+	public static ArrayList<CustomIncident> sortIncidentList(ArrayList<CustomIncident> list) {
+		Collections.sort(list, new Comparator<CustomIncident>() {
 
 			@Override
-			public int compare(Incident i1, Incident i2) {
+			public int compare(CustomIncident i1, CustomIncident i2) {
 
 				int year1 = Integer.parseInt(i1.getDateAndTime().substring(0, 4));
 				int year2 = Integer.parseInt(i2.getDateAndTime().substring(0, 4));
