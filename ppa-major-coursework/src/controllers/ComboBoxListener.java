@@ -37,6 +37,7 @@ public class ComboBoxListener implements ActionListener {
 
 		if (checkValidRange()) {
 			this.apiData.getDataFromRange(from.getSelectedItem().toString(), to.getSelectedItem().toString());
+			gui.rightButtonEnabled(true);
 		}
 
 	}

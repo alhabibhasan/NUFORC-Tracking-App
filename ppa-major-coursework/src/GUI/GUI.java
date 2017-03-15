@@ -79,8 +79,7 @@ public class GUI implements Observer{
 		buttonLeft = new JButton("<");
 		buttonRight = new JButton(">");
 
-		buttonRight.setEnabled(false);
-		buttonLeft.setEnabled(false);
+		
 
 		buttonLeft.addActionListener(new LeftButtonListener(this));
 
@@ -175,7 +174,6 @@ public class GUI implements Observer{
 		createNorth();
 		createInitCenter();
 		createSouth();
-
 		
 		frame.setVisible(true);
 
@@ -222,6 +220,10 @@ public class GUI implements Observer{
 
 		lastUpdate.setHorizontalAlignment(SwingConstants.CENTER);
 		lastUpdate.setFont(new Font(null, 0, 15));
+		
+		buttonLeft.setEnabled(false);
+		buttonRight.setEnabled(false);
+		
 		southContainer.add(buttonLeft, BorderLayout.WEST);
 		southContainer.add(buttonRight, BorderLayout.EAST);
 		southContainer.add(lastUpdate, BorderLayout.CENTER);
