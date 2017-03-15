@@ -195,6 +195,7 @@ public class GUI implements Observer{
 		initCenter2.add(welcomeText);
 		initCenter2.add(selectedDates);
 		initCenter2.add(gettingData);
+		gettingData.setVisible(false);
 		initCenter2.add(timeTaken);
 		
 		initCenter.setBorder(new LineBorder(Color.BLACK, 1, false));
@@ -204,7 +205,8 @@ public class GUI implements Observer{
 		gettingData.setFont(font);
 		selectedDates.setHorizontalAlignment(SwingConstants.CENTER);
 		selectedDates.setFont(font);
-		
+		timeTaken.setHorizontalAlignment(SwingConstants.CENTER);
+		timeTaken.setFont(font);
 		contentPanel.add(initCenter, "firstScreen");
 	}
 
@@ -362,5 +364,19 @@ public class GUI implements Observer{
 
 	public void setSelectedDates(String text){
 		this.selectedDates.setText(text);
+	}
+	
+	public void setGettingData(boolean b){
+		gettingData.setVisible(b);
+	}
+	public void setTimeTaken(String s){
+		timeTaken.setText(s);
+	}
+	public void setTimeTakenVisibility(boolean b){
+		timeTaken.setVisible(b);
+	}
+	
+	public void setSelectedDatesVisibility(boolean b){
+		selectedDates.setVisible(b);
 	}
 }

@@ -3,6 +3,7 @@ package GUI;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -15,7 +16,6 @@ import javax.swing.event.ListSelectionListener;
 
 import Data.CustomIncident;
 import Data.Process;
-import api.ripley.Incident;
 
 public class InfoGUI extends JFrame {
 
@@ -27,6 +27,7 @@ public class InfoGUI extends JFrame {
 	private static String[] stringArr;
 	private static CustomIncident[] incidentArr;
 	private String stateAbrev, stateName;
+	private DefaultListModel dList;
 	
 	/**
 	 * Creates a JFrame which display the relevant information
@@ -36,7 +37,7 @@ public class InfoGUI extends JFrame {
 	public InfoGUI(String stateAbrev, String stateName) {
 		this.stateAbrev = stateAbrev;
 		this.stateName = stateName;
-
+		dList = new DefaultListModel();
 		frame = new JFrame();
 		north = new JPanel();
 		center = new JPanel();
@@ -82,11 +83,17 @@ public class InfoGUI extends JFrame {
 		incidentArr = new CustomIncident[allIncids.size()];
 		stringArr = new String[allIncids.size()];
 		allIncids.toArray(incidentArr);
+		String temp;
 		for (int i = 0; i <= incidentArr.length - 1; i++) {
 			stringArr[i] = "Date and Time: " + incidentArr[i].getDateAndTime() + " " + "City: " + incidentArr[i].getCity() + " "
 					+"Duration: " + incidentArr[i].getDuration() + " " + "Posted: " + incidentArr[i].getPosted();
+			temp = 	 "Date and Time: " + incidentArr[i].getDateAndTime() + " " + "City: " + incidentArr[i].getCity() + " "
+					+"Duration: " + incidentArr[i].getDuration() + " " + "Posted: " + incidentArr[i].getPosted();
+			dList.addElement(temp);
 		}
-		list = new JList(stringArr);
+		
+		
+		list = new JList(dList);
 		list.setVisibleRowCount(20);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 

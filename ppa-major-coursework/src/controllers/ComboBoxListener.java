@@ -1,6 +1,7 @@
 package controllers;
 
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ public class ComboBoxListener implements ActionListener {
 	private GUI gui;
 	private JComboBox<Integer> from, to;
 	private Process apiData;
+	
 	public ComboBoxListener(JComboBox<Integer> from, JComboBox<Integer> to, GUI gui, Process api) {
 		this.from = from;
 		this.to = to;
@@ -27,19 +29,40 @@ public class ComboBoxListener implements ActionListener {
 		if ((int) to.getSelectedItem() < (int) from.getSelectedItem()) {
 			to.setSelectedItem((int) from.getSelectedItem());
 		}
-
+		gui.setGettingData(true);
 		return true;
 	}
 
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		long time1 = 0;
+		long time2 = 0;
+		long finalTime = 0;
 		if (checkValidRange()) {
-			
+			time1 = System.currentTimeMillis();
 			gui.setSelectedDates("Data range selected, " + from.getSelectedItem().toString() +  "-" +  to.getSelectedItem().toString());
 			this.apiData.getDataFromRange(from.getSelectedItem().toString(), to.getSelectedItem().toString());
+			time2 = System.currentTimeMillis();
 		}
+		finalTime = time2-time1;
+		gui.setTimeTaken("Data grabbed in: " + convertLong(finalTime));
+	}
+	
+	private String convertLong(long longs){
+		int min = 0;
+		double secs = 0;
+		double d = (double)longs;
+		
+		d = d/1000;
+		min = (int) (d/60) ;
+		secs = d%60;
+		String seccs = d/60 + "";
+		seccs.substring(3, 4);
+		
+		long minutes = TimeUnit.MILLISECONDS.toMinutes(longs);
+		long seconds = TimeUnit.MILLISECONDS.toSeconds(longs);
+		return minutes + " " + "minutes,"+ " " + seconds + " " + "seconds";
 		
 	}
 
