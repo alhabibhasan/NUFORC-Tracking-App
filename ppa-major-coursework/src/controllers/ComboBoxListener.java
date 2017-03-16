@@ -61,7 +61,7 @@ public class ComboBoxListener implements ActionListener {
 		seccs.substring(3, 4);
 		
 		long minutes = TimeUnit.MILLISECONDS.toMinutes(longs);
-		long seconds = TimeUnit.MILLISECONDS.toSeconds(longs);
+		long seconds = TimeUnit.MILLISECONDS.toSeconds(longs)%60;
 		return minutes + " " + "minutes,"+ " " + seconds + " " + "seconds";
 		
 	}
