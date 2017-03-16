@@ -88,6 +88,7 @@ public class Process extends Observable{
 		return currentIncidents;
 	}
 	
+	
 	/**
 	 * This method retrieves data stored in JSON format from the local machine
 	 * @throws JsonParseException
@@ -239,14 +240,14 @@ public class Process extends Observable{
 	 * 
 	 * @return The start date for the current data set.
 	 */
-	public String getDataStart() {
+	public static String getDataStart() {
 		return dataStart;
 	}
 	/**
 	 * 
 	 * @return The end date for the current data set.
 	 */
-	public String getDataEnd() {
+	public static String getDataEnd() {
 		return dataEnd;
 	}
 

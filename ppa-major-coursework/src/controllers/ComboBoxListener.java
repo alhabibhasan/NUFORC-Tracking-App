@@ -3,10 +3,8 @@ package controllers;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import Data.Process;
 
+import Data.Process;
 import GUI.GUI;
 
 public class ComboBoxListener implements ActionListener {
@@ -38,6 +36,7 @@ public class ComboBoxListener implements ActionListener {
 		if (checkValidRange()) {
 			this.apiData.getDataFromRange(from.getSelectedItem().toString(), to.getSelectedItem().toString());
 			gui.rightButtonEnabled(true);
+
 		}
 
 	}
