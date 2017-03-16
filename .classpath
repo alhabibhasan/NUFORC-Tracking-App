@@ -11,6 +11,7 @@
 	<classpathentry kind="lib" path="ppa-major-coursework/jcommon-1.0.23.jar"/>
 	<classpathentry kind="lib" path="ppa-major-coursework/jfreechart-1.0.19-experimental.jar"/>
 	<classpathentry kind="lib" path="ppa-major-coursework/jfreechart-1.0.19-swt.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/jfreechart-1.0.19.jar"/>
 	<classpathentry kind="lib" path="ppa-major-coursework/jfreesvg-2.0.jar"/>
 	<classpathentry kind="lib" path="ppa-major-coursework/junit-4.11.jar"/>
 	<classpathentry kind="lib" path="ppa-major-coursework/orsoncharts-1.4-eval-nofx.jar"/>
