@@ -29,10 +29,10 @@ import edu.emory.mathcs.backport.java.util.Collections;
 public class Process extends Observable{
 
 	private static Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
-	private static Properties props = new Properties();
-	private static ArrayList<Incident> incidentsFromAPI;
+	private Properties props = new Properties();
+	private ArrayList<Incident> incidentsFromAPI;
 	private static ArrayList<CustomIncident> currentIncidents;
-	private static List<CustomIncident> incidentsFromFile;
+	private List<CustomIncident> incidentsFromFile;
 	private static String dataStart;
 	private static String dataEnd;
 	private static String apiLastUpdate;
@@ -93,7 +93,7 @@ public class Process extends Observable{
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 */
-	private static void pullLocalData() throws JsonParseException, JsonMappingException {
+	private void pullLocalData() throws JsonParseException, JsonMappingException {
 		long time1 = System.currentTimeMillis();
 		ObjectMapper incidentMapper = new ObjectMapper();
 		TypeReference<HashMap<String, CustomIncident>> typeRef = new TypeReference<HashMap<String, CustomIncident>>() {
@@ -119,11 +119,11 @@ public class Process extends Observable{
 	 * In the case that the current data is out of date, this method is called to retrieve data from the api
 	 * and then save the data in JSON format. CustomIncident objects are required in order to save the incidents.
 	 */
-	private static void pullLatestDataFromAPI() {
+	private void pullLatestDataFromAPI() {
 		System.out.println("need to get data from API current data out of date");
 		long time1 = System.currentTimeMillis();
 
-		incidentsFromAPI = Process.getAPIData(String.valueOf(api.getStartYear()), String.valueOf(api.getLatestYear()));
+		incidentsFromAPI = this.getAPIData(String.valueOf(api.getStartYear()), String.valueOf(api.getLatestYear()));
 		long time1sort = System.currentTimeMillis();
 		System.out.println("Sorting...");
 
@@ -177,7 +177,7 @@ public class Process extends Observable{
 	 * and local data is updated.
 	 * @throws IOException
 	 */
-	private static void checkForUpdate() throws IOException {
+	private void checkForUpdate() throws IOException {
 		FileInputStream in = new FileInputStream("res//api.properties");
 		props.load(in);
 		in.close();
@@ -219,7 +219,7 @@ public class Process extends Observable{
 	 * @param lastUpdate The time of the latest update.
 	 * @throws IOException
 	 */
-	private static void updateLastFetch(String lastUpdate) throws IOException {
+	private void updateLastFetch(String lastUpdate) throws IOException {
 		FileOutputStream out = new FileOutputStream("res//api.properties");
 		props.setProperty("api.lastUpdate", lastUpdate);
 		props.store(out, null);
@@ -231,7 +231,7 @@ public class Process extends Observable{
 	 * @param endYear
 	 * @return
 	 */
-	private static ArrayList<Incident> getAPIData(String startYear, String endYear) {
+	private ArrayList<Incident> getAPIData(String startYear, String endYear) {
 		return api.getIncidentsInRange(startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
 	}
 
