@@ -50,16 +50,7 @@ public class ComboBoxListener implements ActionListener {
 	}
 	
 	private String convertLong(long longs){
-		int min = 0;
-		double secs = 0;
-		double d = (double)longs;
-		
-		d = d/1000;
-		min = (int) (d/60) ;
-		secs = d%60;
-		String seccs = d/60 + "";
-		seccs.substring(3, 4);
-		
+	
 		long minutes = TimeUnit.MILLISECONDS.toMinutes(longs);
 		long seconds = TimeUnit.MILLISECONDS.toSeconds(longs)%60;
 		return minutes + " " + "minutes,"+ " " + seconds + " " + "seconds";
