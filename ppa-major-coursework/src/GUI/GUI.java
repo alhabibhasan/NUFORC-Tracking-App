@@ -119,10 +119,11 @@ public class GUI implements Observer{
 		if (o instanceof Process) {
 			HashMap<String, Integer> currentIncidents = (HashMap<String, Integer>) arg;
 			this.createMapCenter(new Map(currentIncidents));
+			this.rightButtonEnabled(true);
 			Stats stats = new Stats();
 			statsCenter = stats.getPanel();
 			contentPanel.add(statsCenter, "statsScreen");
-			System.out.println("Called ~~~~~#####");
+			System.out.println("Called update in GUI class");
 		}
 		
 	}

@@ -39,7 +39,7 @@ public class ComboBoxListener implements ActionListener {
 			apiData.setCustomDataFromRange(String.valueOf(from.getSelectedItem()), String.valueOf(to.getSelectedItem()));
 			Thread pullData = new Thread(apiData);
 			pullData.start();
-			gui.rightButtonEnabled(true);
+			
 		}
 
 	}
