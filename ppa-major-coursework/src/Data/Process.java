@@ -26,15 +26,15 @@ import api.ripley.Incident;
 import api.ripley.Ripley;
 import edu.emory.mathcs.backport.java.util.Collections;
 
-public class Process extends Observable{
+public class Process extends Observable implements Runnable {
 
 	private static Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
 	private Properties props = new Properties();
 	private ArrayList<Incident> incidentsFromAPI;
 	private static ArrayList<CustomIncident> currentIncidents;
 	private List<CustomIncident> incidentsFromFile;
-	private static String dataStart;
-	private static String dataEnd;
+	private String dataStart = String.valueOf(api.getStartYear());
+	private String dataEnd = String.valueOf(api.getLatestYear());
 	private static String apiLastUpdate;
 
 	public Process(GUI observer) {
@@ -42,12 +42,16 @@ public class Process extends Observable{
 	}
 
 	/**
-	 * This method retrieves data from the api (if necessary) after checking that the current data is out of date.
+	 * This method retrieves data from the api (if necessary) after checking
+	 * that the current data is out of date.
+	 * 
 	 * @param dateFrom
 	 * @param dateTo
-	 * @return The arraylist of all incidents within the current given start and end dates.
+	 * @return The arraylist of all incidents within the current given start and
+	 *         end dates.
 	 */
-	public ArrayList<CustomIncident> getDataFromRange(String dateFrom, String dateTo) {
+	@Override
+	public void run() {
 		try {
 			checkForUpdate();
 		} catch (IOException ioe) {
@@ -55,8 +59,6 @@ public class Process extends Observable{
 			System.out.println("Failed to check for updates.");
 		}
 		long time1 = System.currentTimeMillis();
-		dataStart = dateFrom;
-		dataEnd = dateTo;
 
 		System.out.println("Start: " + dataStart);
 		System.out.println("End: " + dataEnd);
@@ -64,7 +66,7 @@ public class Process extends Observable{
 		ArrayList<String> dates = new ArrayList<String>();
 		for (CustomIncident incid : incidentsFromFile) {
 			int year = Integer.parseInt((incid.getDateAndTime().substring(0, 4)));
-			if (year >= Integer.parseInt(dateFrom) && year <= Integer.parseInt(dateTo)) {
+			if (year >= Integer.parseInt(dataStart) && year <= Integer.parseInt(dataEnd)) {
 				incidentsInRange.add(incid);
 				dates.add(incid.getDateAndTime());
 			}
@@ -77,19 +79,33 @@ public class Process extends Observable{
 		currentIncidents = incidentsInRange;
 		setChanged();
 		notifyObservers(getStateFrequency());
-		return incidentsInRange;
+
+	}
+
+	/**
+	 * This method is used to set the range from within which we should extract
+	 * data
+	 * 
+	 * @param dateFrom
+	 * @param dateTo
+	 */
+	public void setCustomDataFromRange(String dateFrom, String dateTo) {
+		this.dataStart = dateFrom;
+		this.dataEnd = dateTo;
 	}
 
 	/**
 	 * 
-	 * @return List of incidents within the range given in the method getDataFromRange()
+	 * @return List of incidents within the range given in the method
+	 *         getDataFromRange()
 	 */
 	public static ArrayList<CustomIncident> getCurrentIncidents() {
 		return currentIncidents;
 	}
-	
+
 	/**
 	 * This method retrieves data stored in JSON format from the local machine
+	 * 
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 */
@@ -116,8 +132,9 @@ public class Process extends Observable{
 	}
 
 	/**
-	 * In the case that the current data is out of date, this method is called to retrieve data from the api
-	 * and then save the data in JSON format. CustomIncident objects are required in order to save the incidents.
+	 * In the case that the current data is out of date, this method is called
+	 * to retrieve data from the api and then save the data in JSON format.
+	 * CustomIncident objects are required in order to save the incidents.
 	 */
 	private void pullLatestDataFromAPI() {
 		System.out.println("need to get data from API current data out of date");
@@ -127,10 +144,8 @@ public class Process extends Observable{
 		long time1sort = System.currentTimeMillis();
 		System.out.println("Sorting...");
 
-		
 		long time1sortend = System.currentTimeMillis();
 		System.out.println("Sorting finished " + ((time1sortend - time1sort) / 1000) + " seconds needed.");
-
 
 		System.out.println("Size of records: " + incidentsFromAPI.size());
 		ObjectMapper mapper = new ObjectMapper();
@@ -173,8 +188,9 @@ public class Process extends Observable{
 	}
 
 	/**
-	 * This method is used to check that local data is up to date, if data is not up to date, then data is retrieved 
-	 * and local data is updated.
+	 * This method is used to check that local data is up to date, if data is
+	 * not up to date, then data is retrieved and local data is updated.
+	 * 
 	 * @throws IOException
 	 */
 	private void checkForUpdate() throws IOException {
@@ -214,9 +230,12 @@ public class Process extends Observable{
 	}
 
 	/**
-	 * This method is used to update the last update time of the local data - which is stored on the local machine.
-	 * This is called every time the local data store is updated.
-	 * @param lastUpdate The time of the latest update.
+	 * This method is used to update the last update time of the local data -
+	 * which is stored on the local machine. This is called every time the local
+	 * data store is updated.
+	 * 
+	 * @param lastUpdate
+	 *            The time of the latest update.
 	 * @throws IOException
 	 */
 	private void updateLastFetch(String lastUpdate) throws IOException {
@@ -225,8 +244,11 @@ public class Process extends Observable{
 		props.store(out, null);
 		out.close();
 	}
+
 	/**
-	 * This is the only method within the solution. It is used to download all data from the API.
+	 * This is the only method within the solution. It is used to download all
+	 * data from the API.
+	 * 
 	 * @param startYear
 	 * @param endYear
 	 * @return
@@ -242,6 +264,7 @@ public class Process extends Observable{
 	public String getDataStart() {
 		return dataStart;
 	}
+
 	/**
 	 * 
 	 * @return The end date for the current data set.
@@ -374,4 +397,5 @@ public class Process extends Observable{
 	public int getLatestYear() {
 		return api.getLatestYear();
 	}
+
 }
