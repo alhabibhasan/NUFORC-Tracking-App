@@ -51,18 +51,42 @@ public class Stats {
 	}
 
 	private void showPreferedPanels() {
-		if (panelPref.get(PANEL1_PREF,"emptyPan1").equals("panel1")) {
+		if (panelPref.get(PANEL1_PREF, "emptyPan1").equals("panel1")) {
 			card1.show(stat1Center, "stat1Pan1");
-		} else if (panelPref.get(PANEL1_PREF,"emptyPan1").equals("panel2")) {
+		} else if (panelPref.get(PANEL1_PREF, "emptyPan1").equals("panel2")) {
 			card1.show(stat1Center, "stat1Pan2");
 		} else {
 			card1.show(stat1Center, "stat1Pan1");
 		}
 		
+		if (panelPref.get(PANEL2_PREF, "emptyPan1").equals("panel1")) {
+			card2.show(stat2Center, "stat2Pan1");
+		} else if (panelPref.get(PANEL2_PREF, "emptyPan1").equals("panel2")) {
+			card2.show(stat2Center, "stat2Pan2");
+		} else {
+			card2.show(stat2Center, "stat2Pan1");
+		}
 		
+		if (panelPref.get(PANEL3_PREF, "emptyPan1").equals("panel1")) {
+			card3.show(stat3Center, "stat3Pan1");
+		} else if (panelPref.get(PANEL3_PREF, "emptyPan1").equals("panel2")) {
+			card3.show(stat3Center, "stat3Pan2");
+		} else {
+			card3.show(stat3Center, "stat3Pan1");
+		}
+
+		if (panelPref.get(PANEL4_PREF, "emptyPan1").equals("panel1")) {
+			card4.show(stat4Center, "stat4Pan1");
+		} else if (panelPref.get(PANEL3_PREF, "emptyPan1").equals("panel2")) {
+			card4.show(stat4Center, "stat4Pan2");
+		} else {
+			card4.show(stat4Center, "stat4Pan1");
+		}
 	}
+
 	/**
 	 * Returns a complete stats panel which contains the required statistics.
+	 * 
 	 * @return The complete statistic panel.
 	 */
 	public JPanel getPanel() {
@@ -71,14 +95,18 @@ public class Stats {
 
 	private void setUpContentPanels() {
 		stat1Cont1 = new JPanel();
-		stat1Cont2 = new JPanel(new BorderLayout()); // Might cause merge conflict
+		stat1Cont2 = new JPanel(new BorderLayout()); // Might cause merge
+														// conflict
 
 		stat1Cont1.setBackground(Color.WHITE); // add stuff to the respective
 												// panels here
-		
+
 		stat1Cont1.add(new JLabel("Panel 1"));
-		//stat1Cont2.setBackground(Color.WHITE);
-		stat1Cont2.add(AflalStatistic.graphToShow, BorderLayout.CENTER); // Might cause merge conflict
+		// stat1Cont2.setBackground(Color.WHITE);
+		stat1Cont2.add(AflalStatistic.graphToShow, BorderLayout.CENTER); // Might
+																			// cause
+																			// merge
+																			// conflict
 
 		stat1Center.add(stat1Cont1, "stat1Pan1");
 		stat1Center.add(stat1Cont2, "stat1Pan2");
@@ -142,7 +170,7 @@ public class Stats {
 			card1.show(stat1Center, "stat1Pan1");
 			panelPref.put(PANEL1_PREF, "panel1");
 		});
-		
+
 		stat1Right.addActionListener(e -> {
 			card1.show(stat1Center, "stat1Pan2");
 			panelPref.put(PANEL1_PREF, "panel2");
@@ -157,8 +185,14 @@ public class Stats {
 		stat2.add(stat2Left, BorderLayout.WEST);
 		stat2.add(stat2Right, BorderLayout.EAST);
 
-		stat2Left.addActionListener(e -> card2.show(stat2Center, "stat2Pan1"));
-		stat2Right.addActionListener(e -> card2.show(stat2Center, "stat2Pan2"));
+		stat2Left.addActionListener(e -> {
+			card2.show(stat2Center, "stat2Pan1");
+			panelPref.put(PANEL2_PREF, "panel1");
+		});
+		stat2Right.addActionListener(e -> {
+			card2.show(stat2Center, "stat2Pan2");
+			panelPref.put(PANEL2_PREF, "panel2");
+		});
 
 		stat3Left = new JButton("<");
 		stat3Right = new JButton(">");
@@ -166,8 +200,14 @@ public class Stats {
 		stat3.add(stat3Left, BorderLayout.WEST);
 		stat3.add(stat3Right, BorderLayout.EAST);
 
-		stat3Left.addActionListener(e -> card3.show(stat3Center, "stat3Pan1"));
-		stat3Right.addActionListener(e -> card3.show(stat3Center, "stat3Pan2"));
+		stat3Left.addActionListener(e -> {
+			card3.show(stat3Center, "stat3Pan1");
+			panelPref.put(PANEL3_PREF, "panel1");
+		});
+		stat3Right.addActionListener(e -> {
+			card3.show(stat3Center, "stat3Pan2");
+			panelPref.put(PANEL3_PREF, "panel2");
+		});
 
 		stat4Left = new JButton("<");
 		stat4Right = new JButton(">");
@@ -175,8 +215,14 @@ public class Stats {
 		stat4.add(stat4Left, BorderLayout.WEST);
 		stat4.add(stat4Right, BorderLayout.EAST);
 
-		stat4Left.addActionListener(e -> card4.show(stat4Center, "stat4Pan1"));
-		stat4Right.addActionListener(e -> card4.show(stat4Center, "stat4Pan2"));
+		stat4Left.addActionListener(e -> {
+			card4.show(stat4Center, "stat4Pan1");
+			panelPref.put(PANEL4_PREF, "panel1");
+		});
+		stat4Right.addActionListener(e -> {
+			card4.show(stat4Center, "stat4Pan2");
+			panelPref.put(PANEL4_PREF, "panel2");
+		});
 
 	}
 }
