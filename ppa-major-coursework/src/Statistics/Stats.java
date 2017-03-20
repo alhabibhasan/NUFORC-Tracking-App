@@ -71,14 +71,14 @@ public class Stats {
 
 	private void setUpContentPanels() {
 		stat1Cont1 = new JPanel();
-		stat1Cont2 = new JPanel(new BorderLayout());
+		stat1Cont2 = new JPanel(new BorderLayout()); // Might cause merge conflict
 
 		stat1Cont1.setBackground(Color.WHITE); // add stuff to the respective
 												// panels here
 		
 		stat1Cont1.add(new JLabel("Panel 1"));
 		//stat1Cont2.setBackground(Color.WHITE);
-		stat1Cont2.add(AflalStatistic.graphToShow, BorderLayout.CENTER);
+		stat1Cont2.add(AflalStatistic.graphToShow, BorderLayout.CENTER); // Might cause merge conflict
 
 		stat1Center.add(stat1Cont1, "stat1Pan1");
 		stat1Center.add(stat1Cont2, "stat1Pan2");
