@@ -3,12 +3,14 @@ package Statistics;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.util.prefs.Preferences;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 public class Stats {
 	private JPanel stats;
@@ -106,7 +108,11 @@ public class Stats {
 
 		stat4Cont1 = new JPanel();
 		stat4Cont2 = new JPanel();
-
+		
+		Search video = new Search();
+		VideoContainer vidCon = new VideoContainer(video.searchYouTube().iterator());
+		stat4Cont1.add(vidCon.getScroll());
+		
 		stat4Center.add(stat4Cont1, "stat4Pan1");
 		stat4Center.add(stat4Cont2, "stat4Pan2");
 	}
