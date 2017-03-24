@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.prefs.Preferences;
 
@@ -111,6 +112,8 @@ public class Stats {
 		
 		Search video = new Search();
 		VideoContainer vidCon = new VideoContainer(video.searchYouTube().iterator());
+		
+		stat4Cont1.setLayout((new BorderLayout()));
 		stat4Cont1.add(vidCon.getScroll());
 		
 		stat4Center.add(stat4Cont1, "stat4Pan1");

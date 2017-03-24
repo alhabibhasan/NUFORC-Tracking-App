@@ -2,6 +2,7 @@ package Statistics;
 
 import java.util.Iterator;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -23,6 +25,7 @@ public class VideoContainer extends JPanel {
 	private JScrollPane scroll;
 	public VideoContainer(Iterator<SearchResult> results) {
 		super(new GridLayout(25, 1));
+		setMinimumSize(new Dimension(500,300));
 		this.iteratorSearchResults = results;
 		scroll = new JScrollPane(this);
 		addVideos();
@@ -35,7 +38,9 @@ public class VideoContainer extends JPanel {
 
 			SearchResult singleVideo = iteratorSearchResults.next();
 			ResourceId rId = singleVideo.getId();
+			add(new JLabel(singleVideo.getSnippet().getTitle()));
 			rId.getVideoId();
+			
 			// Confirm that the result represents a video. Otherwise, the
 			// item will not contain a video ID.
 			if (rId.getKind().equals("youtube#video")) {

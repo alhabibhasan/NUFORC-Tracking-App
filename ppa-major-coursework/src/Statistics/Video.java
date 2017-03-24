@@ -28,6 +28,7 @@ public class Video extends JPanel {
 			InputStream in = conn.getInputStream();
 			BufferedImage image = ImageIO.read(url);
 			ImageIcon backImage = new ImageIcon(image);
+			
 			backImage.paintIcon(this, g, 0, 0);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
