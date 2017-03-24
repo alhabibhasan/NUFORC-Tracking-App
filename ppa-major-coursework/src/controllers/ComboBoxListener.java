@@ -1,6 +1,7 @@
 package controllers;
 
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ public class ComboBoxListener implements ActionListener {
 	private GUI gui;
 	private JComboBox<Integer> from, to;
 	private Process apiData;
+	
 	public ComboBoxListener(JComboBox<Integer> from, JComboBox<Integer> to, GUI gui, Process api) {
 		this.from = from;
 		this.to = to;
@@ -27,21 +29,24 @@ public class ComboBoxListener implements ActionListener {
 		if ((int) to.getSelectedItem() < (int) from.getSelectedItem()) {
 			to.setSelectedItem((int) from.getSelectedItem());
 		}
-
+		gui.setGettingData(true);
 		return true;
 	}
 
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
 		// TODO Auto-generated method stub
-
+		
 		if (checkValidRange()) {
+			gui.setSelectedDates("Data range selected: " + from.getSelectedItem().toString() + "-" + to.getSelectedItem().toString());
 			apiData.setCustomDataFromRange(String.valueOf(from.getSelectedItem()), String.valueOf(to.getSelectedItem()));
 			Thread pullData = new Thread(apiData);
 			pullData.start();
 			
 		}
-
+		
+		
 	}
-
+	
+	
 }

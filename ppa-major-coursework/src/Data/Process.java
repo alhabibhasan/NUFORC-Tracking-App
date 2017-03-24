@@ -36,7 +36,8 @@ public class Process extends Observable implements Runnable {
 	private String dataStart = String.valueOf(api.getStartYear());
 	private String dataEnd = String.valueOf(api.getLatestYear());
 	private static String apiLastUpdate;
-
+	private long totalTime;
+	private String fetchTime;
 	public Process(GUI observer) {
 		this.addObserver(observer);
 	}
@@ -52,12 +53,17 @@ public class Process extends Observable implements Runnable {
 	 */
 	@Override
 	public void run() {
+		long time1 = System.currentTimeMillis();
 		try {
 			checkForUpdate();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 			System.out.println("Failed to check for updates.");
 		}
+<<<<<<< HEAD
+=======
+		
+>>>>>>> branch 'master' of https://github.kcl.ac.uk/K1631313/ppa-major-coursework.git
 
 		System.out.println("Start: " + dataStart);
 		System.out.println("End: " + dataEnd);
@@ -71,13 +77,47 @@ public class Process extends Observable implements Runnable {
 			}
 		}
 
+<<<<<<< HEAD
+=======
+		
+
+		
+>>>>>>> branch 'master' of https://github.kcl.ac.uk/K1631313/ppa-major-coursework.git
 		System.out.println(incidentsInRange.size());
 		currentIncidents = incidentsInRange;
+		
+
+		long time2 = System.currentTimeMillis();
+		totalTime = time2 - time1;
+		
+		fetchTime = convertMilisToMinutes(totalTime);
+		
 		setChanged();
 		notifyObservers(getStateFrequency());
+<<<<<<< HEAD
+=======
+		
+>>>>>>> branch 'master' of https://github.kcl.ac.uk/K1631313/ppa-major-coursework.git
 	}
 	
 
+	public String getFetchTime() {
+		System.out.println("Total time to get data ## ### : " + fetchTime);
+		return this.fetchTime;
+	}
+	private String convertMilisToMinutes(long time) {
+	    String seconds, minutes;
+	    long x;
+	    x = time / 1000;
+	    seconds = String.valueOf(x % 60);
+
+	    x = x / 60;
+	    minutes = String.valueOf(x % 60);
+
+	    return minutes + " minute(s), " + seconds + " seconds.";
+	  }
+	
+	
 	/**
 	 * This method is used to set the range from within which we should extract
 	 * data

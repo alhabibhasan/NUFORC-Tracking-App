@@ -30,7 +30,9 @@ public class RightButtonListener implements ActionListener {
 				gui.rightButtonEnabled(true);
 
 				gui.setFrameResizeable(false);
-
+				gui.setGettingData(false);
+				gui.setTimeTakenVisibility(false);
+				gui.setSelectedDatesVisibility(false);
 		}
 		
 	}
