@@ -36,7 +36,10 @@ public class ComboBoxListener implements ActionListener {
 		// TODO Auto-generated method stub
 
 		if (checkValidRange()) {
-			this.apiData.getDataFromRange(from.getSelectedItem().toString(), to.getSelectedItem().toString());
+			apiData.setCustomDataFromRange(String.valueOf(from.getSelectedItem()), String.valueOf(to.getSelectedItem()));
+			Thread pullData = new Thread(apiData);
+			pullData.start();
+			
 		}
 
 	}

@@ -7,6 +7,17 @@
 	<classpathentry kind="lib" path="ppa-major-coursework/ripley.jar"/>
 	<classpathentry kind="lib" path="ppa-major-coursework/slf4j-simple-1.7.22.jar"/>
 	<classpathentry kind="lib" path="ppa-major-coursework/jackson-all-1.9.0.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/jfreechart-1.0.19-experimental.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/jfreechart-1.0.19-swt.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/jfreesvg-2.0.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/junit-4.11.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/orsoncharts-1.4-eval-nofx.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/orsonpdf-1.6-eval.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/servlet.jar"/>
+	<classpathentry kind="lib" path="ppa-major-coursework/swtgraphics2d.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="ppa-major-coursework/jackson-core-2.1.3.jar"/>
 	<classpathentry kind="lib" path="ppa-major-coursework/google-api-client-1.22.0.jar"/>

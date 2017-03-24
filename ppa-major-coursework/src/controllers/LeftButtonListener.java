@@ -22,7 +22,7 @@ public class LeftButtonListener implements ActionListener {
 			gui.clearMapCenter();
 			
 			gui.leftButtonEnabled(false);
-			gui.rightButtonEnabled(true);
+			gui.rightButtonEnabled(false);
 
 			gui.setComboBoxes(true);
 
