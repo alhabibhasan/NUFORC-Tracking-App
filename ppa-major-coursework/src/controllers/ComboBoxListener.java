@@ -36,25 +36,14 @@ public class ComboBoxListener implements ActionListener {
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		long time1 = 0;
-		long time2 = 0;
-		long finalTime = 0;
+		
 		if (checkValidRange()) {
-			time1 = System.currentTimeMillis();
 			gui.setSelectedDates("Data range selected, " + from.getSelectedItem().toString() +  "-" +  to.getSelectedItem().toString());
 			this.apiData.getDataFromRange(from.getSelectedItem().toString(), to.getSelectedItem().toString());
-			time2 = System.currentTimeMillis();
 		}
-		finalTime = time2-time1;
-		gui.setTimeTaken("Data grabbed in: " + convertLong(finalTime));
-	}
-	
-	private String convertLong(long longs){
-	
-		long minutes = TimeUnit.MILLISECONDS.toMinutes(longs);
-		long seconds = TimeUnit.MILLISECONDS.toSeconds(longs)%60;
-		return minutes + " " + "minutes,"+ " " + seconds + " " + "seconds";
 		
+		//gui.setTimeTaken("Data grabbed in: " + convertLong(finalTime));
 	}
-
+	
+	
 }
