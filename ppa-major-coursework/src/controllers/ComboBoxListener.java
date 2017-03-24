@@ -39,6 +39,7 @@ public class ComboBoxListener implements ActionListener {
 		
 		if (checkValidRange()) {
 			gui.setSelectedDates("Data range selected: " + from.getSelectedItem().toString() + "-" + to.getSelectedItem().toString());
+			gui.setSelectedDatesVisibility(true);
 			apiData.setCustomDataFromRange(String.valueOf(from.getSelectedItem()), String.valueOf(to.getSelectedItem()));
 			Thread pullData = new Thread(apiData);
 			pullData.start();
