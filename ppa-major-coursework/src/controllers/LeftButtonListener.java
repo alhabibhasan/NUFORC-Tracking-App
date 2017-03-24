@@ -23,9 +23,12 @@ public class LeftButtonListener implements ActionListener {
 			
 			gui.leftButtonEnabled(false);
 			gui.rightButtonEnabled(false);
-
+			
+			gui.setSelectedDatesVisibility(false);
+			gui.setGettingData(false);
 			gui.setComboBoxes(true);
-
+			gui.setTimeTakenVisibility(true);
+			gui.setTimeTaken("");
 			gui.setFrameResizeable(true);
 		}
 		
