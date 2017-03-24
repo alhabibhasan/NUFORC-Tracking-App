@@ -58,7 +58,6 @@ public class Process extends Observable implements Runnable {
 			ioe.printStackTrace();
 			System.out.println("Failed to check for updates.");
 		}
-		long time1 = System.currentTimeMillis();
 
 		System.out.println("Start: " + dataStart);
 		System.out.println("End: " + dataEnd);
@@ -72,15 +71,12 @@ public class Process extends Observable implements Runnable {
 			}
 		}
 
-		long time2 = System.currentTimeMillis();
-
-		System.out.println("Time taken to get data within range: " + (time2 - time1) + " miliseconds.");
 		System.out.println(incidentsInRange.size());
 		currentIncidents = incidentsInRange;
 		setChanged();
 		notifyObservers(getStateFrequency());
-
 	}
+	
 
 	/**
 	 * This method is used to set the range from within which we should extract
