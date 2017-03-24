@@ -60,10 +60,6 @@ public class Process extends Observable implements Runnable {
 			ioe.printStackTrace();
 			System.out.println("Failed to check for updates.");
 		}
-<<<<<<< HEAD
-=======
-		
->>>>>>> branch 'master' of https://github.kcl.ac.uk/K1631313/ppa-major-coursework.git
 
 		System.out.println("Start: " + dataStart);
 		System.out.println("End: " + dataEnd);
@@ -77,12 +73,6 @@ public class Process extends Observable implements Runnable {
 			}
 		}
 
-<<<<<<< HEAD
-=======
-		
-
-		
->>>>>>> branch 'master' of https://github.kcl.ac.uk/K1631313/ppa-major-coursework.git
 		System.out.println(incidentsInRange.size());
 		currentIncidents = incidentsInRange;
 		
@@ -94,10 +84,6 @@ public class Process extends Observable implements Runnable {
 		
 		setChanged();
 		notifyObservers(getStateFrequency());
-<<<<<<< HEAD
-=======
-		
->>>>>>> branch 'master' of https://github.kcl.ac.uk/K1631313/ppa-major-coursework.git
 	}
 	
 
