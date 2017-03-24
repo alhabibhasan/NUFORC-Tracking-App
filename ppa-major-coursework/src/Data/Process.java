@@ -26,37 +26,40 @@ import api.ripley.Incident;
 import api.ripley.Ripley;
 import edu.emory.mathcs.backport.java.util.Collections;
 
-public class Process extends Observable{
+public class Process extends Observable implements Runnable {
 
 	private static Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
-	private static Properties props = new Properties();
-	private static ArrayList<Incident> incidentsFromAPI;
+	private Properties props = new Properties();
+	private ArrayList<Incident> incidentsFromAPI;
 	private static ArrayList<CustomIncident> currentIncidents;
-	private static List<CustomIncident> incidentsFromFile;
-	private static String dataStart;
-	private static String dataEnd;
+	private List<CustomIncident> incidentsFromFile;
+	private String dataStart = String.valueOf(api.getStartYear());
+	private String dataEnd = String.valueOf(api.getLatestYear());
 	private static String apiLastUpdate;
-
+	private long totalTime;
+	private String fetchTime;
 	public Process(GUI observer) {
 		this.addObserver(observer);
 	}
 
 	/**
-	 * This method retrieves data from the api (if necessary) after checking that the current data is out of date.
+	 * This method retrieves data from the api (if necessary) after checking
+	 * that the current data is out of date.
+	 * 
 	 * @param dateFrom
 	 * @param dateTo
-	 * @return The arraylist of all incidents within the current given start and end dates.
+	 * @return The arraylist of all incidents within the current given start and
+	 *         end dates.
 	 */
-	public ArrayList<CustomIncident> getDataFromRange(String dateFrom, String dateTo) {
+	@Override
+	public void run() {
+		long time1 = System.currentTimeMillis();
 		try {
 			checkForUpdate();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 			System.out.println("Failed to check for updates.");
 		}
-		long time1 = System.currentTimeMillis();
-		dataStart = dateFrom;
-		dataEnd = dateTo;
 
 		System.out.println("Start: " + dataStart);
 		System.out.println("End: " + dataEnd);
@@ -64,37 +67,71 @@ public class Process extends Observable{
 		ArrayList<String> dates = new ArrayList<String>();
 		for (CustomIncident incid : incidentsFromFile) {
 			int year = Integer.parseInt((incid.getDateAndTime().substring(0, 4)));
-			if (year >= Integer.parseInt(dateFrom) && year <= Integer.parseInt(dateTo)) {
+			if (year >= Integer.parseInt(dataStart) && year <= Integer.parseInt(dataEnd)) {
 				incidentsInRange.add(incid);
 				dates.add(incid.getDateAndTime());
 			}
 		}
 
-		long time2 = System.currentTimeMillis();
-
-		System.out.println("Time taken to get data within range: " + (time2 - time1) + " miliseconds.");
 		System.out.println(incidentsInRange.size());
 		currentIncidents = incidentsInRange;
+		
+
+		long time2 = System.currentTimeMillis();
+		totalTime = time2 - time1;
+		
+		fetchTime = convertMilisToMinutes(totalTime);
+		
 		setChanged();
 		notifyObservers(getStateFrequency());
-		return incidentsInRange;
+	}
+	
+
+	public String getFetchTime() {
+		System.out.println("Total time to get data ## ### : " + fetchTime);
+		return this.fetchTime;
+	}
+	private String convertMilisToMinutes(long time) {
+	    String seconds, minutes;
+	    long x;
+	    x = time / 1000;
+	    seconds = String.valueOf(x % 60);
+
+	    x = x / 60;
+	    minutes = String.valueOf(x % 60);
+
+	    return minutes + " minute(s), " + seconds + " seconds.";
+	  }
+	
+	
+	/**
+	 * This method is used to set the range from within which we should extract
+	 * data
+	 * 
+	 * @param dateFrom
+	 * @param dateTo
+	 */
+	public void setCustomDataFromRange(String dateFrom, String dateTo) {
+		this.dataStart = dateFrom;
+		this.dataEnd = dateTo;
 	}
 
 	/**
 	 * 
-	 * @return List of incidents within the range given in the method getDataFromRange()
+	 * @return List of incidents within the range given in the method
+	 *         getDataFromRange()
 	 */
 	public static ArrayList<CustomIncident> getCurrentIncidents() {
 		return currentIncidents;
 	}
-	
-	
+
 	/**
 	 * This method retrieves data stored in JSON format from the local machine
+	 * 
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 */
-	private static void pullLocalData() throws JsonParseException, JsonMappingException {
+	private void pullLocalData() throws JsonParseException, JsonMappingException {
 		long time1 = System.currentTimeMillis();
 		ObjectMapper incidentMapper = new ObjectMapper();
 		TypeReference<HashMap<String, CustomIncident>> typeRef = new TypeReference<HashMap<String, CustomIncident>>() {
@@ -117,21 +154,20 @@ public class Process extends Observable{
 	}
 
 	/**
-	 * In the case that the current data is out of date, this method is called to retrieve data from the api
-	 * and then save the data in JSON format. CustomIncident objects are required in order to save the incidents.
+	 * In the case that the current data is out of date, this method is called
+	 * to retrieve data from the api and then save the data in JSON format.
+	 * CustomIncident objects are required in order to save the incidents.
 	 */
-	private static void pullLatestDataFromAPI() {
+	private void pullLatestDataFromAPI() {
 		System.out.println("need to get data from API current data out of date");
 		long time1 = System.currentTimeMillis();
 
-		incidentsFromAPI = Process.getAPIData(String.valueOf(api.getStartYear()), String.valueOf(api.getLatestYear()));
+		incidentsFromAPI = this.getAPIData(String.valueOf(api.getStartYear()), String.valueOf(api.getLatestYear()));
 		long time1sort = System.currentTimeMillis();
 		System.out.println("Sorting...");
 
-		
 		long time1sortend = System.currentTimeMillis();
 		System.out.println("Sorting finished " + ((time1sortend - time1sort) / 1000) + " seconds needed.");
-
 
 		System.out.println("Size of records: " + incidentsFromAPI.size());
 		ObjectMapper mapper = new ObjectMapper();
@@ -174,11 +210,12 @@ public class Process extends Observable{
 	}
 
 	/**
-	 * This method is used to check that local data is up to date, if data is not up to date, then data is retrieved 
-	 * and local data is updated.
+	 * This method is used to check that local data is up to date, if data is
+	 * not up to date, then data is retrieved and local data is updated.
+	 * 
 	 * @throws IOException
 	 */
-	private static void checkForUpdate() throws IOException {
+	private void checkForUpdate() throws IOException {
 		FileInputStream in = new FileInputStream("res//api.properties");
 		props.load(in);
 		in.close();
@@ -215,24 +252,30 @@ public class Process extends Observable{
 	}
 
 	/**
-	 * This method is used to update the last update time of the local data - which is stored on the local machine.
-	 * This is called every time the local data store is updated.
-	 * @param lastUpdate The time of the latest update.
+	 * This method is used to update the last update time of the local data -
+	 * which is stored on the local machine. This is called every time the local
+	 * data store is updated.
+	 * 
+	 * @param lastUpdate
+	 *            The time of the latest update.
 	 * @throws IOException
 	 */
-	private static void updateLastFetch(String lastUpdate) throws IOException {
+	private void updateLastFetch(String lastUpdate) throws IOException {
 		FileOutputStream out = new FileOutputStream("res//api.properties");
 		props.setProperty("api.lastUpdate", lastUpdate);
 		props.store(out, null);
 		out.close();
 	}
+
 	/**
-	 * This is the only method within the solution. It is used to download all data from the API.
+	 * This is the only method within the solution. It is used to download all
+	 * data from the API.
+	 * 
 	 * @param startYear
 	 * @param endYear
 	 * @return
 	 */
-	private static ArrayList<Incident> getAPIData(String startYear, String endYear) {
+	private ArrayList<Incident> getAPIData(String startYear, String endYear) {
 		return api.getIncidentsInRange(startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
 	}
 
@@ -240,14 +283,15 @@ public class Process extends Observable{
 	 * 
 	 * @return The start date for the current data set.
 	 */
-	public static String getDataStart() {
+	public String getDataStart() {
 		return dataStart;
 	}
+
 	/**
 	 * 
 	 * @return The end date for the current data set.
 	 */
-	public static String getDataEnd() {
+	public String getDataEnd() {
 		return dataEnd;
 	}
 
@@ -375,4 +419,5 @@ public class Process extends Observable{
 	public int getLatestYear() {
 		return api.getLatestYear();
 	}
+
 }
