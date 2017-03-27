@@ -37,7 +37,7 @@ public class Map extends JPanel {
    */
   public void paint(Graphics g) {
     super.paintComponent(g);
-    ImageIcon map = new ImageIcon("res\\usa.png");
+    ImageIcon map = new ImageIcon("res/usa.png");
     map.paintIcon(this, g, 0, 0);
 
     this.g = g;
@@ -65,7 +65,7 @@ public class Map extends JPanel {
         x = coord[0];
         y = coord[1];
 
-        ImageIcon alien = new ImageIcon("res\\alien.png");
+        ImageIcon alien = new ImageIcon("res/alien.png");
         Image img = alien.getImage();
         scaleFactor = 1;
         currentFrequency = locationsToPlot.get(point);
