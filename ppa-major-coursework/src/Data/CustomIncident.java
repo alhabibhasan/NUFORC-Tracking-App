@@ -15,6 +15,17 @@ public class CustomIncident {
 	private CustomIncident() {
 
 	}
+	
+	public CustomIncident(CustomIncident incident, String duration) {
+	    this.city = incident.getCity();
+	    this.dateAndTime = incident.getDateAndTime();
+	    this.duration = duration;
+	    this.incidentID = incident.getIncidentID();
+	    this.posted = incident.getPosted();
+	    this.shape = incident.getShape();
+	    this.summary = incident.getSummary();
+	    this.state = incident.getState();
+	  }
 
 	public CustomIncident(Incident incident) {
 		this.city = incident.getCity();
