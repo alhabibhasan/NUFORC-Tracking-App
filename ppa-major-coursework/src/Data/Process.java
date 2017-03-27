@@ -25,7 +25,15 @@ import GUI.GUI;
 import api.ripley.Incident;
 import api.ripley.Ripley;
 import edu.emory.mathcs.backport.java.util.Collections;
-
+/**
+ * This class is used to:
+ * - connect to the api + get any data api related data
+ * - cache data from the api
+ * - retrieved locally stored data
+ * - update local data
+ * @author Muhammed Hasan
+ *
+ */
 public class Process extends Observable implements Runnable {
 
 	private static Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
@@ -87,6 +95,10 @@ public class Process extends Observable implements Runnable {
 	}
 	
 
+	/**
+	 * 
+	 * @return The last fetch time for data from the API
+	 */
 	public String getFetchTime() {
 		System.out.println("Total time to get data ## ### : " + fetchTime);
 		return this.fetchTime;
@@ -294,7 +306,11 @@ public class Process extends Observable implements Runnable {
 	public String getDataEnd() {
 		return dataEnd;
 	}
-
+	/**
+	 * 
+	 * @return List of incidents within the range given in the method
+	 *         getDataFromRange()
+	 */
 	public static ArrayList<CustomIncident> getAllIncidents() {
 		return Process.currentIncidents;
 	}
@@ -356,36 +372,6 @@ public class Process extends Observable implements Runnable {
 		}
 	}
 
-	/**
-	 * This method is used to sort an array list of incidents. Incidents are
-	 * sorted in terms of the date earliest to latest.
-	 * 
-	 * @param list
-	 *            The list to be sorted.
-	 */
-	public static ArrayList<CustomIncident> sortIncidentList(ArrayList<CustomIncident> list) {
-		Collections.sort(list, new Comparator<CustomIncident>() {
-
-			@Override
-			public int compare(CustomIncident i1, CustomIncident i2) {
-
-				int year1 = Integer.parseInt(i1.getDateAndTime().substring(0, 4));
-				int year2 = Integer.parseInt(i2.getDateAndTime().substring(0, 4));
-
-				if (year1 > year2)
-					return 1;
-				if (year1 == year2)
-					return 0;
-				if (year1 < year2)
-					return -1;
-
-				return 0;
-			}
-
-		});
-
-		return list;
-	}
 
 	public static ArrayList<CustomIncident> sortListForState(String state) {
 
