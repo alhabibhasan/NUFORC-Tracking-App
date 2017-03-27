@@ -356,13 +356,21 @@ public class Process extends Observable implements Runnable {
 		// outputHashMap(stateFrequency); // use when needed.
 		return stateFrequency;
 	}
-
+	
+	/**
+	 * 
+	 * @param list Outputs all incidents retrieved from the API
+	 */
 	public void outputAllIncidentsList(ArrayList<Incident> list) {
 		for (Incident element : list) {
 			System.out.println(element.toString());
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param map Outputs the frequency of sightings for each US state as received from the API
+	 */
 	public void outputHashMap(HashMap<String, Integer> map) {
 		for (String state : map.keySet()) {
 			String key = state.toString();
@@ -372,7 +380,11 @@ public class Process extends Observable implements Runnable {
 		}
 	}
 
-
+	/**
+	 * Returns incidents which took place in a given state
+	 * @param state The state to get incidents for
+	 * @return The list of incidents from the given state
+	 */
 	public static ArrayList<CustomIncident> sortListForState(String state) {
 
 		ArrayList<CustomIncident> sortedList = new ArrayList<CustomIncident>();
@@ -385,23 +397,39 @@ public class Process extends Observable implements Runnable {
 		return sortedList;
 
 	}
-
+	/**
+	 * 
+	 * @return The acknowledgement string from the Ripley API
+	 */
 	public String getAcknowledgementString() {
 		return api.getAcknowledgementString();
 	}
-
+	/**
+	 * 
+	 * @return time the NUFORC database was last updated
+	 */
 	public String getLastUpdated() {
 		return api.getLastUpdated();
 	}
-
+	/**
+	 * 
+	 * @return current version of the API
+	 */
 	public double getVersion() {
 		return api.getVersion();
 	}
-
+	
+	/**
+	 * 
+	 * @return year of the earliest ufo sighting stored in the database
+	 */
 	public int getStartYear() {
 		return api.getStartYear();
 	}
-
+	/**
+	 * 
+	 * @return year of the latest ufo sighting stored in the database
+	 */
 	public int getLatestYear() {
 		return api.getLatestYear();
 	}
