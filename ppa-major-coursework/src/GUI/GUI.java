@@ -36,13 +36,15 @@ import controllers.RightButtonListener;
  * @author Muhammed Hasan, Aflal Asker
  *
  */
-public class GUI implements Observer{
+public class GUI implements Observer {
 	private JFrame frame; // the main frame
-	private JPanel north, contentPanel, initCenter, south, mapCenter, statsCenter;
+	private JPanel north, contentPanel, initCenter, south, mapCenter,
+			statsCenter;
 
 	private Process data;
 	private JComboBox<Integer> dateFrom, dateTo;
-	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData, timeTaken, selectedDates;
+	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData,
+			timeTaken, selectedDates;
 	private JButton buttonLeft, buttonRight;
 
 	private Font font = new Font(null, 0, 15);
@@ -65,7 +67,6 @@ public class GUI implements Observer{
 
 		dateFrom = new JComboBox<Integer>();
 		dateTo = new JComboBox<Integer>();
-		
 
 		acknowledgement = new JLabel();
 		lastUpdate = new JLabel();
@@ -73,36 +74,58 @@ public class GUI implements Observer{
 		timeTaken = new JLabel();
 		gettingData = new JLabel("Grabbing data...");
 		selectedDates = new JLabel();
-		
+
 		completeDataLoad();
 
 		buttonLeft = new JButton("<");
 		buttonRight = new JButton(">");
 
-		
-
 		buttonLeft.addActionListener(new LeftButtonListener(this));
 
 		buttonRight.addActionListener(new RightButtonListener(this));
-		
+
 		addComboBoxElements();
-		ComboBoxListener comboxListener = new ComboBoxListener(dateFrom, dateTo, this, new Process(this));
+		ComboBoxListener comboxListener = new ComboBoxListener(dateFrom,
+				dateTo, this, new Process(this));
 		dateFrom.addActionListener(comboxListener);
 		dateTo.addActionListener(comboxListener);
 	}
 
+	/**
+	 * Clears the map panel so we can remove any out-dated maps
+	 */
 	public void clearMapCenter() {
 		mapCenter.removeAll();
 	}
 
+	/**
+	 * Change the card you are currently viewing
+	 * 
+	 * @param changeTo
+	 *            The card layout to change to.
+	 */
 	public void setCardLayout(String changeTo) {
-		cardLayout.show(contentPanel, changeTo);
+		if (changeTo.length() > 0) {
+			cardLayout.show(contentPanel, changeTo);
+		}
 	}
 
+	/**
+	 * Set the value of a variable which holds the current screen being viewed
+	 * 
+	 * @param currentScreen
+	 *            The screen being viewed
+	 */
 	public void setCurrentScreen(String currentScreen) {
-		this.currentScreen = currentScreen;
+		if (currentScreen.length() > 0) {
+			this.currentScreen = currentScreen;
+		}
 	}
 
+	/**
+	 * 
+	 * @return The string holding the current screen being viewed
+	 */
 	public String getCurrentScreen() {
 		return this.currentScreen;
 	}
@@ -114,6 +137,9 @@ public class GUI implements Observer{
 
 	}
 
+	/**
+	 * Update the map and stats panel with the latest data.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof Process) {
@@ -124,23 +150,23 @@ public class GUI implements Observer{
 			statsCenter = stats.getPanel();
 			contentPanel.add(statsCenter, "statsScreen");
 			System.out.println("Called update in GUI class");
-			this.setTimeTaken("Data grabbed in: " +((Process) o).getFetchTime() );
+			this.setTimeTaken("Data grabbed in: "
+					+ ((Process) o).getFetchTime());
 		}
-		
-			
-		
+
 	}
-	
+
 	private void completeDataLoad() {
 
 		data = new Process(this);
-		this.setWelcomeText("<html>Welcome to the Ripley API v" + data.getVersion()
+		this.setWelcomeText("<html>Welcome to the Ripley API v"
+				+ data.getVersion()
 				+ " Please select from the dates above, in order to begin analysing UFO sighting data. </html>");
 
 		this.acknowledgement.setText(data.getAcknowledgementString());
 
 		this.setLastUpdate(data.getLastUpdated());
-		
+
 	}
 
 	/**
@@ -179,27 +205,27 @@ public class GUI implements Observer{
 		createNorth();
 		createInitCenter();
 		createSouth();
-		
+
 		frame.setVisible(true);
 
 	}
 
 	private void createInitCenter() {
-	
-		JPanel initCenter2 = new JPanel(new GridLayout(5,1));
+
+		JPanel initCenter2 = new JPanel(new GridLayout(5, 1));
 		acknowledgement.setHorizontalAlignment(SwingConstants.CENTER);
 		acknowledgement.setFont(font);
 		initCenter.add(acknowledgement, BorderLayout.SOUTH); // DO NOT REMOVE
 																// OTHERWISE WE
 																// WILL GET ZERO
 																// MARKS
-		initCenter.add(initCenter2,BorderLayout.CENTER);
+		initCenter.add(initCenter2, BorderLayout.CENTER);
 		initCenter2.add(welcomeText);
 		initCenter2.add(selectedDates);
 		initCenter2.add(gettingData);
 		gettingData.setVisible(false);
 		initCenter2.add(timeTaken);
-		
+
 		initCenter.setBorder(new LineBorder(Color.BLACK, 1, false));
 		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeText.setFont(font);
@@ -235,10 +261,10 @@ public class GUI implements Observer{
 
 		lastUpdate.setHorizontalAlignment(SwingConstants.CENTER);
 		lastUpdate.setFont(new Font(null, 0, 15));
-		
+
 		buttonLeft.setEnabled(false);
 		buttonRight.setEnabled(false);
-		
+
 		southContainer.add(buttonLeft, BorderLayout.WEST);
 		southContainer.add(buttonRight, BorderLayout.EAST);
 		southContainer.add(lastUpdate, BorderLayout.CENTER);
@@ -286,7 +312,9 @@ public class GUI implements Observer{
 	 *            passed though this parameter.
 	 */
 	public void setLastUpdate(String text) {
-		this.lastUpdate.setText(text);
+		if (text.length() > 0) {
+			this.lastUpdate.setText(text);
+		}
 	}
 
 	/**
@@ -296,8 +324,9 @@ public class GUI implements Observer{
 	 *            The text to set the welcomeText to is passed in here.
 	 */
 	public void setWelcomeText(String text) {
-
-		this.welcomeText.setText(text);
+		if (text.length() > 0) {
+			this.welcomeText.setText(text);
+		}
 	}
 
 	/**
@@ -364,25 +393,65 @@ public class GUI implements Observer{
 		}
 	}
 
-	public String getSelectedDates(){
+	/**
+	 * 
+	 * @return A string containing the date range selected by the user
+	 */
+	public String getSelectedDates() {
 		return selectedDates.getText();
 	}
 
-	public void setSelectedDates(String text){
-		this.selectedDates.setText(text);
+	/**
+	 * 
+	 * @param text
+	 *            the value to assign to the string which displays the date
+	 *            range selected by the user
+	 */
+	public void setSelectedDates(String text) {
+		if (text.length() > 0) {
+			this.selectedDates.setText(text);
+		}
 	}
-	
-	public void setGettingData(boolean b){
+
+	/**
+	 * 
+	 * @param b
+	 *            set the visibility of the string which show that data is being
+	 *            fetched
+	 */
+	public void setGettingData(boolean b) {
 		gettingData.setVisible(b);
 	}
-	public void setTimeTaken(String s){
-		timeTaken.setText(s);
+
+	/**
+	 * 
+	 * @param s
+	 *            Set the string which displays the time taken to get data from
+	 *            the api
+	 */
+	public void setTimeTaken(String s) {
+		if (s.length() > 0) {
+			timeTaken.setText(s);
+		}
 	}
-	public void setTimeTakenVisibility(boolean b){
+
+	/**
+	 * 
+	 * @param b
+	 *            set the visibility of the string which displays the time taken
+	 *            to get data from the API
+	 */
+	public void setTimeTakenVisibility(boolean b) {
 		timeTaken.setVisible(b);
 	}
-	
-	public void setSelectedDatesVisibility(boolean b){
+
+	/**
+	 * 
+	 * @param b
+	 *            set the visibility of the string which displays the selected
+	 *            date range
+	 */
+	public void setSelectedDatesVisibility(boolean b) {
 		selectedDates.setVisible(b);
 	}
 }
