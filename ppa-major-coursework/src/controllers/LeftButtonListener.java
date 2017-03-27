@@ -4,11 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import GUI.GUI;
-
+/**
+ * Listener class which is used to change between panel in the GUI
+ * @author Muhammed Hasan, Jaman Salique
+ *
+ */
 public class LeftButtonListener implements ActionListener {
 
 	private GUI gui;
-	
+	/**
+	 * 
+	 * @param gui The GUI the listener should manipulate
+	 */
 	public LeftButtonListener(GUI gui) {
 		this.gui = gui;
 	}
