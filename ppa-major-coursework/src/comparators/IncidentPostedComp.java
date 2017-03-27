@@ -3,7 +3,11 @@ package comparators;
 import java.util.Comparator;
 
 import Data.CustomIncident;
-
+/**
+ * Used to sort incidents based on the year they were posted. Sorted from low to high
+ * @author k1630580
+ *
+ */
 public class IncidentPostedComp implements Comparator<CustomIncident> {
 
 	@Override

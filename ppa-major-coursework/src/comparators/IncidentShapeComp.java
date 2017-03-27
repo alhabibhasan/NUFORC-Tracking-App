@@ -3,7 +3,11 @@ package comparators;
 import java.util.Comparator;
 
 import Data.CustomIncident;
-
+/**
+ * Used to sort the incident based on their shape. Incidents will be sorted alphabetically from A-Z
+ * @author k1630580
+ *
+ */
 public class IncidentShapeComp implements Comparator<CustomIncident> {
 
 	@Override
