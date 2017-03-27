@@ -1,6 +1,8 @@
+
 package Statistics;
 
 import java.awt.Component;
+
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +18,11 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import api.ripley.Incident;
 import api.ripley.Ripley;
 
+/**
+ * This class is used to graph the Alien most sighted times.
+ * @author Aflal Asker
+ *
+ */
 public class AflalStatistic extends JPanel {
 
 	private static ArrayList<Incident> data;
@@ -36,7 +43,10 @@ public class AflalStatistic extends JPanel {
 	}
 
 	static JPanel graphToShow = (JPanel) new AflalStatistic().draw();
-
+	/**
+	 * This method goes through all the incidents, gets the times and compares it with the provided time.
+	 * Every iteration increases the appropriate integer values. Then the values gets added to the HashMap. 
+	 */
 	public void statsLoop() {
 
 		String to24_03s = "0";
@@ -109,7 +119,10 @@ public class AflalStatistic extends JPanel {
 		timeFrequency.put(to21_23s, to21_23i);
 
 	}
-
+	/**
+	 * This method creates the chart to plot the values from the HashMap.  
+	 * @return A chart with all the sighting times. Uses the classified data from the HashMap to create a plotted graph. 
+	 */
 	public Component draw() {
 		JFreeChart lineChart = ChartFactory.createLineChart("Time of Sightings ", "(3x hours)", "Sightings",
 				createDataSet(), PlotOrientation.VERTICAL, true, true, false);
@@ -118,7 +131,11 @@ public class AflalStatistic extends JPanel {
 		return chartPanel;
 
 	}
-
+	
+	/**
+	 * Gets the keys from the HashMap and adds it to the data set. 
+	 * @return The data set vales that has to be plotted in the graph. 
+	 */
 	private DefaultCategoryDataset createDataSet() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
