@@ -11,7 +11,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import GUI.InfoGUI;
-
+/**
+ * This class creates a map with the aliens plotted in the appropriate locations. It is of type JPanel
+ * so it 'returns' the map in the form of a panel.
+ * @author Muhammed Hasan, Jaman Salique
+ *
+ */
 public class Map extends JPanel {
 
   private Graphics g;
