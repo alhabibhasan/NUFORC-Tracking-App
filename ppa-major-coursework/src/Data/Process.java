@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +27,13 @@ import api.ripley.Incident;
 import api.ripley.Ripley;
 import edu.emory.mathcs.backport.java.util.Collections;
 
+/**
+ * This class is used to: - connect to the api + get any data api related data -
+ * cache data from the api - retrieved locally stored data - update local data
+ * 
+ * @author Muhammed Hasan
+ *
+ */
 public class Process extends Observable implements Runnable {
 
 	private static Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
@@ -38,6 +46,7 @@ public class Process extends Observable implements Runnable {
 	private static String apiLastUpdate;
 	private long totalTime;
 	private String fetchTime;
+
 	public Process(GUI observer) {
 		this.addObserver(observer);
 	}
@@ -66,44 +75,51 @@ public class Process extends Observable implements Runnable {
 		ArrayList<CustomIncident> incidentsInRange = new ArrayList<CustomIncident>();
 		ArrayList<String> dates = new ArrayList<String>();
 		for (CustomIncident incid : incidentsFromFile) {
+			try {
 			int year = Integer.parseInt((incid.getDateAndTime().substring(0, 4)));
 			if (year >= Integer.parseInt(dataStart) && year <= Integer.parseInt(dataEnd)) {
 				incidentsInRange.add(incid);
 				dates.add(incid.getDateAndTime());
 			}
+			} catch (NullPointerException e) {
+				System.out.println("Incident without date or time");
+			}
+			
 		}
 
 		System.out.println(incidentsInRange.size());
 		currentIncidents = incidentsInRange;
-		
 
 		long time2 = System.currentTimeMillis();
 		totalTime = time2 - time1;
-		
+
 		fetchTime = convertMilisToMinutes(totalTime);
-		
+
 		setChanged();
 		notifyObservers(getStateFrequency());
 	}
-	
 
+	/**
+	 * 
+	 * @return The last fetch time for data from the API
+	 */
 	public String getFetchTime() {
 		System.out.println("Total time to get data ## ### : " + fetchTime);
 		return this.fetchTime;
 	}
+
 	private String convertMilisToMinutes(long time) {
-	    String seconds, minutes;
-	    long x;
-	    x = time / 1000;
-	    seconds = String.valueOf(x % 60);
+		String seconds, minutes;
+		long x;
+		x = time / 1000;
+		seconds = String.valueOf(x % 60);
 
-	    x = x / 60;
-	    minutes = String.valueOf(x % 60);
+		x = x / 60;
+		minutes = String.valueOf(x % 60);
 
-	    return minutes + " minute(s), " + seconds + " seconds.";
-	  }
-	
-	
+		return minutes + " minute(s), " + seconds + " seconds.";
+	}
+
 	/**
 	 * This method is used to set the range from within which we should extract
 	 * data
@@ -276,6 +292,14 @@ public class Process extends Observable implements Runnable {
 	 * @return
 	 */
 	private ArrayList<Incident> getAPIData(String startYear, String endYear) {
+		if (endYear.equals(api.getLatestYear())) {
+			
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			LocalDateTime now = LocalDateTime.now();
+			System.out.println(dtf.format(now)); //2016-11-16 12:08:43
+			
+			return api.getIncidentsInRange(startYear + "-01-01 00:00:00", dtf.format(now).toString());
+		}
 		return api.getIncidentsInRange(startYear + "-01-01 00:00:00", endYear + "-12-31 00:00:00");
 	}
 
@@ -295,6 +319,11 @@ public class Process extends Observable implements Runnable {
 		return dataEnd;
 	}
 
+	/**
+	 * 
+	 * @return List of incidents within the range given in the method
+	 *         getDataFromRange()
+	 */
 	public static ArrayList<CustomIncident> getAllIncidents() {
 		return Process.currentIncidents;
 	}
@@ -307,7 +336,7 @@ public class Process extends Observable implements Runnable {
 	 * @return The hash map with each state mapping to the frequency of
 	 *         sightings for that state.
 	 */
-	public HashMap<String, Integer> getStateFrequency() {
+	public static HashMap<String, Integer> getStateFrequency() {
 
 		ArrayList<String> incidentStates = new ArrayList<String>();
 
@@ -341,12 +370,23 @@ public class Process extends Observable implements Runnable {
 		return stateFrequency;
 	}
 
+	/**
+	 * 
+	 * @param list
+	 *            Outputs all incidents retrieved from the API
+	 */
 	public void outputAllIncidentsList(ArrayList<Incident> list) {
 		for (Incident element : list) {
 			System.out.println(element.toString());
 		}
 	}
 
+	/**
+	 * 
+	 * @param map
+	 *            Outputs the frequency of sightings for each US state as
+	 *            received from the API
+	 */
 	public void outputHashMap(HashMap<String, Integer> map) {
 		for (String state : map.keySet()) {
 			String key = state.toString();
@@ -357,36 +397,12 @@ public class Process extends Observable implements Runnable {
 	}
 
 	/**
-	 * This method is used to sort an array list of incidents. Incidents are
-	 * sorted in terms of the date earliest to latest.
+	 * Returns incidents which took place in a given state
 	 * 
-	 * @param list
-	 *            The list to be sorted.
+	 * @param state
+	 *            The state to get incidents for
+	 * @return The list of incidents from the given state
 	 */
-	public static ArrayList<CustomIncident> sortIncidentList(ArrayList<CustomIncident> list) {
-		Collections.sort(list, new Comparator<CustomIncident>() {
-
-			@Override
-			public int compare(CustomIncident i1, CustomIncident i2) {
-
-				int year1 = Integer.parseInt(i1.getDateAndTime().substring(0, 4));
-				int year2 = Integer.parseInt(i2.getDateAndTime().substring(0, 4));
-
-				if (year1 > year2)
-					return 1;
-				if (year1 == year2)
-					return 0;
-				if (year1 < year2)
-					return -1;
-
-				return 0;
-			}
-
-		});
-
-		return list;
-	}
-
 	public static ArrayList<CustomIncident> sortListForState(String state) {
 
 		ArrayList<CustomIncident> sortedList = new ArrayList<CustomIncident>();
@@ -400,22 +416,42 @@ public class Process extends Observable implements Runnable {
 
 	}
 
+	/**
+	 * 
+	 * @return The acknowledgement string from the Ripley API
+	 */
 	public String getAcknowledgementString() {
 		return api.getAcknowledgementString();
 	}
 
+	/**
+	 * 
+	 * @return time the NUFORC database was last updated
+	 */
 	public String getLastUpdated() {
 		return api.getLastUpdated();
 	}
 
+	/**
+	 * 
+	 * @return current version of the API
+	 */
 	public double getVersion() {
 		return api.getVersion();
 	}
 
+	/**
+	 * 
+	 * @return year of the earliest ufo sighting stored in the database
+	 */
 	public int getStartYear() {
 		return api.getStartYear();
 	}
 
+	/**
+	 * 
+	 * @return year of the latest ufo sighting stored in the database
+	 */
 	public int getLatestYear() {
 		return api.getLatestYear();
 	}

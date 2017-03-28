@@ -3,12 +3,15 @@ package Statistics;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.prefs.Preferences;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 /**
  * This class creates the structure of the statistics panel. It doesnt generate the statistics.
  * @author Aflal Asker, Muhammed Hasan
@@ -26,7 +29,6 @@ public class Stats {
 	private final String PANEL2_PREF = "panel2_pref";
 	private final String PANEL3_PREF = "panel3_pref";
 	private final String PANEL4_PREF = "panel4_pref";
-
 	public Stats() {
 		stats = new JPanel(new GridLayout(2, 2)); // give the frame a 2x2 layout
 
@@ -52,6 +54,8 @@ public class Stats {
 		setUpContentPanels();
 
 		showPreferedPanels();
+		
+		
 	}
 
 	private void showPreferedPanels() {
@@ -98,28 +102,27 @@ public class Stats {
 	}
 
 	private void setUpContentPanels() {
+		AnalyseData data = new AnalyseData();
+		
 		stat1Cont1 = new JPanel();
 		stat1Cont2 = new JPanel(new BorderLayout()); // Might cause merge
 														// conflict
 
-		stat1Cont1.setBackground(Color.WHITE); // add stuff to the respective
-												// panels here
+		stat1Cont1.add(new JLabel("<html><span style='font-size:20px'>"
+						+"Likeliest State:" + "<br><br><br><br><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+data.likeliestState()+ "</span></html>"));
+		stat1Cont2.add(new JLabel("Panel 2"));
 
-		stat1Cont1.add(new JLabel("Panel 1"));
-		// stat1Cont2.setBackground(Color.WHITE);
-		stat1Cont2.add(AflalStatistic.graphToShow, BorderLayout.CENTER); // Might
-																			// cause
-																			// merge
-																			// conflict
 
 		stat1Center.add(stat1Cont1, "stat1Pan1");
 		stat1Center.add(stat1Cont2, "stat1Pan2");
-
+		
 		stat2Cont1 = new JPanel();
 		stat2Cont2 = new JPanel();
-
-		stat2Cont1.setBackground(Color.CYAN); // add the stuff to the panel here
-		stat2Cont2.setBackground(Color.GREEN);
+		
+		stat2Cont1.add(new JLabel("<html><span style='font-size:20px'>" 
+				+ "Number of Hoax:" +"<br><br><br><br><br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+ String.valueOf(data.numberOfHoax()) + "</span></html>"));
 
 		stat2Center.add(stat2Cont1, "stat2Pan1");
 		stat2Center.add(stat2Cont2, "stat2Pan2");
@@ -127,23 +130,26 @@ public class Stats {
 		stat3Cont1 = new JPanel();
 		stat3Cont2 = new JPanel();
 
-		stat3Cont1.setBackground(Color.RED); // add stuff to the respective
-												// panels here
-		stat3Cont2.setBackground(Color.YELLOW);
+		stat3Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Number of non US sightings" +"<br><br><br><br><br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+				+ String.valueOf(data.nonUSSightings())+ "</span></html>"));
 
+		stat3Cont2.add(new BahaStatistics());
+		
 		stat3Center.add(stat3Cont1, "stat3Pan1");
 		stat3Center.add(stat3Cont2, "stat3Pan2");
 
 		stat4Cont1 = new JPanel();
 		stat4Cont2 = new JPanel();
-
-		stat4Cont1.setBackground(Color.PINK); // add stuff to the respective
-												// panels here
-		stat4Cont2.setBackground(Color.MAGENTA);
-
+		
+		Search video = new Search();
+		VideoContainer vidCon = new VideoContainer(video.searchYouTube().iterator());
+		
+		stat4Cont1.setLayout((new BorderLayout()));
+		stat4Cont1.add(vidCon.getScroll());
+		
 		stat4Center.add(stat4Cont1, "stat4Pan1");
 		stat4Center.add(stat4Cont2, "stat4Pan2");
-
 	}
 
 	private void setUpCenters() {
@@ -162,7 +168,6 @@ public class Stats {
 		stat4Center = new JPanel();
 		stat4Center.setLayout(card4);
 		stat4.add(stat4Center, BorderLayout.CENTER);
-
 	}
 
 	private void setUpButton() {

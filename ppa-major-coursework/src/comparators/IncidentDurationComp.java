@@ -4,7 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import Data.CustomIncident;
-
+/**
+ * Used to sort incidents according to the duration of each incident. sorted from quickest to longest
+ * duration
+ * @author k1630580
+ *
+ */
 public class IncidentDurationComp implements Comparator<CustomIncident> {
 
 	private static Pattern minutes = Pattern.compile("\\d+?(?=( )?mins|( )?minutes|( )?minute|( )?min)",
@@ -75,7 +80,11 @@ public class IncidentDurationComp implements Comparator<CustomIncident> {
 		return 0;
 
 	}
-
+	/**
+	 * This function is used to derive the duration of each incident from a given incident
+	 * @param duration
+	 * @return A string array containing the number and length of duration e.g. n (minutes|seconds|days) etc.
+	 */
 	private String[] formatDuration(String duration) {
 		String[] toReturn = { "empty", "empty" };
 		Matcher minuteMatch = minutes.matcher(duration);
