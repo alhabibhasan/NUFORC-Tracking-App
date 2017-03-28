@@ -454,4 +454,5 @@ public class GUI implements Observer {
 	public void setSelectedDatesVisibility(boolean b) {
 		selectedDates.setVisible(b);
 	}
+
 }

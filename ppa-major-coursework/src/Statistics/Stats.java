@@ -2,7 +2,6 @@ package Statistics;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -134,7 +133,7 @@ public class Stats {
 				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 				+ String.valueOf(data.nonUSSightings())+ "</span></html>"));
 
-		stat3Cont2.add(new BahaStatistics());
+		stat3Cont2.add(new BahaStatistics(), BorderLayout.CENTER);
 		
 		stat3Center.add(stat3Cont1, "stat3Pan1");
 		stat3Center.add(stat3Cont2, "stat3Pan2");

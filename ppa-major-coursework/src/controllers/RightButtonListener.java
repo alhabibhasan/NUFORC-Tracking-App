@@ -24,7 +24,8 @@ public class RightButtonListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		if (gui.getCurrentScreen().equals("mapScreen")) {
 			gui.setCardLayout("statsScreen");
-			gui.setCurrentScreen("statsScreen"); 
+			gui.setCurrentScreen("statsScreen");
+			gui.setFrameResizeable(true);
 			System.out.println(gui.getCurrentScreen());
 		}
 		if (gui.getCurrentScreen().equals("firstScreen")) {
