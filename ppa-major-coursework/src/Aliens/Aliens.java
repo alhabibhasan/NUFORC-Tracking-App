@@ -42,5 +42,29 @@ package Aliens;
 		    private double ySteffen = HEIGHT / 2;
 
 		    private double speed,width,height;
+		    
+		    /**
+		     * This is the constructor for this class that takes 2 double parameters.
+		     * This is where the dx and dy fields are initialised. Also the width, height and random is intiailised.
+		     * @param width
+		     * @param height
+		     */
+		    
+		    public Aliens(double width, double height) {
+		    	this.width = width;
+		    	this.height = height;
+		    	random = new Random();
+		    	speed = 2 * Math.PI * (0.5 + random.nextDouble()); //sets the speed to a random number
+		    	
+		    	//The lines underneath makes sure initially the characters are moving in different directions
+		    	dxMartin = speed * (random.nextBoolean() ? 1 : -1);
+		         dyMartin = speed * (random.nextBoolean() ? 1 : -1);
+		         dxAsad = speed * (random.nextBoolean() ? 1 : -1);
+		         dyAsad = speed * (random.nextBoolean() ? 1 : -1);
+		         dxSteffen = speed * (random.nextBoolean() ? 1 : -1);
+		         dySteffen = speed * (random.nextBoolean() ? 1 : -1);
+		    	
+		    }
+
 
 }
