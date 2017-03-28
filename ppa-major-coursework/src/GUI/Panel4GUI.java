@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.Timer;
 
-import Alien.Aliens;
+import Aliens.Aliens;
 import controllers.sliderListener;
 import music.Music;
 /**

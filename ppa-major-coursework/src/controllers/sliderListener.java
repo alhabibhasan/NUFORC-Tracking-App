@@ -4,7 +4,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import Alien.Aliens;
+import Aliens.Aliens;
 
 public class sliderListener implements ChangeListener {
 
