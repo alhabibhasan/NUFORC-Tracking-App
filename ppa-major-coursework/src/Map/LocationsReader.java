@@ -61,7 +61,11 @@ public class LocationsReader {
 		reader.close();
 		System.out.println("File closed.");
 	}
-	
+	/**
+	 * Returns a hashmap containing the abbreviation of US states each of which maps to the fullname 
+	 * of the state
+	 * @return
+	 */
 	public HashMap<String, String> getAbrevToState() {
 		return this.abrevToName;
 	}

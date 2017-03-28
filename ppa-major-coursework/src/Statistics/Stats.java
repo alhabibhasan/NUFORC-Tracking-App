@@ -11,8 +11,12 @@ import java.util.prefs.Preferences;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
+/**
+ * This class creates the structure of the statistics panel. It doesnt generate the statistics.
+ * @author Aflal Asker, Muhammed Hasan
+ *
+ */
 public class Stats {
 	private JPanel stats;
 	private CardLayout card1, card2, card3, card4;

@@ -25,7 +25,15 @@ import GUI.GUI;
 import api.ripley.Incident;
 import api.ripley.Ripley;
 import edu.emory.mathcs.backport.java.util.Collections;
-
+/**
+ * This class is used to:
+ * - connect to the api + get any data api related data
+ * - cache data from the api
+ * - retrieved locally stored data
+ * - update local data
+ * @author Muhammed Hasan
+ *
+ */
 public class Process extends Observable implements Runnable {
 
 	private static Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
@@ -87,6 +95,10 @@ public class Process extends Observable implements Runnable {
 	}
 	
 
+	/**
+	 * 
+	 * @return The last fetch time for data from the API
+	 */
 	public String getFetchTime() {
 		System.out.println("Total time to get data ## ### : " + fetchTime);
 		return this.fetchTime;
@@ -294,7 +306,11 @@ public class Process extends Observable implements Runnable {
 	public String getDataEnd() {
 		return dataEnd;
 	}
-
+	/**
+	 * 
+	 * @return List of incidents within the range given in the method
+	 *         getDataFromRange()
+	 */
 	public static ArrayList<CustomIncident> getAllIncidents() {
 		return Process.currentIncidents;
 	}
@@ -340,13 +356,21 @@ public class Process extends Observable implements Runnable {
 		// outputHashMap(stateFrequency); // use when needed.
 		return stateFrequency;
 	}
-
+	
+	/**
+	 * 
+	 * @param list Outputs all incidents retrieved from the API
+	 */
 	public void outputAllIncidentsList(ArrayList<Incident> list) {
 		for (Incident element : list) {
 			System.out.println(element.toString());
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param map Outputs the frequency of sightings for each US state as received from the API
+	 */
 	public void outputHashMap(HashMap<String, Integer> map) {
 		for (String state : map.keySet()) {
 			String key = state.toString();
@@ -357,36 +381,10 @@ public class Process extends Observable implements Runnable {
 	}
 
 	/**
-	 * This method is used to sort an array list of incidents. Incidents are
-	 * sorted in terms of the date earliest to latest.
-	 * 
-	 * @param list
-	 *            The list to be sorted.
+	 * Returns incidents which took place in a given state
+	 * @param state The state to get incidents for
+	 * @return The list of incidents from the given state
 	 */
-	public static ArrayList<CustomIncident> sortIncidentList(ArrayList<CustomIncident> list) {
-		Collections.sort(list, new Comparator<CustomIncident>() {
-
-			@Override
-			public int compare(CustomIncident i1, CustomIncident i2) {
-
-				int year1 = Integer.parseInt(i1.getDateAndTime().substring(0, 4));
-				int year2 = Integer.parseInt(i2.getDateAndTime().substring(0, 4));
-
-				if (year1 > year2)
-					return 1;
-				if (year1 == year2)
-					return 0;
-				if (year1 < year2)
-					return -1;
-
-				return 0;
-			}
-
-		});
-
-		return list;
-	}
-
 	public static ArrayList<CustomIncident> sortListForState(String state) {
 
 		ArrayList<CustomIncident> sortedList = new ArrayList<CustomIncident>();
@@ -399,23 +397,39 @@ public class Process extends Observable implements Runnable {
 		return sortedList;
 
 	}
-
+	/**
+	 * 
+	 * @return The acknowledgement string from the Ripley API
+	 */
 	public String getAcknowledgementString() {
 		return api.getAcknowledgementString();
 	}
-
+	/**
+	 * 
+	 * @return time the NUFORC database was last updated
+	 */
 	public String getLastUpdated() {
 		return api.getLastUpdated();
 	}
-
+	/**
+	 * 
+	 * @return current version of the API
+	 */
 	public double getVersion() {
 		return api.getVersion();
 	}
-
+	
+	/**
+	 * 
+	 * @return year of the earliest ufo sighting stored in the database
+	 */
 	public int getStartYear() {
 		return api.getStartYear();
 	}
-
+	/**
+	 * 
+	 * @return year of the latest ufo sighting stored in the database
+	 */
 	public int getLatestYear() {
 		return api.getLatestYear();
 	}
