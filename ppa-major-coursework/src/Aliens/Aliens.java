@@ -110,5 +110,56 @@ package Aliens;
 		    	
 		    	return yMartin;
 		    }
+		    
+		    /**
+		     * This method controls the movement in the x axis for the steffen character.
+		     * It checks the where the right and left side of the screen is if it reaches
+		     * one of the ends it bounces off the edge.
+		     * @return
+		     */
+		    public double moveSteffenX() {
+		    	
+		    	if(dxSteffen < 0){
+	            	dxSteffen  = -speed;
+	            }else if(dxSteffen  > 0){
+	            	dxSteffen  = speed;
+	            }
+		    	
+		    	xSteffen += dxSteffen;
+	            ySteffen += dySteffen;
+	            if (xSteffen + 150 > width) {
+	                xSteffen = width - 150;
+	                dxSteffen = -speed;
+	            } else if (xSteffen < 0) {
+	                xSteffen = 0;
+	                dxSteffen = speed;
+	            }
+	            return xSteffen;
+	          
+		    }
+		    
+		    /**
+		     * This method controls the movement in the y axis for the steffen character.
+		     * It checks the where the top and bottom of the screen is if it reaches
+		     * one of the ends it bounces off the edge.
+		     * @return
+		     */
+		    public double moveSteffenY() {
+		    	
+		    	if(dySteffen < 0){
+	            	dySteffen = -speed;
+	            }else if(dySteffen > 0){
+	            	dySteffen = speed;
+	            }
+		    	
+		    	if (ySteffen + 300 > height) {
+	               ySteffen = height - 300;
+	               dySteffen = -speed;
+	           } else if (ySteffen < 0) {
+	               ySteffen = 0;
+	               dySteffen = speed;
+	           }
+		    	return ySteffen;
+		    }
 
 }
