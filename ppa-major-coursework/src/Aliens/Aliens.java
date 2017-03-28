@@ -212,5 +212,30 @@ package Aliens;
 	          }
 		    	return yAsad;
 		    }
+		    
+		    /**
+			 * @return speed
+			 */
+			public double getSpeed() {
+				return speed;
+			}
+
+			/**
+			 * @param speed the speed to set
+			 */
+			public void setSpeed(double speed) {
+				this.speed = speed;
+				setChanged();
+				notifyObservers();
+			}
+
+
+			/**
+			 * 
+			 * @return NB_OF_IMAGES_PER_SECOND
+			 */
+			public static int getNbOfImagesPerSecond() {
+				return NB_OF_IMAGES_PER_SECOND;
+			}
 
 }
