@@ -14,9 +14,13 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.omg.CORBA.DATA_CONVERSION;
+
+import com.google.api.client.util.Data;
 
 import api.ripley.Incident;
 import api.ripley.Ripley;
+import Data.Process;
 
 /**
  * This class is used to graph the Alien most sighted times.
@@ -25,17 +29,17 @@ import api.ripley.Ripley;
  */
 public class AflalStatistic extends JPanel {
 
-	private static ArrayList<Incident> data;
+	private static ArrayList<Incident> Process.getCurrentIncidents();
 	private static Ripley api;
 	private HashMap<String, Integer> timeFrequency;
 	private DefaultCategoryDataset dataset;
+	
 
 	public AflalStatistic() {
 
+		
 		timeFrequency = new HashMap<String, Integer>();
-		Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
-		data = new ArrayList<Incident>();
-		data = api.getIncidentsInRange("2016-01-01 00:00:00", "2017-01-01 00:00:00");
+		Process.getCurrentIncidents();
 		dataset = new DefaultCategoryDataset();
 
 		statsLoop();
