@@ -1,13 +1,11 @@
 package controllers;
 
 import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
 
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import Data.Process;
 
+import Data.Process;
 import GUI.GUI;
 /**
  * A listener for the combo box used in the main gui to select date range. Acts as a controller in the
@@ -20,7 +18,7 @@ public class ComboBoxListener implements ActionListener {
 	private JComboBox<Integer> from, to;
 	private Process apiData;
 	/**
-	 * Initializes the fields within the class
+	 * Initialises the fields within the class
 	 * @param from
 	 * @param to
 	 * @param gui
@@ -57,7 +55,6 @@ public class ComboBoxListener implements ActionListener {
 			apiData.setCustomDataFromRange(String.valueOf(from.getSelectedItem()), String.valueOf(to.getSelectedItem()));
 			Thread pullData = new Thread(apiData);
 			pullData.start();
-			
 		}
 		
 		

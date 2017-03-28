@@ -45,6 +45,7 @@ public class Process extends Observable implements Runnable {
 	private String dataEnd = String.valueOf(api.getLatestYear());
 	private static String apiLastUpdate;
 	private long totalTime;
+	private static HashMap<String, Integer> mapData;
 	private String fetchTime;
 
 	public Process(GUI observer) {
@@ -95,6 +96,8 @@ public class Process extends Observable implements Runnable {
 
 		fetchTime = convertMilisToMinutes(totalTime);
 
+		calculateStateFrequency();
+		
 		setChanged();
 		notifyObservers(getStateFrequency());
 	}
@@ -328,15 +331,20 @@ public class Process extends Observable implements Runnable {
 		return Process.currentIncidents;
 	}
 
+	public static HashMap<String, Integer> getStateFrequency() {
+		return mapData;
+	}
+	
 	/**
 	 * This method uses the list of all incidents stored within the process
 	 * class and returns the states within which aliens were sighted as well as
-	 * the frequency. This data is returned in the form of a hash map.
+	 * the frequency. This data is returned in the form of a hash map. The data
+	 * is at the moment used only to draw the map.
 	 * 
 	 * @return The hash map with each state mapping to the frequency of
 	 *         sightings for that state.
 	 */
-	public static HashMap<String, Integer> getStateFrequency() {
+	public static void calculateStateFrequency() {
 
 		ArrayList<String> incidentStates = new ArrayList<String>();
 
@@ -367,7 +375,7 @@ public class Process extends Observable implements Runnable {
 		}
 
 		// outputHashMap(stateFrequency); // use when needed.
-		return stateFrequency;
+		mapData = stateFrequency;
 	}
 
 	/**
