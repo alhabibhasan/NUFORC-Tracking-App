@@ -24,7 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import Data.Process;
-import Map.Map;
+import Map.MapDrawer;
 import Statistics.Stats;
 import controllers.ComboBoxListener;
 import controllers.LeftButtonListener;
@@ -144,7 +144,7 @@ public class GUI implements Observer {
 	public void update(Observable o, Object arg) {
 		if (o instanceof Process) {
 			HashMap<String, Integer> currentIncidents = (HashMap<String, Integer>) arg;
-			this.createMapCenter(new Map(currentIncidents));
+			this.createMapCenter(new MapDrawer(currentIncidents));
 			this.rightButtonEnabled(true);
 			Stats stats = new Stats();
 			statsCenter = stats.getPanel();
@@ -238,7 +238,7 @@ public class GUI implements Observer {
 		contentPanel.add(initCenter, "firstScreen");
 	}
 
-	private void createMapCenter(Map map) {
+	private void createMapCenter(MapDrawer map) {
 		map.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
