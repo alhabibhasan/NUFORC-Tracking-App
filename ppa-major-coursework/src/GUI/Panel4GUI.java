@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.Timer;
 
 import Aliens.Aliens;
 import Music.Music;
@@ -132,6 +135,101 @@ public class Panel4GUI extends JFrame implements Observer{
 			steffenImage.setVisible(false);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			speedSlider.addChangeListener(sliderListener);
+			
+			/*
+			 * The Timer class allows the animations in the frame to be smooth and look like 
+			 * an actual animation
+			 */
+			Timer t = new Timer(1000 / aliens.getNbOfImagesPerSecond(), new ActionListener() {
+		
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	            	//calling the move methods for each image and setting their x and y coordinates appropriately 
+	               martinImage.setLocation((int) aliens.moveMartinX(), (int) aliens.moveMartinY());
+	               steffenImage.setLocation((int) aliens.moveSteffenX(), (int) aliens.moveSteffenY());
+	               asadImage.setLocation((int) aliens.moveAsadX(), (int) aliens.moveAsadY());
+	               
+	            }
+	        });
+			
+			//When the add martin button is pressed the image of martin will appear on the screen
+			addMartin.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					martinImage.setVisible(true);
+					clear.setEnabled(true);
+					
+				}
+			});
+			//When the add steffen button is pressed the image of steffen will appear on the screen
+			addSteffen.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					steffenImage.setVisible(true);
+					clear.setEnabled(true);
+				}
+			});
+			//When the add asad button is pressed the image of asad will appear on the screen
+			addAsad.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			asadImage.setVisible(true);
+			clear.setEnabled(true);
+		}
+			});
+			
+			/*
+			 * When the clear button is pressed the screen is paused for a second and
+			 * the images will disappear and a pop sound will be made.
+			 * The speed of the images and slider value will be reset to 1.
+			 */
+			clear.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					music.playPop();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					asadImage.setVisible(false);
+					martinImage.setVisible(false);
+					steffenImage.setVisible(false);
+					speedSlider.setValue(1);
+					aliens.setSpeed(1);
+					clear.setEnabled(false);
+				}
+					});
+			
+			/*
+			 * When this button is pressed the animation will start. The background music will start to 
+			 * play and the image of martin will appear. Also the add button will be set to enabled
+			 * so you can now press them, the start animation button will be setEnabled false as you do not
+			 * need to press it again once the button has been pressed once.
+			 */
+			startAnimation.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					martinImage.setVisible(true);
+					addMartin.setEnabled(true);
+					addSteffen.setEnabled(true);
+					addAsad.setEnabled(true);
+					clear.setEnabled(true);
+					startAnimation.setEnabled(false);
+					music.play();
+					t.start();
+					
+				}
+					});
+	        
+			setVisible(true);
+			
 			
 		}
 		
