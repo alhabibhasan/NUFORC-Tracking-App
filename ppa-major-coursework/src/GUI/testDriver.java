@@ -13,6 +13,10 @@ public class testDriver {
 		
 		long time2 = System.currentTimeMillis();
 
+
+		System.out.println("Time taken to create GUI: " + (time2 - time1) / 1000 + " seconds.");
+
+
 		System.out.println("Time taken to create GUI: " + (time2 - time1) / 1000 + " seconds.");
 
 	}
