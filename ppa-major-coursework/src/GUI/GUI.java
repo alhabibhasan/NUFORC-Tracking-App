@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -453,5 +454,18 @@ public class GUI implements Observer {
 	 */
 	public void setSelectedDatesVisibility(boolean b) {
 		selectedDates.setVisible(b);
+	}
+	
+	public void setVisibility(boolean b){
+		frame.setVisible(b);
+	}
+	
+	public void createPanel4(){
+		try {
+			new Panel4GUI().CreateGUI();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

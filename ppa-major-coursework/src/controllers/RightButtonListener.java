@@ -22,6 +22,11 @@ public class RightButtonListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		if(gui.getCurrentScreen().equals("statsScreen")){
+			gui.createPanel4();
+			gui.setVisibility(false);
+			System.out.println("TESSSSTTTTTTTTTTTTTT");
+		}
 		if (gui.getCurrentScreen().equals("mapScreen")) {
 			gui.setCardLayout("statsScreen");
 			gui.setCurrentScreen("statsScreen"); 
@@ -42,6 +47,8 @@ public class RightButtonListener implements ActionListener {
 				gui.setTimeTakenVisibility(false);
 				gui.setSelectedDatesVisibility(false);
 		}
+		
+		
 		
 	}
 	
