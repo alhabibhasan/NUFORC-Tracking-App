@@ -161,5 +161,56 @@ package Aliens;
 	           }
 		    	return ySteffen;
 		    }
+		    
+		    /**
+		     * This method controls the movement in the x axis for the martin character.
+		     * It checks the where the right and left side of the screen is if it reaches
+		     * one of the ends it bounces off the edge.
+		     * @return
+		     */
+		    public double moveAsadX() {
+		    	
+		    	if(dxAsad < 0){
+	            	dxAsad  = -speed;
+	            }else if(dxAsad  > 0){
+	            	dxAsad  = speed;
+	            }
+		    	
+		    	xAsad += dxAsad;
+	           yAsad += dyAsad;
+	           if (xAsad + 300 > width) {
+	               xAsad = width - 300;
+	               dxAsad = -speed;
+	           } else if (xAsad < 0) {
+	        	   xAsad = 0;
+	               dxAsad = speed;
+	           }
+	           return xAsad;
+	         
+		    }
+		    
+		    /**
+		     * This method controls the movement in the y axis for the asad character.
+		     * It checks the where the top and bottom of the screen is if it reaches
+		     * one of the ends it bounces off the edge.
+		     * @return
+		     */
+		    public double moveAsadY() {
+		    	
+		    	if(dyAsad < 0){
+	            	dyAsad = -speed;
+	            }else if(dyAsad > 0){
+	            	dyAsad = speed;
+	            }
+		    	
+		    	if (yAsad + 150 > height) {
+	              yAsad = height - 150;
+	              dyAsad = -speed;
+	          } else if (yAsad < 0) {
+	              yAsad = 0;
+	              dyAsad = speed;
+	          }
+		    	return yAsad;
+		    }
 
 }
