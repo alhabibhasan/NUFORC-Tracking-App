@@ -1,11 +1,15 @@
 package GUI;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -16,11 +20,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-import controllers.sliderListener;
 import Aliens.Aliens;
 import Music.Music;
+import controllers.sliderListener;
 
-public class Panel4GUI extends JFrame {
+public class Panel4GUI extends JFrame implements Observer{
 	
 	//JPanel fields
 		private JPanel centerPanel, southPanel, northPanel;
@@ -98,6 +102,48 @@ public class Panel4GUI extends JFrame {
 		        }	
 			};
 			music = new Music();
+			
+		}
+		
+		/**
+		 * This method is where we actually create the gui. In this method we add
+		 * all the components to frame and JPanel's
+		 */
+		public void CreateGUI() {
+			aliens.addObserver(this); //This class extends Observer and we want it to observer the aliens class
+			setLayout(new BorderLayout());
+			setSize((int)width,(int)height);
+			add(centerPanel,BorderLayout.CENTER);
+			changeSpeed.setForeground(Color.WHITE);
+			changeSpeed.setFont (changeSpeed.getFont ().deriveFont (20.0f));
+			southPanel.add(startAnimation); southPanel.add(addMartin); southPanel.add(addAsad); 
+			southPanel.add(addSteffen); southPanel.add(clear); southPanel.add(speedSlider); 
+			southPanel.add(changeSpeed);
+			addMartin.setEnabled(false);
+			addSteffen.setEnabled(false);
+			addAsad.setEnabled(false);
+			clear.setEnabled(false);
+			add(southPanel, BorderLayout.SOUTH);
+			centerPanel.add(asadImage);
+			centerPanel.add(steffenImage);
+			centerPanel.add(martinImage);
+			martinImage.setVisible(false);
+			asadImage.setVisible(false);
+			steffenImage.setVisible(false);
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
+			speedSlider.addChangeListener(sliderListener);
+			
+		}
+		
+		/**
+		 * This is the update method which checks if the model is updated by the slider listener if 
+		 * it is then the view is updated.
+		 * @param o
+		 * @param arg
+		 */
+		@Override
+		public void update(Observable o, Object arg) {
+			aliens.getSpeed();
 			
 		}
 
