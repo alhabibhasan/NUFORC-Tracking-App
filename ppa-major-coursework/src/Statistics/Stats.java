@@ -130,6 +130,8 @@ public class Stats {
 				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 				+ String.valueOf(data.nonUSSightings())+ "</span></html>"));
 
+		stat3Cont2.add(new BahaStatistics());
+		
 		stat3Center.add(stat3Cont1, "stat3Pan1");
 		stat3Center.add(stat3Cont2, "stat3Pan2");
 

@@ -3,6 +3,7 @@ package Statistics;
 import java.util.Iterator;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
@@ -25,7 +26,6 @@ public class VideoContainer extends JPanel {
 	private JScrollPane scroll;
 	public VideoContainer(Iterator<SearchResult> results) {
 		super(new GridLayout(25, 1));
-		setMinimumSize(new Dimension(500,300));
 		this.iteratorSearchResults = results;
 		scroll = new JScrollPane(this);
 		addVideos();
@@ -39,6 +39,7 @@ public class VideoContainer extends JPanel {
 			SearchResult singleVideo = iteratorSearchResults.next();
 			ResourceId rId = singleVideo.getId();
 			add(new JLabel(singleVideo.getSnippet().getTitle()));
+			setFont(new Font("serif", Font.PLAIN, 30));
 			rId.getVideoId();
 			
 			// Confirm that the result represents a video. Otherwise, the
