@@ -63,5 +63,52 @@ package Aliens;
 		         dySteffen = speed * (random.nextBoolean() ? 1 : -1);
 		    	
 		    }
+		    
+		    /**
+		     * This method controls the movement in the x axis for the martin character.
+		     * It checks the where the right and left side of the screen is if it reaches
+		     * one of the ends it bounces off the edge.
+		     * @return
+		     */
+		    public double moveMartinX() {
+		    	if(dxMartin < 0){
+	            	dxMartin = -speed;
+	            }else if(dxMartin > 0){
+	            	dxMartin = speed;
+	            }
+		    	xMartin += dxMartin;
+	             yMartin += dyMartin;
+	             if (xMartin + 500 > width) {
+	                 xMartin = width - 500;
+	                 dxMartin = -speed;
+	             } else if (xMartin < -400) {
+	                 xMartin = -400;
+	                 dxMartin = speed;
+	             }
+	             return xMartin;
+	           
+		    }
+		    /**
+		     * This method controls the movement in the y axis for the martin character.
+		     * It checks the where the top and bottom of the screen is if it reaches
+		     * one of the ends it bounces off the edge.
+		     * @return
+		     */
+		    public double moveMartinY() {
+		    	if(dyMartin < 0){
+	            	dyMartin = -speed;
+	            }else if(dyMartin > 0){
+	            	dyMartin = speed;
+	            }
+		    	if (yMartin + 500 > height) {
+	                yMartin = height - 500;
+	                dyMartin = -speed;
+	            } else if (yMartin < -200) {
+	                yMartin = -200;
+	                dyMartin = speed;
+	            }
+		    	
+		    	return yMartin;
+		    }
 
 }
