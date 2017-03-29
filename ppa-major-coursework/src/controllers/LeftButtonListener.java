@@ -30,7 +30,7 @@ public class LeftButtonListener implements ActionListener {
 			
 			gui.leftButtonEnabled(false);
 			gui.rightButtonEnabled(false);
-			
+			gui.setFrameResizeable(true);
 			gui.setSelectedDatesVisibility(false);
 			gui.setGettingData(false);
 			gui.setComboBoxes(true);
@@ -42,6 +42,7 @@ public class LeftButtonListener implements ActionListener {
 		if (gui.getCurrentScreen().equals("statsScreen")) {
 			gui.setCardLayout("mapScreen");
 			gui.setCurrentScreen("mapScreen");
+			gui.setFrameResizeable(false);
 			System.out.println(gui.getCurrentScreen());
 		}
 
