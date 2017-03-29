@@ -29,6 +29,7 @@ import Map.MapDrawer;
 import Statistics.Stats;
 import controllers.ComboBoxListener;
 import controllers.LeftButtonListener;
+import controllers.Panel4WindowListener;
 import controllers.RightButtonListener;
 
 /**
@@ -52,6 +53,7 @@ public class GUI implements Observer {
 
 	private String currentScreen = "";
 	private CardLayout cardLayout = new CardLayout();
+	private Panel4GUI panel4gui;
 
 	/**
 	 * The constructor which will initialise the GUI components within the
@@ -75,6 +77,15 @@ public class GUI implements Observer {
 		timeTaken = new JLabel();
 		gettingData = new JLabel("Grabbing data...");
 		selectedDates = new JLabel();
+		
+		try {
+			panel4gui = new Panel4GUI();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		panel4gui.addWindowListener(new Panel4WindowListener(this));
 
 		completeDataLoad();
 
@@ -84,6 +95,8 @@ public class GUI implements Observer {
 		buttonLeft.addActionListener(new LeftButtonListener(this));
 
 		buttonRight.addActionListener(new RightButtonListener(this));
+		
+		
 
 		addComboBoxElements();
 		ComboBoxListener comboxListener = new ComboBoxListener(dateFrom,
@@ -146,13 +159,13 @@ public class GUI implements Observer {
 		if (o instanceof Process) {
 			HashMap<String, Integer> currentIncidents = (HashMap<String, Integer>) arg;
 			this.createMapCenter(new MapDrawer(currentIncidents));
+			this.rightButtonEnabled(true);
 			Stats stats = new Stats();
 			statsCenter = stats.getPanel();
 			contentPanel.add(statsCenter, "statsScreen");
 			System.out.println("Called update in GUI class");
 			this.setTimeTaken("Data grabbed in: "
 					+ ((Process) o).getFetchTime());
-			this.rightButtonEnabled(true);
 		}
 
 	}
@@ -454,18 +467,14 @@ public class GUI implements Observer {
 	 */
 	public void setSelectedDatesVisibility(boolean b) {
 		selectedDates.setVisible(b);
-	}	
+	}
+	
 	public void setVisibility(boolean b){
 		frame.setVisible(b);
 	}
 	
 	public void createPanel4(){
-		try {
-			new Panel4GUI().CreateGUI();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		panel4gui.CreateGUI();
 	}
-
+	
 }

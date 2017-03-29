@@ -138,7 +138,7 @@ public class Panel4GUI extends JFrame implements Observer{
 		martinImage.setVisible(false);
 		asadImage.setVisible(false);
 		steffenImage.setVisible(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(EXIT_ON_CLOSE);
 		speedSlider.addChangeListener(sliderListener);
 		
 		/*
