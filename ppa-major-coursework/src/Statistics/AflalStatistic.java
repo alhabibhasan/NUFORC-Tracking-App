@@ -20,6 +20,7 @@ import com.google.api.client.util.Data;
 
 import api.ripley.Incident;
 import api.ripley.Ripley;
+import Data.CustomIncident;
 import Data.Process;
 
 /**
@@ -29,7 +30,7 @@ import Data.Process;
  */
 public class AflalStatistic extends JPanel {
 
-	private static ArrayList<Incident> Process.getCurrentIncidents();
+	private static ArrayList<CustomIncident> data;
 	private static Ripley api;
 	private HashMap<String, Integer> timeFrequency;
 	private DefaultCategoryDataset dataset;
@@ -39,7 +40,7 @@ public class AflalStatistic extends JPanel {
 
 		
 		timeFrequency = new HashMap<String, Integer>();
-		Process.getCurrentIncidents();
+		data = Process.getCurrentIncidents();
 		dataset = new DefaultCategoryDataset();
 
 		statsLoop();
@@ -65,7 +66,7 @@ public class AflalStatistic extends JPanel {
 		int to24_03i = 0, to03_06i = 0, to06_9i = 0, to9_12i = 0, to12_15i = 0, to15_18i = 0, to18_21i = 0,
 				to21_23i = 0;
 
-		for (Incident time : data) {
+		for (CustomIncident time : data) {
 
 			String storedTime = time.getDateAndTime().substring(11, 13);
 
