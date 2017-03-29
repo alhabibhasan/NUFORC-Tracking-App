@@ -7,7 +7,6 @@ import java.awt.event.MouseListener;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
-
 import javax.swing.JPanel;
 
 import GUI.InfoGUI;
@@ -17,7 +16,7 @@ import GUI.InfoGUI;
  * @author Muhammed Hasan, Jaman Salique
  *
  */
-public class Map extends JPanel {
+public class MapDrawer extends JPanel {
 
   private Graphics g;
   private HashMap<String, Integer[]> locationsFromFile;
@@ -30,7 +29,7 @@ public class Map extends JPanel {
    * @param locationsToPlot
    *            The values to be draw onto the map are passed in here.
    */
-  public Map(HashMap<String, Integer> locationsToPlot) {
+  public MapDrawer(HashMap<String, Integer> locationsToPlot) {
     LocationsReader reader = new LocationsReader();
     locationsFromFile = reader.getLocations();
     this.locationsToPlot = locationsToPlot;

@@ -25,7 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import Data.Process;
-import Map.Map;
+import Map.MapDrawer;
 import Statistics.Stats;
 import controllers.ComboBoxListener;
 import controllers.LeftButtonListener;
@@ -145,14 +145,14 @@ public class GUI implements Observer {
 	public void update(Observable o, Object arg) {
 		if (o instanceof Process) {
 			HashMap<String, Integer> currentIncidents = (HashMap<String, Integer>) arg;
-			this.createMapCenter(new Map(currentIncidents));
-			this.rightButtonEnabled(true);
+			this.createMapCenter(new MapDrawer(currentIncidents));
 			Stats stats = new Stats();
 			statsCenter = stats.getPanel();
 			contentPanel.add(statsCenter, "statsScreen");
 			System.out.println("Called update in GUI class");
 			this.setTimeTaken("Data grabbed in: "
 					+ ((Process) o).getFetchTime());
+			this.rightButtonEnabled(true);
 		}
 
 	}
@@ -239,7 +239,7 @@ public class GUI implements Observer {
 		contentPanel.add(initCenter, "firstScreen");
 	}
 
-	private void createMapCenter(Map map) {
+	private void createMapCenter(MapDrawer map) {
 		map.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -454,8 +454,7 @@ public class GUI implements Observer {
 	 */
 	public void setSelectedDatesVisibility(boolean b) {
 		selectedDates.setVisible(b);
-	}
-	
+	}	
 	public void setVisibility(boolean b){
 		frame.setVisible(b);
 	}
@@ -468,4 +467,5 @@ public class GUI implements Observer {
 			e.printStackTrace();
 		}
 	}
+
 }
