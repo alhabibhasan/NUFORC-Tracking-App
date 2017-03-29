@@ -55,8 +55,6 @@ public class Search {
 	 */
 	private static final String PROPERTIES_FILENAME = "res//youtube.properties";
 
-	private static final long NUMBER_OF_VIDEOS_RETURNED = 25;
-
 	/**
 	 * Define a global instance of a Youtube object, which will be used to make
 	 * YouTube Data API requests.
@@ -107,6 +105,7 @@ public class Search {
 			 String apiKey = properties.getProperty("youtube.apikey");
 			search.setKey(apiKey);
 			search.setQ("ufo");
+			search.setMaxResults((long)50);
 			// search.setLocation("51.5076, 0.1278");
 			// search.setLocationRadius("5km");
 
@@ -117,13 +116,13 @@ public class Search {
 			// search result
 			search.setFields(
 					"items(id/kind,id/videoId,snippet/title,snippet/publishedAt,snippet/thumbnails/default/url)");
-			search.setMaxResults(NUMBER_OF_VIDEOS_RETURNED);
+			
 
 			// Call the API to execute the search and print results.
 			SearchListResponse searchResponse = search.execute();
 			searchResultList = searchResponse.getItems();
 			if (searchResultList != null && searchResultList.size() > 1) {
-				prettyPrint(searchResultList.iterator());
+				//prettyPrint(searchResultList.iterator());
 			} else {
 				System.out.println("The search returned no results.");
 			}
@@ -149,7 +148,7 @@ public class Search {
 	private static void prettyPrint(Iterator<SearchResult> iteratorSearchResults) {
 
 		System.out.println("\n=============================================================");
-		System.out.println("   First " + NUMBER_OF_VIDEOS_RETURNED + " videos for search on \"");
+		System.out.println("   All videos found on YouTube about UFOs                    \n");
 		System.out.println("=============================================================\n");
 		while (iteratorSearchResults.hasNext()) {
 
