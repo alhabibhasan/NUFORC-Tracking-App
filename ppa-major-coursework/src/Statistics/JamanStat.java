@@ -7,8 +7,8 @@ import java.util.HashSet;
 
 import org.jfree.data.general.DefaultPieDataset;
 
-import Data.CustomIncident;
-import Data.Process;
+import Processing.API;
+import Processing.CustomIncident;
 
 public class JamanStat {
 	private DefaultPieDataset pieDataset;
@@ -20,7 +20,7 @@ public class JamanStat {
 
 		pieDataset = new DefaultPieDataset();
 
-		ArrayList<CustomIncident> allIncids = Process.getAllIncidents();
+		ArrayList<CustomIncident> allIncids = API.getAllIncidents();
 		HashSet<String> shapes = new HashSet<String>();
 		finalShapes = new HashMap<String, Integer>();
 		ArrayList<String> allShapes = new ArrayList<String>();

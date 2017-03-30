@@ -52,7 +52,7 @@ public class Search {
 
 	/**
 	 * Define a global instance of a Youtube object, which will be used to make
-	 * YouTube Data API requests.
+	 * YouTube Processing API requests.
 	 */
 	private static YouTube youtube;
 
@@ -80,7 +80,7 @@ public class Search {
 		}
 
 		try {
-			// This object is used to make YouTube Data API requests. The last
+			// This object is used to make YouTube Processing API requests. The last
 			// argument is required, but since we don't need anything
 			// initialized when the HttpRequest is initialized, we override
 			// the interface and provide a no-op function.

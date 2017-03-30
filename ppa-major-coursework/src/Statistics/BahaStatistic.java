@@ -6,9 +6,9 @@ import java.util.Observable;
 
 import org.jfree.data.general.DefaultPieDataset;
 
-import Data.CustomIncident;
-import Data.Process;
 import Map.LocationsReader;
+import Processing.API;
+import Processing.CustomIncident;
 
 /**
  * the class is used to create a pie chart for the frequency of US states
@@ -28,10 +28,10 @@ public class BahaStatistic {
 	public BahaStatistic() {
 		dataset = new DefaultPieDataset();
 		listOfIncidents = new ArrayList<CustomIncident>();
-		listOfIncidents = Process.getCurrentIncidents();
+		listOfIncidents = API.getCurrentIncidents();
 		LocationsReader fileReader = new LocationsReader();
 		locations = fileReader.getLocations();
-		stateFrequency = Process.getStateFrequency();
+		stateFrequency = API.getStateFrequency();
 	}
 
 	/**

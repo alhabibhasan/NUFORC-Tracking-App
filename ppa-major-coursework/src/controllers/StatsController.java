@@ -10,7 +10,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 
-import Data.Process;
+import Processing.API;
 import Statistics.AflalStatistic;
 import Statistics.AnalyseData;
 import Statistics.BahaStatistic;
@@ -62,7 +62,7 @@ public class StatsController {
 	
 	public JPanel getHabibStat() {
 		JFreeChart lineChart = ChartFactory.createLineChart(
-				"Trend of sightings between the years " + Process.getDataStart() + " to " + Process.getDataEnd(), "Years", "Sightings",
+				"Trend of sightings between the years " + API.getDataStart() + " to " + API.getDataEnd(), "Years", "Sightings",
 				habibStat.getDataSet(), PlotOrientation.VERTICAL, true, true, false);
 		ChartPanel chartPanel = new ChartPanel(lineChart);
 		chartPanel.setPreferredSize(new Dimension(560, 367));

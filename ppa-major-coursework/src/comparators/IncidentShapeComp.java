@@ -2,7 +2,7 @@ package comparators;
 
 import java.util.Comparator;
 
-import Data.CustomIncident;
+import Processing.CustomIncident;
 /**
  * Used to sort the incident based on their shape. Incidents will be sorted alphabetically from A-Z
  * @author k1630580

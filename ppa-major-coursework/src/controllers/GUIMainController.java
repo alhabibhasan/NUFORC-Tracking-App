@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 import javax.swing.JComboBox;
 
-import Data.Process;
 import GUI.GUI;
+import Processing.API;
 /**
  * A listener for the combo box used in the main gui to select date range. Acts as a controller in the
  * MVC model
@@ -16,7 +16,7 @@ import GUI.GUI;
 public class GUIMainController implements ActionListener {
 	private GUI gui;
 	private JComboBox<Integer> from, to;
-	private Process apiData;
+	private API apiData;
 	/**
 	 * Initialises the fields within the class
 	 * @param from
@@ -28,7 +28,7 @@ public class GUIMainController implements ActionListener {
 		this.from = from;
 		this.to = to;
 		this.gui = gui;
-		this.apiData = new Process(gui);
+		this.apiData = new API(gui);
 	}
 
 	private boolean checkValidRange() {
@@ -50,7 +50,7 @@ public class GUIMainController implements ActionListener {
 		// TODO Auto-generated method stub
 		
 		if (checkValidRange()) {
-			gui.setSelectedDates("Data range selected: " + from.getSelectedItem().toString() + "-" + to.getSelectedItem().toString());
+			gui.setSelectedDates("Processing range selected: " + from.getSelectedItem().toString() + "-" + to.getSelectedItem().toString());
 			gui.setSelectedDatesVisibility(true);
 			apiData.setCustomDataFromRange(String.valueOf(from.getSelectedItem()), String.valueOf(to.getSelectedItem()));
 			Thread pullData = new Thread(apiData);

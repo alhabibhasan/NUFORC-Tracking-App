@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 
-import Data.CustomIncident;
-import Data.Process;
 import Map.LocationsReader;
+import Processing.API;
+import Processing.CustomIncident;
 
 public class AnalyseData {
 	private ArrayList<CustomIncident> listOfIncidents;
@@ -24,13 +24,13 @@ public class AnalyseData {
 		
 		listOfIncidents = new ArrayList<CustomIncident>();
 		
-		listOfIncidents = Process.getCurrentIncidents();
+		listOfIncidents = API.getCurrentIncidents();
 
 		LocationsReader fileReader = new LocationsReader();
 
 		locations = fileReader.getLocations();
 
-		stateFrequency = Process.getStateFrequency();
+		stateFrequency = API.getStateFrequency();
 		
 	}
 	

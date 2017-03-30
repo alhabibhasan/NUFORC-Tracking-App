@@ -7,8 +7,8 @@ import java.util.Observable;
 
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import Data.CustomIncident;
-import Data.Process;
+import Processing.API;
+import Processing.CustomIncident;
 import api.ripley.Ripley;
 
 /**
@@ -31,7 +31,7 @@ public class AflalStatistic{
 		timeFrequency = new HashMap<String, Integer>();
 		
 		data = new ArrayList<CustomIncident>();
-		data = Process.getCurrentIncidents();
+		data = API.getCurrentIncidents();
 		dataset = new DefaultCategoryDataset();
 
 		statsLoop();

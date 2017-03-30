@@ -3,7 +3,7 @@ import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import Data.CustomIncident;
+import Processing.CustomIncident;
 /**
  * Used to sort incidents according to the duration of each incident. sorted from quickest to longest
  * duration

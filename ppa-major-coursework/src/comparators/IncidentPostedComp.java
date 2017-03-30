@@ -2,7 +2,7 @@ package comparators;
 
 import java.util.Comparator;
 
-import Data.CustomIncident;
+import Processing.CustomIncident;
 /**
  * Used to sort incidents based on the year they were posted. Sorted from low to high
  * @author k1630580

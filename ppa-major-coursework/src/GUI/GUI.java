@@ -24,8 +24,8 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import Data.Process;
 import Map.MapDrawer;
+import Processing.API;
 import Statistics.Stats;
 import controllers.GUIMainController;
 import controllers.LeftButtonListener;
@@ -86,7 +86,7 @@ public class GUI implements Observer {
 		
 		panel4gui.addWindowListener(new Panel4WindowListener(this));
 
-		completeDataLoad();
+		
 
 		buttonLeft = new JButton("<");
 		buttonRight = new JButton(">");
@@ -97,10 +97,13 @@ public class GUI implements Observer {
 		
 		
 
-		addComboBoxElements();
+		
 		controller = new GUIMainController(dateFrom,dateTo, this);
+		
+		addComboBoxElements();
 		dateFrom.addActionListener(controller);
 		dateTo.addActionListener(controller);
+		completeDataLoad();
 	}
 
 	/**
@@ -154,15 +157,15 @@ public class GUI implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o instanceof Process) {
+		if (o instanceof API) {
 			HashMap<String, Integer> currentIncidents = (HashMap<String, Integer>) arg;
 			this.createMapCenter(new MapDrawer(currentIncidents));
 			Stats stats = new Stats();
 			statsCenter = stats.getPanel();
 			contentPanel.add(statsCenter, "statsScreen");
 			System.out.println("Called update in GUI class");
-			this.setTimeTaken("Data grabbed from store in: "
-					+ ((Process) o).getFetchTime());
+			this.setTimeTaken("Processing grabbed from store in: "
+					+ ((API) o).getFetchTime());
 			this.rightButtonEnabled(true);
 		}
 	}

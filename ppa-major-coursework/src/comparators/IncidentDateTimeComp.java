@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 
-import Data.CustomIncident;
+import Processing.CustomIncident;
 /**
  * Comparator used to sort incidents according to the date and time of the incident. sorted from earliest
  * to latest
