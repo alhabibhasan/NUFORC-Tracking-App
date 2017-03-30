@@ -27,7 +27,7 @@ import javax.swing.border.LineBorder;
 import Data.Process;
 import Map.MapDrawer;
 import Statistics.Stats;
-import controllers.ComboBoxListener;
+import controllers.GUIMainController;
 import controllers.LeftButtonListener;
 import controllers.Panel4WindowListener;
 import controllers.RightButtonListener;
@@ -42,8 +42,6 @@ public class GUI implements Observer {
 	private JFrame frame; // the main frame
 	private JPanel north, contentPanel, initCenter, south, mapCenter,
 			statsCenter;
-
-	private Process data;
 	private JComboBox<Integer> dateFrom, dateTo;
 	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData,
 			timeTaken, selectedDates;
@@ -54,6 +52,7 @@ public class GUI implements Observer {
 	private String currentScreen = "";
 	private CardLayout cardLayout = new CardLayout();
 	private Panel4GUI panel4gui;
+	private GUIMainController controller;
 
 	/**
 	 * The constructor which will initialise the GUI components within the
@@ -99,10 +98,9 @@ public class GUI implements Observer {
 		
 
 		addComboBoxElements();
-		ComboBoxListener comboxListener = new ComboBoxListener(dateFrom,
-				dateTo, this, new Process(this));
-		dateFrom.addActionListener(comboxListener);
-		dateTo.addActionListener(comboxListener);
+		controller = new GUIMainController(dateFrom,dateTo, this);
+		dateFrom.addActionListener(controller);
+		dateTo.addActionListener(controller);
 	}
 
 	/**
@@ -171,14 +169,14 @@ public class GUI implements Observer {
 
 	private void completeDataLoad() {
 
-		data = new Process(this);
+		
 		this.setWelcomeText("<html>Welcome to the Ripley API v"
-				+ data.getVersion()
+				+ controller.getVersion()
 				+ " Please select from the dates above, in order to begin analysing UFO sighting data. </html>");
 
-		this.acknowledgement.setText(data.getAcknowledgementString());
+		this.acknowledgement.setText(controller.getAcknowledgementString());
 
-		this.setLastUpdate(data.getLastUpdated());
+		this.setLastUpdate(controller.getLastUpdated());
 
 	}
 
@@ -395,8 +393,8 @@ public class GUI implements Observer {
 	}
 
 	private void addComboBoxElements() {
-		int earliest = data.getStartYear();
-		int latest = data.getLatestYear();
+		int earliest = controller.getStartYear();
+		int latest = controller.getLatestYear();
 
 		dateFrom.setFont(font);
 		dateTo.setFont(font);

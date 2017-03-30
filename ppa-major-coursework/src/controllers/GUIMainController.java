@@ -13,7 +13,7 @@ import GUI.GUI;
  * @author k1630580
  *
  */
-public class ComboBoxListener implements ActionListener {
+public class GUIMainController implements ActionListener {
 	private GUI gui;
 	private JComboBox<Integer> from, to;
 	private Process apiData;
@@ -24,11 +24,11 @@ public class ComboBoxListener implements ActionListener {
 	 * @param gui
 	 * @param api
 	 */
-	public ComboBoxListener(JComboBox<Integer> from, JComboBox<Integer> to, GUI gui, Process api) {
+	public GUIMainController(JComboBox<Integer> from, JComboBox<Integer> to, GUI gui) {
 		this.from = from;
 		this.to = to;
 		this.gui = gui;
-		this.apiData = api;
+		this.apiData = new Process(gui);
 	}
 
 	private boolean checkValidRange() {
@@ -59,6 +59,33 @@ public class ComboBoxListener implements ActionListener {
 		
 		
 	}
+
+	public double getVersion() {
+		return apiData.getVersion();
+	}
+
+	public String getAcknowledgementString() {
+		// TODO Auto-generated method stub
+		return apiData.getAcknowledgementString();
+	}
+
+	public String getLastUpdated() {
+		return apiData.getLastUpdated();
+	}
+
+	public int getStartYear() {
+		// TODO Auto-generated method stub
+		return apiData.getStartYear();
+	}
+	
+	public int getLatestYear() {
+		// TODO Auto-generated method stub
+		return apiData.getLatestYear();
+	}
+	
+	
+	
+
 	
 	
 }

@@ -131,8 +131,8 @@ public class Process extends Observable implements Runnable {
 	 * @param dateTo
 	 */
 	public void setCustomDataFromRange(String dateFrom, String dateTo) {
-		this.dataStart = dateFrom;
-		this.dataEnd = dateTo;
+		Process.dataStart = dateFrom;
+		Process.dataEnd = dateTo;
 	}
 
 	/**
