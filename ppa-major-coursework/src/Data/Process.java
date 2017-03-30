@@ -41,8 +41,8 @@ public class Process extends Observable implements Runnable {
 	private ArrayList<Incident> incidentsFromAPI;
 	private static ArrayList<CustomIncident> currentIncidents;
 	private List<CustomIncident> incidentsFromFile;
-	private String dataStart = String.valueOf(api.getStartYear());
-	private String dataEnd = String.valueOf(api.getLatestYear());
+	private static String dataStart = String.valueOf(api.getStartYear());
+	private static String dataEnd = String.valueOf(api.getLatestYear());
 	private static String apiLastUpdate;
 	private long totalTime;
 	private static HashMap<String, Integer> mapData;
@@ -298,7 +298,7 @@ public class Process extends Observable implements Runnable {
 	 * 
 	 * @return The start date for the current data set.
 	 */
-	public String getDataStart() {
+	public static String getDataStart() {
 		return dataStart;
 	}
 
@@ -306,7 +306,7 @@ public class Process extends Observable implements Runnable {
 	 * 
 	 * @return The end date for the current data set.
 	 */
-	public String getDataEnd() {
+	public static String getDataEnd() {
 		return dataEnd;
 	}
 

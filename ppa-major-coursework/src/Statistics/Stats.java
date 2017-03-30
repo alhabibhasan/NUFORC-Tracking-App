@@ -119,21 +119,19 @@ public class Stats {
 		stat1Center.add(stat1Cont2, "stat1Pan2");
 
 		stat2Cont1 = new JPanel();
-		stat2Cont2 = new JPanel();
+		stat2Cont2 = new JPanel(new BorderLayout());
 
 		stat2Center.add(stat2Cont1, "stat2Pan1");
 		stat2Center.add(stat2Cont2, "stat2Pan2");
 
 		stat3Cont1 = new JPanel();
-		stat3Cont2 = new JPanel();
+		stat3Cont2 = new JPanel(new BorderLayout());
 
 		stat3Center.add(stat3Cont1, "stat3Pan1");
 		stat3Center.add(stat3Cont2, "stat3Pan2");
 
-		stat4Cont1 = new JPanel();
-		stat4Cont2 = new JPanel();
-
-		stat4Cont1.setLayout((new BorderLayout()));
+		stat4Cont1 = new JPanel(new BorderLayout());
+		stat4Cont2 = new JPanel(new BorderLayout());
 
 		stat4Center.add(stat4Cont1, "stat4Pan1");
 		stat4Center.add(stat4Cont2, "stat4Pan2");
@@ -229,18 +227,20 @@ public class Stats {
 					+ "<br><br><br><br><br>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 					+ controller.getLikeliestState() + "</span></html>"));
 
-			stat1Cont2.add(new JLabel("Panel 2"));
+			stat1Cont2.add(controller.getAflalStat());
 
 			stat2Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Number of Hoax:" + "<br><br><br><br><br>"
 					+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 					+ String.valueOf(controller.getNoOfHoaxes()) + "</span></html>"));
 
+			stat2Cont2.add(controller.getHabibStat());
+			
 			stat3Cont1.add(new JLabel(
 					"<html><span style='font-size:20px'>" + "Number of non US sightings" + "<br><br><br><br><br>"
 							+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 							+ String.valueOf(controller.getNoOfNonUS()) + "</span></html>"));
 
-			stat3Cont2.add(controller.getBahaStat(), BorderLayout.CENTER);
+			stat3Cont2.add(controller.getBahaStat());
 
 			stat4Cont1.add(controller.getYouTubeVids());
 		

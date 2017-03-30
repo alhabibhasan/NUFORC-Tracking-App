@@ -126,7 +126,7 @@ public class AflalStatistic{
 			dataset.addValue(timeFrequency.get(timeRange), "Sightings", timeRange);
 
 		}
-
+		this.dataset = dataset;
 	}
 	
 	public DefaultCategoryDataset getDataSet() {

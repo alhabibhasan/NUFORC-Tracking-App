@@ -10,21 +10,24 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 
+import Data.Process;
 import Statistics.AflalStatistic;
 import Statistics.AnalyseData;
 import Statistics.BahaStatistic;
+import Statistics.HabibStat;
 import Statistics.Search;
-import Statistics.Stats;
 import Statistics.VideoContainer;
 
 public class StatsController {
 	private AflalStatistic aflalStat;
 	private BahaStatistic bahaStat;
+	private HabibStat habibStat;
 	private AnalyseData dA;
 
 	public StatsController() {
 		this.aflalStat = new AflalStatistic();
 		this.bahaStat = new BahaStatistic();
+		this.habibStat = new HabibStat();
 		this.dA = new AnalyseData();
 		
 		dA.CalculateLikeliestState();
@@ -33,6 +36,7 @@ public class StatsController {
 		
 		aflalStat.createDataSet();
 		bahaStat.createDataSet();
+		habibStat.createDataSet();
 		
 		
 	}
@@ -48,6 +52,15 @@ public class StatsController {
 	public JPanel getBahaStat() {
 		JFreeChart chart = ChartFactory.createPieChart("States Frequency", bahaStat.getDataSet(), true, true, true);
 		ChartPanel chartPanel = new ChartPanel(chart);
+		return chartPanel;
+	}
+	
+	public JPanel getHabibStat() {
+		JFreeChart lineChart = ChartFactory.createLineChart(
+				"Trend of sightings between the years " + Process.getDataStart() + " to " + Process.getDataEnd(), "Years", "Sightings",
+				habibStat.getDataSet(), PlotOrientation.VERTICAL, true, true, false);
+		ChartPanel chartPanel = new ChartPanel(lineChart);
+		chartPanel.setPreferredSize(new Dimension(560, 367));
 		return chartPanel;
 	}
 
