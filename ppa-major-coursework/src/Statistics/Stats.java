@@ -243,6 +243,8 @@ public class Stats {
 			stat3Cont2.add(controller.getBahaStat());
 
 			stat4Cont1.add(controller.getYouTubeVids());
+			
+			stat4Cont2.add(controller.getJamanStat());
 		
 
 	}

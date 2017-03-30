@@ -15,6 +15,7 @@ import Statistics.AflalStatistic;
 import Statistics.AnalyseData;
 import Statistics.BahaStatistic;
 import Statistics.HabibStat;
+import Statistics.JamanStat;
 import Statistics.Search;
 import Statistics.VideoContainer;
 
@@ -22,12 +23,15 @@ public class StatsController {
 	private AflalStatistic aflalStat;
 	private BahaStatistic bahaStat;
 	private HabibStat habibStat;
+	private JamanStat jamanStat;
 	private AnalyseData dA;
 
 	public StatsController() {
 		this.aflalStat = new AflalStatistic();
 		this.bahaStat = new BahaStatistic();
 		this.habibStat = new HabibStat();
+		this.jamanStat = new JamanStat();
+		
 		this.dA = new AnalyseData();
 		
 		dA.CalculateLikeliestState();
@@ -37,6 +41,7 @@ public class StatsController {
 		aflalStat.createDataSet();
 		bahaStat.createDataSet();
 		habibStat.createDataSet();
+		jamanStat.createDataSet();
 		
 		
 	}
@@ -61,6 +66,12 @@ public class StatsController {
 				habibStat.getDataSet(), PlotOrientation.VERTICAL, true, true, false);
 		ChartPanel chartPanel = new ChartPanel(lineChart);
 		chartPanel.setPreferredSize(new Dimension(560, 367));
+		return chartPanel;
+	}
+	
+	public JPanel getJamanStat() {
+		JFreeChart chart = ChartFactory.createPieChart("All shapes of aliens", jamanStat.getDataSet(), true, true, true);
+		ChartPanel chartPanel = new ChartPanel(chart);
 		return chartPanel;
 	}
 

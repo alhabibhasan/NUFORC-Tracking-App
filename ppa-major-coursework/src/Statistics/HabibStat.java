@@ -13,7 +13,9 @@ public class HabibStat {
 	public HabibStat() {
 		incidentsToAnalyse = Process.getCurrentIncidents();
 	}
-	
+	/**
+	 * This method creates the dataset required to make the pie chart with shape information
+	 */
 	public void createDataSet() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
@@ -32,6 +34,10 @@ public class HabibStat {
 		this.dataset = dataset;
 	}
 	
+	/**
+	 * 
+	 * @return The dataset to use to draw the diagram
+	 */
 	public DefaultCategoryDataset getDataSet() {
 		return this.dataset;
 	}

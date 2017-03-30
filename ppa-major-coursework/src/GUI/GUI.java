@@ -167,7 +167,6 @@ public class GUI implements Observer {
 					+ ((Process) o).getFetchTime());
 			this.rightButtonEnabled(true);
 		}
-
 	}
 
 	private void completeDataLoad() {
