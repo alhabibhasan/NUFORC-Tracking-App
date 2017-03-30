@@ -1,24 +1,24 @@
+
 package Statistics;
 
-import java.awt.Component;
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
 
-import javax.swing.JPanel;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import api.ripley.Incident;
+import Data.CustomIncident;
+import Data.Process;
 import api.ripley.Ripley;
 
-public class AflalStatistic extends JPanel {
+/**
+ * This class is used to graph the Alien most sighted times.
+ * @author Aflal Asker
+ *
+ */
+public class AflalStatistic{
 
-	private static ArrayList<Incident> data;
+	private static ArrayList<CustomIncident> data;
 	private static Ripley api;
 	private HashMap<String, Integer> timeFrequency;
 	private DefaultCategoryDataset dataset;
@@ -26,18 +26,22 @@ public class AflalStatistic extends JPanel {
 	public AflalStatistic() {
 
 		timeFrequency = new HashMap<String, Integer>();
-		Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
-		data = new ArrayList<Incident>();
-		data = api.getIncidentsInRange("2016-01-01 00:00:00", "2017-01-01 00:00:00");
+		
+		data = new ArrayList<CustomIncident>();
+		data = Process.getCurrentIncidents();
 		dataset = new DefaultCategoryDataset();
 
 		statsLoop();
+		
+		
 
 	}
 
-	static JPanel graphToShow = (JPanel) new AflalStatistic().draw();
-
-	public void statsLoop() {
+	/**
+	 * This method goes through all the incidents, gets the times and compares it with the provided time.
+	 * Every iteration increases the appropriate integer values. Then the values gets added to the HashMap. 
+	 */
+	private void statsLoop() {
 
 		String to24_03s = "0";
 		String to03_06s = "1";
@@ -51,7 +55,7 @@ public class AflalStatistic extends JPanel {
 		int to24_03i = 0, to03_06i = 0, to06_9i = 0, to9_12i = 0, to12_15i = 0, to15_18i = 0, to18_21i = 0,
 				to21_23i = 0;
 
-		for (Incident time : data) {
+		for (CustomIncident time : data) {
 
 			String storedTime = time.getDateAndTime().substring(11, 13);
 
@@ -109,17 +113,12 @@ public class AflalStatistic extends JPanel {
 		timeFrequency.put(to21_23s, to21_23i);
 
 	}
-
-	public Component draw() {
-		JFreeChart lineChart = ChartFactory.createLineChart("Time of Sightings ", "(3x hours)", "Sightings",
-				createDataSet(), PlotOrientation.VERTICAL, true, true, false);
-		ChartPanel chartPanel = new ChartPanel(lineChart);
-		chartPanel.setPreferredSize(new Dimension(560, 367));
-		return chartPanel;
-
-	}
-
-	private DefaultCategoryDataset createDataSet() {
+	
+	/**
+	 * Gets the keys from the HashMap and adds it to the data set. 
+	 * @return The data set vales that has to be plotted in the graph. 
+	 */
+	public void createDataSet() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
 		for (String timeRange : timeFrequency.keySet()) {
@@ -128,7 +127,11 @@ public class AflalStatistic extends JPanel {
 
 		}
 
+	}
+	
+	public DefaultCategoryDataset getDataSet() {
 		return dataset;
 	}
+	
 
 }

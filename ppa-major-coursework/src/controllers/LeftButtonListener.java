@@ -4,11 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import GUI.GUI;
-
+/**
+ * Listener class which is used to change between panel in the GUI
+ * @author Muhammed Hasan, Jaman Salique
+ *
+ */
 public class LeftButtonListener implements ActionListener {
 
 	private GUI gui;
-	
+	/**
+	 * 
+	 * @param gui The GUI the listener should manipulate
+	 */
 	public LeftButtonListener(GUI gui) {
 		this.gui = gui;
 	}
@@ -23,7 +30,7 @@ public class LeftButtonListener implements ActionListener {
 			
 			gui.leftButtonEnabled(false);
 			gui.rightButtonEnabled(false);
-			
+			gui.setFrameResizeable(true);
 			gui.setSelectedDatesVisibility(false);
 			gui.setGettingData(false);
 			gui.setComboBoxes(true);
@@ -35,6 +42,7 @@ public class LeftButtonListener implements ActionListener {
 		if (gui.getCurrentScreen().equals("statsScreen")) {
 			gui.setCardLayout("mapScreen");
 			gui.setCurrentScreen("mapScreen");
+			gui.setFrameResizeable(false);
 			System.out.println(gui.getCurrentScreen());
 		}
 

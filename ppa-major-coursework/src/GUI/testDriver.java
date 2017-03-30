@@ -1,19 +1,5 @@
 package GUI;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-
-import com.joestelmach.natty.DateGroup;
-import com.joestelmach.natty.Parser;
-import Data.Process;
-import Map.Map;
-import api.ripley.Incident;
-import api.ripley.Ripley;
-import edu.emory.mathcs.backport.java.util.Collections;
-
 public class testDriver {
 
 	/**
@@ -27,7 +13,9 @@ public class testDriver {
 		
 		long time2 = System.currentTimeMillis();
 
+
 		System.out.println("Time taken to create GUI: " + (time2 - time1) / 1000 + " seconds.");
+
 	}
 	
 	
