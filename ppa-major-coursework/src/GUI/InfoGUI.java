@@ -109,6 +109,9 @@ public class InfoGUI extends JFrame implements Observer {
 
   }
 
+  /**
+   * This method updates the default list model
+   */
   @Override
   public void update(Observable o, Object arg) {
     listModel = controller.getListModel();
