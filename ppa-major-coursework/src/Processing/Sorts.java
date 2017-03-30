@@ -12,7 +12,11 @@ import comparators.IncidentDurationComp;
 import comparators.IncidentDateTimeComp;
 import GUI.InfoGUI;
 import edu.emory.mathcs.backport.java.util.Collections;
-
+/**
+ * This class handles the sorting of incidents which have been selected by the user for further analysis
+ * @author Muhammed Hasan
+ *
+ */
 public class Sorts extends Observable {
 	private static Pattern minutes = Pattern.compile("\\d+?(?=( )?mins|( )?minutes|( )?minute|( )?min)",
 			Pattern.CASE_INSENSITIVE);
@@ -56,10 +60,20 @@ public class Sorts extends Observable {
 				+ " Duration: " + incid.getDuration() + " Posted: " + incid.getPosted();
 	}
 
+	/**
+	 * Gets the summary of the index selected by the user
+	 * @param index
+	 * @return
+	 * @throws ArrayIndexOutOfBoundsException
+	 */
 	public String summaryForInci(int index) throws ArrayIndexOutOfBoundsException{
 		return currIncidents.get(index).getSummary();
 	}
-
+	
+	/**
+	 * Sorts the current list of incidents according to the duration
+	 * @return
+	 */
 	public ArrayList<String> sortDuration() {
 		// TODO: Sort data according to duration
 
@@ -77,6 +91,10 @@ public class Sorts extends Observable {
 		return tempString;
 	}
 	
+	/**
+	 * Sorts the current list of incidents according to the date posted.
+	 * @return
+	 */
 	public ArrayList<String> sortPosted() {
 		Collections.sort(currIncidents, new IncidentPostedComp());
 
@@ -90,7 +108,10 @@ public class Sorts extends Observable {
 		notifyObservers();
 		return tempString;
 	}
-	
+	/**
+	 * Sorts the current list of icidents according to the city the icident took place in
+	 * @return
+	 */
 	public ArrayList<String> sortCity() {
 		// TODO: Sort data according to duration
 
@@ -108,6 +129,10 @@ public class Sorts extends Observable {
 		return tempString;
 	}
 
+	/**
+	 * Sorts the current list of incidents according to the date and time it took place
+	 * @return
+	 */
 	public ArrayList<String> sortDateTime() {
 		// TODO: Sort data according to duration
 
@@ -124,7 +149,10 @@ public class Sorts extends Observable {
 		notifyObservers();
 		return tempString;
 	}
-	
+	/**
+	 * Sorts the current list of incidents according to the shape of the ufo
+	 * @return
+	 */
 	public ArrayList<String> sortShape() {
 		// TODO: Sort data according to duration
 

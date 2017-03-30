@@ -42,7 +42,7 @@ public class MapDrawer extends JPanel {
   public void paint(Graphics g) {
     super.paintComponent(g);
     ImageIcon map = new ImageIcon("res/usa.png");
-    map.paintIcon(this, g, 0, 0);
+    map.paintIcon(this, g, 0, 0); // first add the map of the US
 
     this.g = g;
     setAliens();
@@ -54,13 +54,13 @@ public class MapDrawer extends JPanel {
       averageFrequency += locationsToPlot.get(point);
     }
 
-    averageFrequency = averageFrequency / locationsToPlot.size();
+    averageFrequency = averageFrequency / locationsToPlot.size(); // finding the average
 
 
     int currentFrequency;
     int scaleFactor;
     for (String point : locationsToPlot.keySet()) {
-      if (locationsFromFile.keySet().contains(point)) {
+      if (locationsFromFile.keySet().contains(point)) { // only adding US states
         String stateAbrev = point;
         String stateName = abrevToName.get(point);
         Integer coord[] = locationsFromFile.get(point);
@@ -73,32 +73,36 @@ public class MapDrawer extends JPanel {
         scaleFactor = 1;
         currentFrequency = locationsToPlot.get(point);
 
+        // determining the size of the head of the alien
         if (currentFrequency > Math.ceil(averageFrequency)
-            && currentFrequency > 2 * Math.ceil(averageFrequency)) {
+            && currentFrequency > 2 * Math.ceil(averageFrequency)) { // if the frequency if twice the average
           scaleFactor = 40;
-        } else if (currentFrequency > Math.ceil(averageFrequency)) {
+        } else if (currentFrequency > Math.ceil(averageFrequency)) { // greater than average
           scaleFactor = 20;
-        } else if (currentFrequency == Math.ceil(averageFrequency)) {
+        } else if (currentFrequency == Math.ceil(averageFrequency)) { // equal to average
           scaleFactor = 0;
-        } else if (currentFrequency < Math.ceil(averageFrequency)) {
+        } else if (currentFrequency < Math.ceil(averageFrequency)) { // less than average
           scaleFactor = 0;
         }
 
-        Image newImg = img.getScaledInstance(20 + scaleFactor, 20 + scaleFactor, Image.SCALE_SMOOTH);
+        // scaling the image by adding our scale factor
+        Image newImg = img.getScaledInstance(20 + scaleFactor, 20 + scaleFactor, Image.SCALE_SMOOTH); 
         ImageIcon alienDone = new ImageIcon(newImg);
         alienDone.paintIcon(this, g, x, y);
 
-        JPanel alienPanel = new JPanel();
+        // below we are adding a panel over each alien image allowing us to register a click event on each alien
+        // if a click is registered on the alien, then we will load up the infoGUI
+        JPanel alienPanel = new JPanel(); 
         alienPanel.setSize(30, 30);
-        alienPanel.setLocation(x + 5, y + 5);
-        alienPanel.setOpaque(false);
-        add(alienPanel);
+        alienPanel.setLocation(x + 5, y + 5); 
+        alienPanel.setOpaque(false); // set the panel to be invisible
+        add(alienPanel); // adding the panel to the overall panel
         alienPanel.addMouseListener(new MouseListener() {
 
           @Override
           public void mouseClicked(MouseEvent arg0) {
             System.out.println("Mouse clicked on: " + point);
-            InfoGUI gui = new InfoGUI(stateAbrev, stateName);
+            InfoGUI gui = new InfoGUI(stateAbrev, stateName); //loading up the infoGUI
           }
 
           @Override

@@ -32,6 +32,7 @@ public class GUIMainController implements ActionListener {
 	}
 
 	private boolean checkValidRange() {
+		// ensures that the dates selected are always in a valid format
 		if (((int) to.getSelectedItem() > (int) from.getSelectedItem() + 2000)) {
 			to.setSelectedItem((int) from.getSelectedItem() + 2000);
 		}
@@ -50,6 +51,7 @@ public class GUIMainController implements ActionListener {
 		// TODO Auto-generated method stub
 		
 		if (checkValidRange()) {
+			// cals the api class to get data etc.
 			gui.setSelectedDates("Processing range selected: " + from.getSelectedItem().toString() + "-" + to.getSelectedItem().toString());
 			gui.setSelectedDatesVisibility(true);
 			apiData.setCustomDataFromRange(String.valueOf(from.getSelectedItem()), String.valueOf(to.getSelectedItem()));

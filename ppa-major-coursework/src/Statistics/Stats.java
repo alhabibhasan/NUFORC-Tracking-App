@@ -68,6 +68,8 @@ public class Stats {
 	}
 
 	private void showPreferedPanels() {
+		// show the prefered panel for each panel
+		
 		if (panelPref.get(PANEL1_PREF, "emptyPan1").equals("panel1")) {
 			card1.show(stat1Center, "stat1Pan1");
 		} else if (panelPref.get(PANEL1_PREF, "emptyPan1").equals("panel2")) {
@@ -156,7 +158,7 @@ public class Stats {
 	}
 
 	private void setUpButton() {
-		// buttons for panel 1
+		// if any button is pressed, the preference of the panel is set
 		stat1Left = new JButton("<");
 		stat1Right = new JButton(">");
 
@@ -220,9 +222,10 @@ public class Stats {
 
 	}
 
-	
+	/**
+	 * Update method for the statistics. Updates the statistics by calling the controller
+	 */
 	public void updateStats() {
-			System.out.println("Called stats update 30/03/2017");
 			stat1Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Likeliest State:"
 					+ "<br><br><br><br><br>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 					+ controller.getLikeliestState() + "</span></html>"));

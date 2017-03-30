@@ -5,7 +5,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Aliens.Aliens;
-
+/**
+ * Controller which makes the changes to the animation models.
+ * @author Jaman Salique
+ *
+ */
 public class sliderListener implements ChangeListener {
 
 	

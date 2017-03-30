@@ -24,7 +24,7 @@ public class HabibStat {
 
 			for (CustomIncident incid : incidentsToAnalyse) {
 				if (incid.getDateAndTime().contains(String.valueOf(count))) {
-					yearFrequency++;
+					yearFrequency++; // adding onto the frequency for the current year
 				}
 			}
 

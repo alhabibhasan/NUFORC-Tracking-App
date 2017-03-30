@@ -5,7 +5,11 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import GUI.GUI;
-
+/**
+ * Opens us the suprise 'panel'
+ * @author Alfal Asker, Jaman Salique
+ *
+ */
 public class Panel4WindowListener extends WindowAdapter implements WindowListener {
 
 	private GUI gui;
@@ -18,7 +22,6 @@ public class Panel4WindowListener extends WindowAdapter implements WindowListene
 	@Override
 	public void windowClosing(WindowEvent e) {
 		gui.setVisibility(true);
-		System.out.println("aflallallalalalala");
 
 	}
 

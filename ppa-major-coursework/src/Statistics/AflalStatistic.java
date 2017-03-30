@@ -11,8 +11,7 @@ import Processing.API;
 import Processing.CustomIncident;
 import api.ripley.Ripley;
 
-/**
- * This class is used to plot the most sighted times in the graph
+/** This class is used to plot the most sighted times in the graph
  * @author Aflal Asker
  *
  */

@@ -40,11 +40,9 @@ import controllers.RightButtonListener;
  */
 public class GUI implements Observer {
 	private JFrame frame; // the main frame
-	private JPanel north, contentPanel, initCenter, south, mapCenter,
-			statsCenter;
+	private JPanel north, contentPanel, initCenter, south, mapCenter, statsCenter;
 	private JComboBox<Integer> dateFrom, dateTo;
-	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData,
-			timeTaken, selectedDates;
+	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData, timeTaken, selectedDates;
 	private JButton buttonLeft, buttonRight;
 
 	private Font font = new Font(null, 0, 15);
@@ -76,17 +74,15 @@ public class GUI implements Observer {
 		timeTaken = new JLabel();
 		gettingData = new JLabel("Grabbing data...");
 		selectedDates = new JLabel();
-		
+
 		try {
 			panel4gui = new Panel4GUI();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		panel4gui.addWindowListener(new Panel4WindowListener(this));
 
-		
+		panel4gui.addWindowListener(new Panel4WindowListener(this));
 
 		buttonLeft = new JButton("<");
 		buttonRight = new JButton(">");
@@ -94,13 +90,13 @@ public class GUI implements Observer {
 		buttonLeft.addActionListener(new LeftButtonListener(this));
 
 		buttonRight.addActionListener(new RightButtonListener(this));
-		
-		
 
-		
-		controller = new GUIMainController(dateFrom,dateTo, this);
-		
-		addComboBoxElements();
+		controller = new GUIMainController(dateFrom, dateTo, this);
+
+		addComboBoxElements(); // add the elements before adding the action
+								// listeners
+								// this prevents firing actions before we want
+								// to
 		dateFrom.addActionListener(controller);
 		dateTo.addActionListener(controller);
 		completeDataLoad();
@@ -110,7 +106,7 @@ public class GUI implements Observer {
 	 * Clears the map panel so we can remove any out-dated maps
 	 */
 	public void clearMapCenter() {
-		mapCenter.removeAll();
+		mapCenter.removeAll(); // clear the map panel so we can add new layers
 	}
 
 	/**
@@ -132,7 +128,7 @@ public class GUI implements Observer {
 	 *            The screen being viewed
 	 */
 	public void setCurrentScreen(String currentScreen) {
-		if (currentScreen.length() > 0) {
+		if (currentScreen.length() > 0) { //ensure no empty string is passed
 			this.currentScreen = currentScreen;
 		}
 	}
@@ -143,13 +139,6 @@ public class GUI implements Observer {
 	 */
 	public String getCurrentScreen() {
 		return this.currentScreen;
-	}
-
-	private void createStatCenter() {
-		Stats stats = new Stats();
-		statsCenter = stats.getPanel();
-		contentPanel.add(statsCenter, "statsScreen");
-
 	}
 
 	/**
@@ -164,17 +153,14 @@ public class GUI implements Observer {
 			statsCenter = stats.getPanel();
 			contentPanel.add(statsCenter, "statsScreen");
 			System.out.println("Called update in GUI class");
-			this.setTimeTaken("Processing grabbed from store in: "
-					+ ((API) o).getFetchTime());
+			this.setTimeTaken("Processing grabbed from store in: " + ((API) o).getFetchTime());
 			this.rightButtonEnabled(true);
 		}
 	}
 
 	private void completeDataLoad() {
 
-		
-		this.setWelcomeText("<html>Welcome to the Ripley API v"
-				+ controller.getVersion()
+		this.setWelcomeText("<html>Welcome to the Ripley API v" + controller.getVersion()
 				+ " Please select from the dates above, in order to begin analysing UFO sighting data. </html>");
 
 		this.acknowledgement.setText(controller.getAcknowledgementString());
@@ -256,7 +242,7 @@ public class GUI implements Observer {
 		map.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println(e.getX() + ", " + e.getY());
+				System.out.println(e.getX() + ", " + e.getY()); //gets the location of the click 
 			}
 		});
 
@@ -468,13 +454,13 @@ public class GUI implements Observer {
 	public void setSelectedDatesVisibility(boolean b) {
 		selectedDates.setVisible(b);
 	}
-	
-	public void setVisibility(boolean b){
+
+	public void setVisibility(boolean b) {
 		frame.setVisible(b);
 	}
-	
-	public void createPanel4(){
+
+	public void createPanel4() {
 		panel4gui.CreateGUI();
 	}
-	
+
 }

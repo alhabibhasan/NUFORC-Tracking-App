@@ -22,10 +22,10 @@ public class RightButtonListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		// controls the transition from one panel to another
 		if(gui.getCurrentScreen().equals("statsScreen")){
 			gui.createPanel4();
 			gui.setVisibility(false);
-			System.out.println("TESSSSTTTTTTTTTTTTTT");
 		}
 		if (gui.getCurrentScreen().equals("mapScreen")) {
 			gui.setCardLayout("statsScreen");

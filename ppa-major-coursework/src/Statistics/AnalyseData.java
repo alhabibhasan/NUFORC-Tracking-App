@@ -82,14 +82,24 @@ public class AnalyseData {
 		this.likeliestState = highestState;
 	}
 
+	/**
+	 * @return The likeliest state to be affected
+	 */
 	public String getLikeliestState() {
 		return this.likeliestState;
 	}
-
+	/**
+	 * 
+	 * @return The number of possible hoaxes
+	 */
 	public int getNoOfHoaxes() {
 		return noOfHoaxes;
 	}
 
+	/**
+	 * The number of non us sightings
+	 * @return
+	 */
 	public int getNoOfNonUS() {
 		return noOfNonUS;
 	}

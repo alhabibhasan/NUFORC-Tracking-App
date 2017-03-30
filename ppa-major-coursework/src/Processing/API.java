@@ -23,6 +23,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
  *
  */
 public class API extends Observable implements Runnable {
+	// the api keys below must not be changed.
 	private static Ripley api = new Ripley("10tLI3CRs9qyVD6ql2OMtA==", "tBgm4pRv9wrVqL46EnH7ew==");
 	private static ArrayList<CustomIncident> currentIncidents;
 	private ArrayList<CustomIncident> incidentsFromFile;
@@ -63,7 +64,8 @@ public class API extends Observable implements Runnable {
 		for (CustomIncident incid : incidentsFromFile) {
 			try {
 				int year = Integer.parseInt((incid.getDateAndTime().substring(0, 4)));
-				if (year >= Integer.parseInt(dataStart) && year <= Integer.parseInt(dataEnd)) {
+				if (year >= Integer.parseInt(dataStart) && year <= Integer.parseInt(dataEnd)) { 
+					// check the date of each incident
 					incidentsInRange.add(incid);
 				}
 			} catch (NullPointerException e) {
@@ -75,7 +77,7 @@ public class API extends Observable implements Runnable {
 		System.out.println(incidentsInRange.size());
 		currentIncidents = incidentsInRange;
 
-		calculateStateFrequency();
+		calculateStateFrequency(); // caluclate the frequency of incidents in each state
 
 		long time2 = System.currentTimeMillis();
 		totalTime = time2 - time1;
@@ -104,7 +106,7 @@ public class API extends Observable implements Runnable {
 		x = x / 60;
 		minutes = String.valueOf(x % 60);
 
-		return minutes + " minute(s), " + seconds + " seconds.";
+		return minutes + " minute(s), " + seconds + " seconds."; // return the time taken in the desired format
 	}
 
 	/**
@@ -116,7 +118,9 @@ public class API extends Observable implements Runnable {
 	 */
 	public void setCustomDataFromRange(String dateFrom, String dateTo) {
 		API.dataStart = dateFrom;
-		API.dataEnd = dateTo;
+		API.dataEnd = dateTo; 
+		// if the user specifies a custom range, we will use it, otherwise we will get the earliest and latest dates
+		// from the api and use them
 	}
 
 	/**
@@ -217,6 +221,7 @@ public class API extends Observable implements Runnable {
 
 		for (CustomIncident incid : currentIncidents) {
 			if (incid.getState().equals(state)) {
+				// add to the list only if it took place in the state we are looking at
 				sortedList.add(incid);
 			}
 		}

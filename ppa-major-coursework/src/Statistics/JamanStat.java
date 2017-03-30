@@ -38,7 +38,9 @@ public class JamanStat {
 			pieDataset.setValue(shape, finalShapes.get(shape));
 		}
 	}
-	
+	/**
+	 * @return The dataset containing the data to plot
+	 */
 	public DefaultPieDataset getDataSet() {
 		return pieDataset;
 	}

@@ -55,7 +55,6 @@ public class Caching {
 		System.out.println("API last updated: " + apiLastUpdate);
 
 		if (!props.getProperty("api.lastUpdate").equals("null")) {
-			System.out.println("File not null");
 			String localDataLastUpdate = props.getProperty("api.lastUpdate");
 
 			String localDate = parse.parse(localDataLastUpdate).get(0).getDates().toString();
@@ -87,11 +86,11 @@ public class Caching {
 		};
 		try {
 			Map<String, CustomIncident> incidentMap = incidentMapper.readValue(new File("res//incidents.json"),
-					typeRef);
+					typeRef); // read the incidents from the file into a map
 
 			incidentsFromFile = new ArrayList<>();
 			for (Map.Entry<String, CustomIncident> entry : incidentMap.entrySet()) {
-				incidentsFromFile.add(entry.getValue());
+				incidentsFromFile.add(entry.getValue()); // copy the data into an array list
 			}
 			long time2 = System.currentTimeMillis();
 			System.out.println("Time taken: " + ((time2 - time1) / 1000) + " seconds");
@@ -113,7 +112,6 @@ public class Caching {
 
 		incidentsFromAPI = this.getAPIData(String.valueOf(api.getStartYear()), String.valueOf(api.getLatestYear()));
 
-		System.out.println("Sorting...");
 		ObjectMapper mapper = new ObjectMapper();
 
 		Map<String, CustomIncident> incidentMap = new HashMap<>();
@@ -123,10 +121,11 @@ public class Caching {
 
 		for (Incident incident : incidentsFromAPI) {
 			incidentMap.put("inident" + incidentsFromAPI.indexOf(incident), new CustomIncident(incident));
+			// placing each incident into a map which will be written to a json file
 		}
 
 		try {
-			mapper.writeValue(new File("res//incidents.json"), incidentMap);
+			mapper.writeValue(new File("res//incidents.json"), incidentMap); //writting the data to file
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -161,10 +160,10 @@ public class Caching {
 	 */
 	private ArrayList<Incident> getAPIData(String startYear, String endYear) {
 		if (endYear.equals(api.getLatestYear())) {
-
+			// this ensures that we cannot query the API with a date in the future e.g. december 2017
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
-			System.out.println(dtf.format(now)); // 2016-11-16 12:08:43
+			System.out.println(dtf.format(now)); 
 
 			return api.getIncidentsInRange(startYear + "-01-01 00:00:00", dtf.format(now).toString());
 		}
