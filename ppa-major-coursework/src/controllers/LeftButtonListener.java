@@ -34,7 +34,7 @@ public class LeftButtonListener implements ActionListener {
 			gui.setSelectedDatesVisibility(false);
 			gui.setGettingData(false);
 			gui.setComboBoxes(true);
-			gui.setTimeTakenVisibility(true);
+			gui.setTimeTakenVisibility(false);
 			gui.setTimeTaken("");
 			gui.setFrameResizeable(true);
 		}
