@@ -2,21 +2,23 @@ package Statistics;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.prefs.Preferences;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controllers.StatsController;
+
 /**
  * This class creates the structure of the statistics panel. It doesnt generate the statistics.
  * @author Aflal Asker, Muhammed Hasan
  *
  */
-public class Stats {
+public class Stats implements Observer{
 	private JPanel stats;
 	private CardLayout card1, card2, card3, card4;
 	private JPanel stat1, stat2, stat3, stat4;
@@ -28,6 +30,7 @@ public class Stats {
 	private final String PANEL2_PREF = "panel2_pref";
 	private final String PANEL3_PREF = "panel3_pref";
 	private final String PANEL4_PREF = "panel4_pref";
+	private StatsController controller;
 	public Stats() {
 		stats = new JPanel(new GridLayout(2, 2)); // give the frame a 2x2 layout
 
@@ -133,7 +136,7 @@ public class Stats {
 				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 				+ String.valueOf(data.nonUSSightings())+ "</span></html>"));
 
-		stat3Cont2.add(new BahaStatistics(), BorderLayout.CENTER);
+		stat3Cont2.add(new BahaStatistic(), BorderLayout.CENTER);
 		
 		stat3Center.add(stat3Cont1, "stat3Pan1");
 		stat3Center.add(stat3Cont2, "stat3Pan2");
@@ -232,5 +235,11 @@ public class Stats {
 			panelPref.put(PANEL4_PREF, "panel2");
 		});
 
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 }
