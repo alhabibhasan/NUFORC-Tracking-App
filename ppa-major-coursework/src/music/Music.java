@@ -6,9 +6,13 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class Music {
-
+	
 	private Clip clip;
 	
+	/**
+	 * This method takes a wav sound file and plays the sound from the file when 
+	 * the method is called.
+	 */
 	public void play() {
 		
 		File sound = new File("res/music.wav");
@@ -28,6 +32,10 @@ public class Music {
 		
 	}
 	
+	/**
+	 * This method takes a wav sound file and plays the sound from the file when 
+	 * the method is called.
+	 */
 public void playPop() {
 		
 		File sound = new File("res/pop.wav");
@@ -47,7 +55,9 @@ public void playPop() {
 		
 	}
 
-
+	/**
+	 * when this method is called it stops the sound track
+	 */
 	public void stopSoundTrack()
 	{
 		clip.close();
