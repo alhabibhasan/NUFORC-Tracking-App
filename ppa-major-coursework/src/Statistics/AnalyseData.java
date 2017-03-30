@@ -17,6 +17,9 @@ public class AnalyseData {
 	private int noOfNonUS;
 	private String likeliestState;
 	
+	/**
+	 * initialises the listOfIncidents, locations and stateFrequency
+	 */
 	public AnalyseData () {
 		
 		listOfIncidents = new ArrayList<CustomIncident>();
@@ -30,7 +33,10 @@ public class AnalyseData {
 		stateFrequency = Process.getStateFrequency();
 		
 	}
-
+	
+	/**
+	 * counts the number of hoaxes in the listOfIncedents 
+	 */
 	public void CalculateNumberOfHoaxes(){
 		String Hoax = "HOAX";
 		int noOfHoaxes = 0;
@@ -45,6 +51,9 @@ public class AnalyseData {
 		
 	}
 	
+	/**
+	 * counts the number of incidents that are non US 
+	 */
 	public void CalculateNonUSSightings(){
 		int nonUSCity = 0;
 		for(CustomIncident incidents :listOfIncidents){
@@ -56,6 +65,9 @@ public class AnalyseData {
 		this.noOfNonUS =  nonUSCity;	
 	}
 	
+	/**
+	 * it will choose the state with the highest frequency
+	 */
 	public void CalculateLikeliestState(){
 		
 		String highestState = "";

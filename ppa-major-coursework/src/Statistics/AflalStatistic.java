@@ -12,7 +12,7 @@ import Data.Process;
 import api.ripley.Ripley;
 
 /**
- * This class is used to graph the Alien most sighted times.
+ * This class is used to plot the most sighted times in the graph
  * @author Aflal Asker
  *
  */
@@ -23,6 +23,9 @@ public class AflalStatistic{
 	private HashMap<String, Integer> timeFrequency;
 	private DefaultCategoryDataset dataset;
 
+	/**
+	 * instantiates the fields and gets data
+	 */
 	public AflalStatistic() {
 
 		timeFrequency = new HashMap<String, Integer>();
@@ -116,7 +119,6 @@ public class AflalStatistic{
 	
 	/**
 	 * Gets the keys from the HashMap and adds it to the data set. 
-	 * @return The data set vales that has to be plotted in the graph. 
 	 */
 	public void createDataSet() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -129,6 +131,9 @@ public class AflalStatistic{
 		this.dataset = dataset;
 	}
 	
+	/**
+	 * @return The data set vales that has to be plotted in the graph.
+	 */
 	public DefaultCategoryDataset getDataSet() {
 		return dataset;
 	}
