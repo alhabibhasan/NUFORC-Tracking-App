@@ -163,7 +163,7 @@ public class GUI implements Observer {
 			statsCenter = stats.getPanel();
 			contentPanel.add(statsCenter, "statsScreen");
 			System.out.println("Called update in GUI class");
-			this.setTimeTaken("Data grabbed in: "
+			this.setTimeTaken("Data grabbed from store in: "
 					+ ((Process) o).getFetchTime());
 			this.rightButtonEnabled(true);
 		}
