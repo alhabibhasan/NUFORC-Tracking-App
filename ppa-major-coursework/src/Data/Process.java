@@ -179,16 +179,11 @@ public class Process extends Observable implements Runnable {
 	 */
 	private void pullLatestDataFromAPI() {
 		System.out.println("need to get data from API current data out of date");
-		long time1 = System.currentTimeMillis();
+		
 
 		incidentsFromAPI = this.getAPIData(String.valueOf(api.getStartYear()), String.valueOf(api.getLatestYear()));
-		long time1sort = System.currentTimeMillis();
+
 		System.out.println("Sorting...");
-
-		long time1sortend = System.currentTimeMillis();
-		System.out.println("Sorting finished " + ((time1sortend - time1sort) / 1000) + " seconds needed.");
-
-		System.out.println("Size of records: " + incidentsFromAPI.size());
 		ObjectMapper mapper = new ObjectMapper();
 
 		Map<String, CustomIncident> incidentMap = new HashMap<>();
@@ -216,9 +211,6 @@ public class Process extends Observable implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		long time2 = System.currentTimeMillis();
-		long totalTime = (((time2 - time1)));
-		System.out.println("Data fetch and save completed in " + (totalTime / 1000) + " seconds.");
 		try {
 			System.out.println("Pulling local data");
 			pullLocalData();
@@ -255,10 +247,6 @@ public class Process extends Observable implements Runnable {
 			if (!localDate.equals(apiLastUpdate)) {
 				pullLatestDataFromAPI(); // pull and save to local storage
 			} else {
-				System.out.println("Local data is up to date");
-				System.out.println("Pulling local data.");
-				System.out.println("API last update: " + apiLastUpdate);
-				System.out.println("Local data last update: " + localDate);
 				pullLocalData();
 			}
 		} else {

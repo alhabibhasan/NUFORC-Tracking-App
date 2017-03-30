@@ -56,7 +56,6 @@ public class MapDrawer extends JPanel {
 
     averageFrequency = averageFrequency / locationsToPlot.size();
 
-    System.out.println("Average frequency is: " + Math.ceil(averageFrequency));
 
     int currentFrequency;
     int scaleFactor;

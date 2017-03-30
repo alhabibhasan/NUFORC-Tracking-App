@@ -14,11 +14,13 @@ import javax.swing.JPanel;
 import controllers.StatsController;
 
 /**
- * This class creates the structure of the statistics panel. It doesnt generate the statistics.
+ * This class creates the structure of the statistics panel. It doesnt generate
+ * the statistics.
+ * 
  * @author Aflal Asker, Muhammed Hasan
  *
  */
-public class Stats implements Observer{
+public class Stats {
 	private JPanel stats;
 	private CardLayout card1, card2, card3, card4;
 	private JPanel stat1, stat2, stat3, stat4;
@@ -31,7 +33,9 @@ public class Stats implements Observer{
 	private final String PANEL3_PREF = "panel3_pref";
 	private final String PANEL4_PREF = "panel4_pref";
 	private StatsController controller;
+
 	public Stats() {
+
 		stats = new JPanel(new GridLayout(2, 2)); // give the frame a 2x2 layout
 
 		card1 = new CardLayout();
@@ -56,8 +60,11 @@ public class Stats implements Observer{
 		setUpContentPanels();
 
 		showPreferedPanels();
+
+		controller = new StatsController();
 		
-		
+		updateStats();
+
 	}
 
 	private void showPreferedPanels() {
@@ -68,7 +75,7 @@ public class Stats implements Observer{
 		} else {
 			card1.show(stat1Center, "stat1Pan1");
 		}
-		
+
 		if (panelPref.get(PANEL2_PREF, "emptyPan1").equals("panel1")) {
 			card2.show(stat2Center, "stat2Pan1");
 		} else if (panelPref.get(PANEL2_PREF, "emptyPan1").equals("panel2")) {
@@ -76,7 +83,7 @@ public class Stats implements Observer{
 		} else {
 			card2.show(stat2Center, "stat2Pan1");
 		}
-		
+
 		if (panelPref.get(PANEL3_PREF, "emptyPan1").equals("panel1")) {
 			card3.show(stat3Center, "stat3Pan1");
 		} else if (panelPref.get(PANEL3_PREF, "emptyPan1").equals("panel2")) {
@@ -104,27 +111,15 @@ public class Stats implements Observer{
 	}
 
 	private void setUpContentPanels() {
-		AnalyseData data = new AnalyseData();
-		
+
 		stat1Cont1 = new JPanel();
-		stat1Cont2 = new JPanel(new BorderLayout()); // Might cause merge
-														// conflict
-
-		stat1Cont1.add(new JLabel("<html><span style='font-size:20px'>"
-						+"Likeliest State:" + "<br><br><br><br><br>"
-						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+data.likeliestState()+ "</span></html>"));
-		stat1Cont2.add(new JLabel("Panel 2"));
-
+		stat1Cont2 = new JPanel(new BorderLayout());
 
 		stat1Center.add(stat1Cont1, "stat1Pan1");
 		stat1Center.add(stat1Cont2, "stat1Pan2");
-		
+
 		stat2Cont1 = new JPanel();
 		stat2Cont2 = new JPanel();
-		
-		stat2Cont1.add(new JLabel("<html><span style='font-size:20px'>" 
-				+ "Number of Hoax:" +"<br><br><br><br><br>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+ String.valueOf(data.numberOfHoax()) + "</span></html>"));
 
 		stat2Center.add(stat2Cont1, "stat2Pan1");
 		stat2Center.add(stat2Cont2, "stat2Pan2");
@@ -132,24 +127,14 @@ public class Stats implements Observer{
 		stat3Cont1 = new JPanel();
 		stat3Cont2 = new JPanel();
 
-		stat3Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Number of non US sightings" +"<br><br><br><br><br>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ String.valueOf(data.nonUSSightings())+ "</span></html>"));
-
-		stat3Cont2.add(new BahaStatistic(), BorderLayout.CENTER);
-		
 		stat3Center.add(stat3Cont1, "stat3Pan1");
 		stat3Center.add(stat3Cont2, "stat3Pan2");
 
 		stat4Cont1 = new JPanel();
 		stat4Cont2 = new JPanel();
-		
-		Search video = new Search();
-		VideoContainer vidCon = new VideoContainer(video.searchYouTube().iterator());
-		
+
 		stat4Cont1.setLayout((new BorderLayout()));
-		stat4Cont1.add(vidCon.getScroll());
-		
+
 		stat4Center.add(stat4Cont1, "stat4Pan1");
 		stat4Center.add(stat4Cont2, "stat4Pan2");
 	}
@@ -237,9 +222,29 @@ public class Stats implements Observer{
 
 	}
 
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
+	
+	public void updateStats() {
+			System.out.println("Called stats update 30/03/2017");
+			stat1Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Likeliest State:"
+					+ "<br><br><br><br><br>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+					+ controller.getLikeliestState() + "</span></html>"));
+
+			stat1Cont2.add(new JLabel("Panel 2"));
+
+			stat2Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Number of Hoax:" + "<br><br><br><br><br>"
+					+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+					+ String.valueOf(controller.getNoOfHoaxes()) + "</span></html>"));
+
+			stat3Cont1.add(new JLabel(
+					"<html><span style='font-size:20px'>" + "Number of non US sightings" + "<br><br><br><br><br>"
+							+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+							+ String.valueOf(controller.getNoOfNonUS()) + "</span></html>"));
+
+			stat3Cont2.add(controller.getBahaStat(), BorderLayout.CENTER);
+
+			stat4Cont1.add(controller.getYouTubeVids());
 		
+
 	}
+
 }

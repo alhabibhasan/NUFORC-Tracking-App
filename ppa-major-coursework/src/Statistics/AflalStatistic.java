@@ -16,7 +16,7 @@ import api.ripley.Ripley;
  * @author Aflal Asker
  *
  */
-public class AflalStatistic extends Observable{
+public class AflalStatistic{
 
 	private static ArrayList<CustomIncident> data;
 	private static Ripley api;
@@ -32,10 +32,8 @@ public class AflalStatistic extends Observable{
 		dataset = new DefaultCategoryDataset();
 
 		statsLoop();
-		createDataSet();
 		
-		setChanged();
-		notifyObservers();
+		
 
 	}
 
@@ -43,7 +41,7 @@ public class AflalStatistic extends Observable{
 	 * This method goes through all the incidents, gets the times and compares it with the provided time.
 	 * Every iteration increases the appropriate integer values. Then the values gets added to the HashMap. 
 	 */
-	public void statsLoop() {
+	private void statsLoop() {
 
 		String to24_03s = "0";
 		String to03_06s = "1";
@@ -115,24 +113,12 @@ public class AflalStatistic extends Observable{
 		timeFrequency.put(to21_23s, to21_23i);
 
 	}
-//	/**
-//	 * This method creates the chart to plot the values from the HashMap.  
-//	 * @return A chart with all the sighting times. Uses the classified data from the HashMap to create a plotted graph. 
-//	 */
-//	public Component draw() {
-//		JFreeChart lineChart = ChartFactory.createLineChart("Time of Sightings ", "(3x hours)", "Sightings",
-//				createDataSet(), PlotOrientation.VERTICAL, true, true, false);
-//		ChartPanel chartPanel = new ChartPanel(lineChart);
-//		chartPanel.setPreferredSize(new Dimension(560, 367));
-//		return chartPanel;
-//
-//	}
 	
 	/**
 	 * Gets the keys from the HashMap and adds it to the data set. 
 	 * @return The data set vales that has to be plotted in the graph. 
 	 */
-	private void createDataSet() {
+	public void createDataSet() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
 		for (String timeRange : timeFrequency.keySet()) {
@@ -141,7 +127,6 @@ public class AflalStatistic extends Observable{
 
 		}
 
-		
 	}
 	
 	public DefaultCategoryDataset getDataSet() {

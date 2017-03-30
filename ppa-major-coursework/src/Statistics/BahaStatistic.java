@@ -10,7 +10,7 @@ import Data.CustomIncident;
 import Data.Process;
 import Map.LocationsReader;
 
-public class BahaStatistic extends Observable{
+public class BahaStatistic {
 
 	private ArrayList<CustomIncident> listOfIncidents;
 	private HashMap<String, Integer[]> locations;
@@ -24,16 +24,11 @@ public class BahaStatistic extends Observable{
 		LocationsReader fileReader = new LocationsReader();
 		locations = fileReader.getLocations();
 		stateFrequency = Process.getStateFrequency();
-		createDataSet();
-		setChanged();
-		notifyObservers();
+		
+		
 	}
-	
-//	public Component draw() {
 
-//	}
-
-	private void createDataSet() {
+	public void createDataSet() {
 		
 		for(String key: stateFrequency.keySet()){
 			 for (String point : locations.keySet()) {
@@ -51,6 +46,7 @@ public class BahaStatistic extends Observable{
 				}
 			 }
 		}
+		
 	}
 	
 	public DefaultPieDataset getDataSet() {

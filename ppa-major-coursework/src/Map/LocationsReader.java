@@ -32,7 +32,6 @@ public class LocationsReader {
 	private void openFile() {
 		try {
 			reader = new Scanner(new File("res//locations.txt"));
-			System.out.println("File read successfully.");
 		} catch (IOException ioe) {
 			System.out.println("Could not open file, error: " + ioe.getMessage() );
 		}
@@ -53,13 +52,10 @@ public class LocationsReader {
 			abrevToName.put(stateAbrev, stateName);
 			locations.put(stateAbrev, coords);
 		}
-		
-		System.out.println("State coordinates loaded into the system as expected.");
 	}
 	
 	private void closeFile() {
 		reader.close();
-		System.out.println("File closed.");
 	}
 	/**
 	 * Returns a hashmap containing the abbreviation of US states each of which maps to the fullname 

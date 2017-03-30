@@ -1,15 +1,10 @@
 package Statistics;
 
-import java.awt.GridLayout;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
-
-import javax.swing.JFrame;
 
 /*
  * Copyright (c) 2012 Google Inc.

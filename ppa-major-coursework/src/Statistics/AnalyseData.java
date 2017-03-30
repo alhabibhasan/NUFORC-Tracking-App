@@ -2,17 +2,22 @@ package Statistics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
 
+import Data.CustomIncident;
 import Data.Process;
 import Map.LocationsReader;
-import Data.CustomIncident;
 
 public class AnalyseData {
 	private ArrayList<CustomIncident> listOfIncidents;
 	private HashMap<String, Integer[]> locations;
 	private HashMap<String, Integer> stateFrequency;
 	
-	public AnalyseData() {
+	private int noOfHoaxes;
+	private int noOfNonUS;
+	private String likeliestState;
+	
+	public AnalyseData () {
 		
 		listOfIncidents = new ArrayList<CustomIncident>();
 		
@@ -24,12 +29,9 @@ public class AnalyseData {
 
 		stateFrequency = Process.getStateFrequency();
 		
-		System.out.println("Hoaxes: " + numberOfHoax());
-		System.out.println("Non US: " + nonUSSightings());
-		System.out.println("likeliest: " + likeliestState());
 	}
 
-	public int numberOfHoax(){
+	public void CalculateNumberOfHoaxes(){
 		String Hoax = "HOAX";
 		int noOfHoaxes = 0;
 		for (CustomIncident incidents : listOfIncidents) {
@@ -38,10 +40,12 @@ public class AnalyseData {
 			}
 			
 		}
-		return noOfHoaxes;
+		
+		this.noOfHoaxes =  noOfHoaxes;
+		
 	}
 	
-	public int nonUSSightings(){
+	public void CalculateNonUSSightings(){
 		int nonUSCity = 0;
 		for(CustomIncident incidents :listOfIncidents){
 			if(!locations.keySet().contains(incidents.getState()) && !incidents.getState().equals("AK") && !incidents.getState().equals("HI")){
@@ -49,10 +53,10 @@ public class AnalyseData {
 				nonUSCity++;
 			}	
 		}
-		return nonUSCity;	
+		this.noOfNonUS =  nonUSCity;	
 	}
 	
-	public String likeliestState(){
+	public void CalculateLikeliestState(){
 		
 		String highestState = "";
 		int currentHighest = 0;
@@ -63,6 +67,20 @@ public class AnalyseData {
 				highestState = key;
 			}
 		}
-		return highestState;
+		this.likeliestState = highestState;
 	}
+
+	public String getLikeliestState() {
+		return this.likeliestState;
+	}
+
+	public int getNoOfHoaxes() {
+		return noOfHoaxes;
+	}
+
+	public int getNoOfNonUS() {
+		return noOfNonUS;
+	}
+	
+	
 }
