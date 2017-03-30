@@ -10,6 +10,11 @@ import Data.CustomIncident;
 import Data.Process;
 import Map.LocationsReader;
 
+/**
+ * the class is used to create a pie chart for the frequency of US states
+ * @author baha
+ *
+ */
 public class BahaStatistic {
 
 	private ArrayList<CustomIncident> listOfIncidents;
@@ -17,6 +22,9 @@ public class BahaStatistic {
 	private HashMap<String, Integer> stateFrequency;
 	private DefaultPieDataset dataset; 
 	
+	/**
+	 * instantiates the fields and gets data
+	 */
 	public BahaStatistic() {
 		dataset = new DefaultPieDataset();
 		listOfIncidents = new ArrayList<CustomIncident>();
@@ -24,10 +32,11 @@ public class BahaStatistic {
 		LocationsReader fileReader = new LocationsReader();
 		locations = fileReader.getLocations();
 		stateFrequency = Process.getStateFrequency();
-		
-		
 	}
 
+	/**
+	 * Gets the keys from the HashMap and adds it to the data set. 
+	 */
 	public void createDataSet() {
 		
 		for(String key: stateFrequency.keySet()){
@@ -46,9 +55,11 @@ public class BahaStatistic {
 				}
 			 }
 		}
-		
 	}
 	
+	/**
+	 * @return The data set vales that has to be plotted in the graph.
+	 */
 	public DefaultPieDataset getDataSet() {
 		return dataset;
 	}
