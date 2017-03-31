@@ -74,7 +74,8 @@ public class GUI implements Observer {
 		timeTaken = new JLabel();
 		gettingData = new JLabel("Grabbing data...");
 		selectedDates = new JLabel();
-		interactData = new JLabel("<html><b>Please now interact with this data using the buttons to the left and the right.</b></html>");
+		interactData = new JLabel(
+				"<html><b>Please now interact with this data using the buttons to the left and the right.</b></html>");
 
 		try {
 			panel4gui = new Panel4GUI();
@@ -129,7 +130,7 @@ public class GUI implements Observer {
 	 *            The screen being viewed
 	 */
 	public void setCurrentScreen(String currentScreen) {
-		if (currentScreen.length() > 0) { //ensure no empty string is passed
+		if (currentScreen.length() > 0) { // ensure no empty string is passed
 			this.currentScreen = currentScreen;
 		}
 	}
@@ -154,9 +155,20 @@ public class GUI implements Observer {
 			statsCenter = stats.getPanel();
 			contentPanel.add(statsCenter, "statsScreen");
 			System.out.println("Called update in GUI class");
-			this.setTimeTaken("Processing grabbed from store in: " + ((API) o).getFetchTime());
+			
 			this.rightButtonEnabled(true);
 			setInteractDataVisibilty(true);
+			
+			long timeClick = controller.getClickTime();
+			long timeReceieved = System.currentTimeMillis();
+			
+			long totalTime = (timeReceieved - timeClick);
+			
+			this.setTimeTaken("Processing grabbed from store in: " + controller.convertMilisToMinutes(totalTime));
+			
+			
+			
+			
 		}
 	}
 
@@ -248,7 +260,9 @@ public class GUI implements Observer {
 		map.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println(e.getX() + ", " + e.getY()); //gets the location of the click 
+				System.out.println(e.getX() + ", " + e.getY()); // gets the
+																// location of
+																// the click
 			}
 		});
 
@@ -460,7 +474,7 @@ public class GUI implements Observer {
 	public void setSelectedDatesVisibility(boolean b) {
 		selectedDates.setVisible(b);
 	}
-	
+
 	public void setInteractDataVisibilty(boolean b) {
 		interactData.setVisible(b);
 	}

@@ -100,8 +100,8 @@ public class Search {
 			 String apiKey = properties.getProperty("youtube.apikey");
 			search.setKey(apiKey);
 			search.setQ("ufo");
+			
 			search.setMaxResults((long)50);
-			// search.setLocation("51.5076, 0.1278");
 			// search.setLocationRadius("5km");
 
 			// Restrict the search results to only include videos.

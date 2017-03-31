@@ -17,6 +17,11 @@ public class GUIMainController implements ActionListener {
 	private GUI gui;
 	private JComboBox<Integer> from, to;
 	private API apiData;
+	private long click;
+	
+	public long getClickTime() {
+		return this.click;
+	}
 	/**
 	 * Initialises the fields within the class
 	 * @param from
@@ -40,7 +45,6 @@ public class GUIMainController implements ActionListener {
 			to.setSelectedItem((int) from.getSelectedItem());
 		}
 		gui.setGettingData(true);
-		
 		return true;
 	}
 
@@ -49,18 +53,16 @@ public class GUIMainController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
+		click = System.currentTimeMillis();
 		// TODO Auto-generated method stub
 		
 		if (checkValidRange()) {
 			// cals the api class to get data etc.
-			gui.setInteractDataVisibilty(false);
-			gui.rightButtonEnabled(false);
 			gui.setSelectedDates("Processing range selected: " + from.getSelectedItem().toString() + "-" + to.getSelectedItem().toString());
 			gui.setSelectedDatesVisibility(true);
 			apiData.setCustomDataFromRange(String.valueOf(from.getSelectedItem()), String.valueOf(to.getSelectedItem()));
 			Thread pullData = new Thread(apiData);
 			pullData.start();
-			
 		}
 		
 		
@@ -89,8 +91,17 @@ public class GUIMainController implements ActionListener {
 		return apiData.getLatestYear();
 	}
 	
-	
-	
+	public String convertMilisToMinutes(long time) {
+		String seconds, minutes;
+		long x;
+		x = time / 1000;
+		seconds = String.valueOf(x % 60);
+
+		x = x / 60;
+		minutes = String.valueOf(x % 60);
+
+		return minutes + " minute(s), " + seconds + " seconds."; // return the time taken in the desired format
+	}
 
 	
 	
