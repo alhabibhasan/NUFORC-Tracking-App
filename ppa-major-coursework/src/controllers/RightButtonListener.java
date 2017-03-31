@@ -47,6 +47,7 @@ public class RightButtonListener implements ActionListener {
 				gui.setGettingData(false);
 				gui.setTimeTakenVisibility(false);
 				gui.setSelectedDatesVisibility(false);
+				gui.setInteractDataVisibilty(false);
 		}
 		
 		

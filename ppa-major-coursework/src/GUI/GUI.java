@@ -42,7 +42,7 @@ public class GUI implements Observer {
 	private JFrame frame; // the main frame
 	private JPanel north, contentPanel, initCenter, south, mapCenter, statsCenter;
 	private JComboBox<Integer> dateFrom, dateTo;
-	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData, timeTaken, selectedDates;
+	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData, timeTaken, selectedDates, interactData;
 	private JButton buttonLeft, buttonRight;
 
 	private Font font = new Font(null, 0, 15);
@@ -74,6 +74,7 @@ public class GUI implements Observer {
 		timeTaken = new JLabel();
 		gettingData = new JLabel("Grabbing data...");
 		selectedDates = new JLabel();
+		interactData = new JLabel("<html><b>Please now interact with this data using the buttons to the left and the right.</b></html>");
 
 		try {
 			panel4gui = new Panel4GUI();
@@ -155,6 +156,7 @@ public class GUI implements Observer {
 			System.out.println("Called update in GUI class");
 			this.setTimeTaken("Processing grabbed from store in: " + ((API) o).getFetchTime());
 			this.rightButtonEnabled(true);
+			setInteractDataVisibilty(true);
 		}
 	}
 
@@ -225,6 +227,8 @@ public class GUI implements Observer {
 		initCenter2.add(gettingData);
 		gettingData.setVisible(false);
 		initCenter2.add(timeTaken);
+		initCenter2.add(interactData);
+		interactData.setVisible(false);
 
 		initCenter.setBorder(new LineBorder(Color.BLACK, 1, false));
 		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -235,6 +239,8 @@ public class GUI implements Observer {
 		selectedDates.setFont(font);
 		timeTaken.setHorizontalAlignment(SwingConstants.CENTER);
 		timeTaken.setFont(font);
+		interactData.setHorizontalAlignment(SwingConstants.CENTER);
+		interactData.setFont(font);
 		contentPanel.add(initCenter, "firstScreen");
 	}
 
@@ -453,6 +459,10 @@ public class GUI implements Observer {
 	 */
 	public void setSelectedDatesVisibility(boolean b) {
 		selectedDates.setVisible(b);
+	}
+	
+	public void setInteractDataVisibilty(boolean b) {
+		interactData.setVisible(b);
 	}
 
 	public void setVisibility(boolean b) {
