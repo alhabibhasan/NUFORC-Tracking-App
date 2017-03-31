@@ -165,7 +165,7 @@ public class GUI implements Observer {
 			long totalTime = (timeReceieved - timeClick);
 			
 			this.setTimeTaken("Processing grabbed from store in: " + controller.convertMilisToMinutes(totalTime));
-			
+			setTimeTakenVisibility(true);
 			
 			
 			
