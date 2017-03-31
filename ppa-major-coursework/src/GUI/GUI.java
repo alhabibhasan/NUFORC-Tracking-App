@@ -35,7 +35,7 @@ import controllers.RightButtonListener;
 /**
  * This class will be used to construct the GUI for the program.
  * 
- * @author Muhammed Hasan, Aflal Asker
+ * @author Muhammed Hasan, Aflal Asker, Jaman Salique
  *
  */
 public class GUI implements Observer {
@@ -165,7 +165,7 @@ public class GUI implements Observer {
 			long totalTime = (timeReceieved - timeClick);
 			
 			this.setTimeTaken("Processing grabbed from store in: " + controller.convertMilisToMinutes(totalTime));
-			
+			setTimeTakenVisibility(true);
 			
 			
 			
