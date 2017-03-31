@@ -83,7 +83,7 @@ public class GUI implements Observer {
 			e.printStackTrace();
 		}
 
-		panel4gui.addWindowListener(new Panel4WindowListener(this));
+		panel4gui.addWindowListener(new Panel4WindowListener(this, panel4gui));
 
 		buttonLeft = new JButton("<");
 		buttonRight = new JButton(">");

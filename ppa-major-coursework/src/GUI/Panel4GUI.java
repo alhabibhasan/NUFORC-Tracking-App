@@ -326,5 +326,9 @@ public class Panel4GUI extends JFrame implements Observer {
 		aliens.getSpeed();
 
 	}
+	
+	public void setEnabledStarAnimation(boolean b){
+		startAnimation.setEnabled(b);
+	}
 
 }
