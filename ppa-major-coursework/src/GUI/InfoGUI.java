@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import Data.CustomIncident;
+import Processing.CustomIncident;
 import controllers.InfoGUIListener;
 
 public class InfoGUI extends JFrame implements Observer {
@@ -109,6 +109,9 @@ public class InfoGUI extends JFrame implements Observer {
 
   }
 
+  /**
+   * This method updates the default list model
+   */
   @Override
   public void update(Observable o, Object arg) {
     listModel = controller.getListModel();

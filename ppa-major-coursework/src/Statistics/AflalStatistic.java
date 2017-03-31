@@ -7,12 +7,11 @@ import java.util.Observable;
 
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import Data.CustomIncident;
-import Data.Process;
+import Processing.API;
+import Processing.CustomIncident;
 import api.ripley.Ripley;
 
-/**
- * This class is used to plot the most sighted times in the graph
+/** This class is used to plot the most sighted times in the graph
  * @author Aflal Asker
  *
  */
@@ -31,7 +30,7 @@ public class AflalStatistic{
 		timeFrequency = new HashMap<String, Integer>();
 		
 		data = new ArrayList<CustomIncident>();
-		data = Process.getCurrentIncidents();
+		data = API.getCurrentIncidents();
 		dataset = new DefaultCategoryDataset();
 
 		statsLoop();

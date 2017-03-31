@@ -3,8 +3,8 @@ package controllers;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 
-import Data.Sorts;
 import GUI.InfoGUI;
+import Processing.Sorts;
 /**
  * This class is the controller for the InfoGUI and the Sorts class.
  * @author k1630580

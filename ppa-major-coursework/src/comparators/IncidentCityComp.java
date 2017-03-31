@@ -2,7 +2,7 @@ package comparators;
 
 import java.util.Comparator;
 
-import Data.CustomIncident;
+import Processing.CustomIncident;
 /**
  * The class implements comparator. it is used to sort incidents based on the city of the incident.
  * Cities are sorted alphabetically from A-Z

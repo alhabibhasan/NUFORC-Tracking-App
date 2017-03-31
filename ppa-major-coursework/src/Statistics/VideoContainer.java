@@ -58,10 +58,12 @@ public class VideoContainer extends JPanel {
 			vidTitle.addActionListener(e -> {
 				rId.getVideoId();
 				String videoId = rId.getVideoId();
+				// concatnate the video id on to the url
 				videoId = "https://www.youtube.com/watch?v=" + videoId;
 				  try {
 	                    Desktop.getDesktop().browse(new URI(videoId));
 	                } catch (URISyntaxException | IOException ex) {
+	                	ex.printStackTrace();
 	                    //It looks like there's a problem
 	                }
 			});

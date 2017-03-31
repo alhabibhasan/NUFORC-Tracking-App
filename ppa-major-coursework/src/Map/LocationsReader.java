@@ -43,14 +43,14 @@ public class LocationsReader {
 		Integer x = 0;
 		Integer y = 0;
 		while(reader.hasNext()) {
-			stateName = reader.next();
-			stateAbrev = reader.next();
-			x = Integer.parseInt(reader.next());
+			stateName = reader.next(); // first the name is read
+			stateAbrev = reader.next(); // then the abbreviation
+			x = Integer.parseInt(reader.next()); // the coordinates are now read
 			y = Integer.parseInt(reader.next());
 			
 			Integer coords[] = {x, y};
-			abrevToName.put(stateAbrev, stateName);
-			locations.put(stateAbrev, coords);
+			abrevToName.put(stateAbrev, stateName); // the abbreviation maps to the full name
+			locations.put(stateAbrev, coords); // the abbreviation also maps to the coordinate of the state
 		}
 	}
 	

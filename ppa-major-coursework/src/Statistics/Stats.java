@@ -32,6 +32,7 @@ public class Stats {
 	private final String PANEL2_PREF = "panel2_pref";
 	private final String PANEL3_PREF = "panel3_pref";
 	private final String PANEL4_PREF = "panel4_pref";
+	private int pan1 = 1, pan2 = 1, pan3 = 1, pan4 = 1;
 	private StatsController controller;
 
 	public Stats() {
@@ -62,12 +63,14 @@ public class Stats {
 		showPreferedPanels();
 
 		controller = new StatsController();
-		
+
 		updateStats();
 
 	}
 
 	private void showPreferedPanels() {
+		// show the prefered panel for each panel
+
 		if (panelPref.get(PANEL1_PREF, "emptyPan1").equals("panel1")) {
 			card1.show(stat1Center, "stat1Pan1");
 		} else if (panelPref.get(PANEL1_PREF, "emptyPan1").equals("panel2")) {
@@ -156,18 +159,37 @@ public class Stats {
 	}
 
 	private void setUpButton() {
-		// buttons for panel 1
+		// if any button is pressed, the preference of the panel is set
 		stat1Left = new JButton("<");
 		stat1Right = new JButton(">");
 
 		stat1Left.addActionListener(e -> {
-			card1.show(stat1Center, "stat1Pan1");
-			panelPref.put(PANEL1_PREF, "panel1");
+			pan1++;
+			// allows us to loop throught the panels
+			if (pan1 % 2 == 1) {
+				card1.show(stat1Center, "stat1Pan1");
+				panelPref.put(PANEL1_PREF, "panel1");
+			}
+
+			if (pan1 % 2 == 0) {
+				card1.show(stat1Center, "stat1Pan2");
+				panelPref.put(PANEL1_PREF, "panel2");
+			}
+
 		});
 
 		stat1Right.addActionListener(e -> {
-			card1.show(stat1Center, "stat1Pan2");
-			panelPref.put(PANEL1_PREF, "panel2");
+			pan1++;
+			// allows us to loop throught the panels
+			if (pan1 % 2 == 1) {
+				card1.show(stat1Center, "stat1Pan1");
+				panelPref.put(PANEL1_PREF, "panel1");
+			}
+
+			if (pan1 % 2 == 0) {
+				card1.show(stat1Center, "stat1Pan2");
+				panelPref.put(PANEL1_PREF, "panel2");
+			}
 		});
 
 		stat1.add(stat1Left, BorderLayout.WEST);
@@ -180,12 +202,31 @@ public class Stats {
 		stat2.add(stat2Right, BorderLayout.EAST);
 
 		stat2Left.addActionListener(e -> {
-			card2.show(stat2Center, "stat2Pan1");
-			panelPref.put(PANEL2_PREF, "panel1");
+			// allows us to loop throught the panels
+			pan2++;
+
+			if (pan2 % 2 == 1) {
+				card2.show(stat2Center, "stat2Pan1");
+				panelPref.put(PANEL2_PREF, "panel1");
+			}
+
+			if (pan2 % 2 == 0) {
+				card2.show(stat2Center, "stat2Pan2");
+				panelPref.put(PANEL2_PREF, "panel2");
+			}
 		});
 		stat2Right.addActionListener(e -> {
-			card2.show(stat2Center, "stat2Pan2");
-			panelPref.put(PANEL2_PREF, "panel2");
+			pan2++;
+			// allows us to loop throught the panels
+			if (pan2 % 2 == 1) {
+				card2.show(stat2Center, "stat2Pan1");
+				panelPref.put(PANEL2_PREF, "panel1");
+			}
+
+			if (pan2 % 2 == 0) {
+				card2.show(stat2Center, "stat2Pan2");
+				panelPref.put(PANEL2_PREF, "panel2");
+			}
 		});
 
 		stat3Left = new JButton("<");
@@ -195,12 +236,30 @@ public class Stats {
 		stat3.add(stat3Right, BorderLayout.EAST);
 
 		stat3Left.addActionListener(e -> {
-			card3.show(stat3Center, "stat3Pan1");
-			panelPref.put(PANEL3_PREF, "panel1");
+			pan3++;
+			// allows us to loop throught the panels
+			if (pan3 % 2 == 1) {
+				card3.show(stat3Center, "stat3Pan1");
+				panelPref.put(PANEL3_PREF, "panel1");
+			}
+
+			if (pan3 % 2 == 0) {
+				card3.show(stat3Center, "stat3Pan2");
+				panelPref.put(PANEL3_PREF, "panel2");
+			}
 		});
 		stat3Right.addActionListener(e -> {
-			card3.show(stat3Center, "stat3Pan2");
-			panelPref.put(PANEL3_PREF, "panel2");
+			pan3++;
+			// allows us to loop throught the panels
+			if (pan3 % 2 == 1) {
+				card3.show(stat3Center, "stat3Pan1");
+				panelPref.put(PANEL3_PREF, "panel1");
+			}
+
+			if (pan3 % 2 == 0) {
+				card3.show(stat3Center, "stat3Pan2");
+				panelPref.put(PANEL3_PREF, "panel2");
+			}
 		});
 
 		stat4Left = new JButton("<");
@@ -210,40 +269,61 @@ public class Stats {
 		stat4.add(stat4Right, BorderLayout.EAST);
 
 		stat4Left.addActionListener(e -> {
-			card4.show(stat4Center, "stat4Pan1");
-			panelPref.put(PANEL4_PREF, "panel1");
+			pan4++;
+			// allows us to loop throught the panels
+			if (pan4 % 2 == 1) {
+				card4.show(stat4Center, "stat4Pan1");
+				panelPref.put(PANEL4_PREF, "panel1");
+			}
+
+			if (pan4 % 2 == 0) {
+				card4.show(stat4Center, "stat4Pan2");
+				panelPref.put(PANEL4_PREF, "panel2");
+			}
 		});
 		stat4Right.addActionListener(e -> {
-			card4.show(stat4Center, "stat4Pan2");
-			panelPref.put(PANEL4_PREF, "panel2");
+			pan4++;
+			// allows us to loop throught the panels
+			if (pan4 % 2 == 1) {
+				card4.show(stat4Center, "stat4Pan1");
+				panelPref.put(PANEL4_PREF, "panel1");
+			}
+
+			if (pan4 % 2 == 0) {
+				card4.show(stat4Center, "stat4Pan2");
+				panelPref.put(PANEL4_PREF, "panel2");
+			}
 		});
 
 	}
 
-	
+	/**
+	 * Update method for the statistics. Updates the statistics by calling the
+	 * controller
+	 */
 	public void updateStats() {
-			System.out.println("Called stats update 30/03/2017");
-			stat1Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Likeliest State:"
-					+ "<br><br><br><br><br>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-					+ controller.getLikeliestState() + "</span></html>"));
+		stat1Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Likeliest State:" + "<br><br><br><br><br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + controller.getLikeliestState()
+				+ "</span></html>"));
 
-			stat1Cont2.add(controller.getAflalStat());
+		stat1Cont2.add(controller.getAflalStat());
 
-			stat2Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Number of Hoax:" + "<br><br><br><br><br>"
-					+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-					+ String.valueOf(controller.getNoOfHoaxes()) + "</span></html>"));
+		stat2Cont1.add(new JLabel("<html><span style='font-size:20px'>" + "Number of Hoax:" + "<br><br><br><br><br>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+				+ String.valueOf(controller.getNoOfHoaxes()) + "</span></html>"));
 
-			stat2Cont2.add(controller.getHabibStat());
-			
-			stat3Cont1.add(new JLabel(
-					"<html><span style='font-size:20px'>" + "Number of non US sightings" + "<br><br><br><br><br>"
-							+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-							+ String.valueOf(controller.getNoOfNonUS()) + "</span></html>"));
+		stat2Cont2.add(controller.getHabibStat());
 
-			stat3Cont2.add(controller.getBahaStat());
+		stat3Cont1.add(
+				new JLabel("<html><span style='font-size:20px'>" + "Number of non US sightings" + "<br><br><br><br><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+						+ String.valueOf(controller.getNoOfNonUS()) + "</span></html>"));
 
-			stat4Cont1.add(controller.getYouTubeVids());
-		
+		stat3Cont2.add(controller.getBahaStat());
+
+		stat4Cont1.add(controller.getYouTubeVids());
+
+		stat4Cont2.add(controller.getJamanStat());
 
 	}
 

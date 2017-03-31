@@ -24,10 +24,10 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import Data.Process;
 import Map.MapDrawer;
+import Processing.API;
 import Statistics.Stats;
-import controllers.ComboBoxListener;
+import controllers.GUIMainController;
 import controllers.LeftButtonListener;
 import controllers.Panel4WindowListener;
 import controllers.RightButtonListener;
@@ -35,18 +35,14 @@ import controllers.RightButtonListener;
 /**
  * This class will be used to construct the GUI for the program.
  * 
- * @author Muhammed Hasan, Aflal Asker
+ * @author Muhammed Hasan, Aflal Asker, Jaman Salique
  *
  */
 public class GUI implements Observer {
 	private JFrame frame; // the main frame
-	private JPanel north, contentPanel, initCenter, south, mapCenter,
-			statsCenter;
-
-	private Process data;
+	private JPanel north, contentPanel, initCenter, south, mapCenter, statsCenter;
 	private JComboBox<Integer> dateFrom, dateTo;
-	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData,
-			timeTaken, selectedDates;
+	private JLabel lastUpdate, welcomeText, acknowledgement, gettingData, timeTaken, selectedDates, interactData;
 	private JButton buttonLeft, buttonRight;
 
 	private Font font = new Font(null, 0, 15);
@@ -54,6 +50,7 @@ public class GUI implements Observer {
 	private String currentScreen = "";
 	private CardLayout cardLayout = new CardLayout();
 	private Panel4GUI panel4gui;
+	private GUIMainController controller;
 
 	/**
 	 * The constructor which will initialise the GUI components within the
@@ -77,17 +74,17 @@ public class GUI implements Observer {
 		timeTaken = new JLabel();
 		gettingData = new JLabel("Grabbing data...");
 		selectedDates = new JLabel();
-		
+		interactData = new JLabel(
+				"<html><b>Please now interact with this data using the buttons to the left and the right.</b></html>");
+
 		try {
 			panel4gui = new Panel4GUI();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		panel4gui.addWindowListener(new Panel4WindowListener(this));
 
-		completeDataLoad();
+		panel4gui.addWindowListener(new Panel4WindowListener(this, panel4gui));
 
 		buttonLeft = new JButton("<");
 		buttonRight = new JButton(">");
@@ -95,21 +92,23 @@ public class GUI implements Observer {
 		buttonLeft.addActionListener(new LeftButtonListener(this));
 
 		buttonRight.addActionListener(new RightButtonListener(this));
-		
-		
 
-		addComboBoxElements();
-		ComboBoxListener comboxListener = new ComboBoxListener(dateFrom,
-				dateTo, this, new Process(this));
-		dateFrom.addActionListener(comboxListener);
-		dateTo.addActionListener(comboxListener);
+		controller = new GUIMainController(dateFrom, dateTo, this);
+
+		addComboBoxElements(); // add the elements before adding the action
+								// listeners
+								// this prevents firing actions before we want
+								// to
+		dateFrom.addActionListener(controller);
+		dateTo.addActionListener(controller);
+		completeDataLoad();
 	}
 
 	/**
 	 * Clears the map panel so we can remove any out-dated maps
 	 */
 	public void clearMapCenter() {
-		mapCenter.removeAll();
+		mapCenter.removeAll(); // clear the map panel so we can add new layers
 	}
 
 	/**
@@ -131,7 +130,7 @@ public class GUI implements Observer {
 	 *            The screen being viewed
 	 */
 	public void setCurrentScreen(String currentScreen) {
-		if (currentScreen.length() > 0) {
+		if (currentScreen.length() > 0) { // ensure no empty string is passed
 			this.currentScreen = currentScreen;
 		}
 	}
@@ -144,42 +143,43 @@ public class GUI implements Observer {
 		return this.currentScreen;
 	}
 
-	private void createStatCenter() {
-		Stats stats = new Stats();
-		statsCenter = stats.getPanel();
-		contentPanel.add(statsCenter, "statsScreen");
-
-	}
-
 	/**
 	 * Update the map and stats panel with the latest data.
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o instanceof Process) {
+		if (o instanceof API) {
 			HashMap<String, Integer> currentIncidents = (HashMap<String, Integer>) arg;
 			this.createMapCenter(new MapDrawer(currentIncidents));
 			Stats stats = new Stats();
 			statsCenter = stats.getPanel();
 			contentPanel.add(statsCenter, "statsScreen");
 			System.out.println("Called update in GUI class");
-			this.setTimeTaken("Data grabbed in: "
-					+ ((Process) o).getFetchTime());
+			
 			this.rightButtonEnabled(true);
+			setInteractDataVisibilty(true);
+			
+			long timeClick = controller.getClickTime();
+			long timeReceieved = System.currentTimeMillis();
+			
+			long totalTime = (timeReceieved - timeClick);
+			
+			this.setTimeTaken("Processing grabbed from store in: " + controller.convertMilisToMinutes(totalTime));
+			setTimeTakenVisibility(true);
+			
+			
+			
 		}
-
 	}
 
 	private void completeDataLoad() {
 
-		data = new Process(this);
-		this.setWelcomeText("<html>Welcome to the Ripley API v"
-				+ data.getVersion()
+		this.setWelcomeText("<html>Welcome to the Ripley API v" + controller.getVersion()
 				+ " Please select from the dates above, in order to begin analysing UFO sighting data. </html>");
 
-		this.acknowledgement.setText(data.getAcknowledgementString());
+		this.acknowledgement.setText(controller.getAcknowledgementString());
 
-		this.setLastUpdate(data.getLastUpdated());
+		this.setLastUpdate(controller.getLastUpdated());
 
 	}
 
@@ -239,6 +239,8 @@ public class GUI implements Observer {
 		initCenter2.add(gettingData);
 		gettingData.setVisible(false);
 		initCenter2.add(timeTaken);
+		initCenter2.add(interactData);
+		interactData.setVisible(false);
 
 		initCenter.setBorder(new LineBorder(Color.BLACK, 1, false));
 		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -249,6 +251,8 @@ public class GUI implements Observer {
 		selectedDates.setFont(font);
 		timeTaken.setHorizontalAlignment(SwingConstants.CENTER);
 		timeTaken.setFont(font);
+		interactData.setHorizontalAlignment(SwingConstants.CENTER);
+		interactData.setFont(font);
 		contentPanel.add(initCenter, "firstScreen");
 	}
 
@@ -256,7 +260,9 @@ public class GUI implements Observer {
 		map.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println(e.getX() + ", " + e.getY());
+				System.out.println(e.getX() + ", " + e.getY()); // gets the
+																// location of
+																// the click
 			}
 		});
 
@@ -396,8 +402,8 @@ public class GUI implements Observer {
 	}
 
 	private void addComboBoxElements() {
-		int earliest = data.getStartYear();
-		int latest = data.getLatestYear();
+		int earliest = controller.getStartYear();
+		int latest = controller.getLatestYear();
 
 		dateFrom.setFont(font);
 		dateTo.setFont(font);
@@ -468,13 +474,17 @@ public class GUI implements Observer {
 	public void setSelectedDatesVisibility(boolean b) {
 		selectedDates.setVisible(b);
 	}
-	
-	public void setVisibility(boolean b){
+
+	public void setInteractDataVisibilty(boolean b) {
+		interactData.setVisible(b);
+	}
+
+	public void setVisibility(boolean b) {
 		frame.setVisible(b);
 	}
-	
-	public void createPanel4(){
+
+	public void createPanel4() {
 		panel4gui.CreateGUI();
 	}
-	
+
 }

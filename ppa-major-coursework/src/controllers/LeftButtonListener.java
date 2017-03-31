@@ -23,6 +23,8 @@ public class LeftButtonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (gui.getCurrentScreen().equals("mapScreen")) {
+			
+			// sets the gui components to enabled or disabled after the action is carried out
 			gui.setCurrentScreen("firstScreen");
 			System.out.println(gui.getCurrentScreen());
 			gui.setCardLayout("firstScreen");
@@ -34,7 +36,7 @@ public class LeftButtonListener implements ActionListener {
 			gui.setSelectedDatesVisibility(false);
 			gui.setGettingData(false);
 			gui.setComboBoxes(true);
-			gui.setTimeTakenVisibility(true);
+			gui.setTimeTakenVisibility(false);
 			gui.setTimeTaken("");
 			gui.setFrameResizeable(true);
 		}

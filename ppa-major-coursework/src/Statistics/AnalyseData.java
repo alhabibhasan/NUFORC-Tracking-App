@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 
-import Data.CustomIncident;
-import Data.Process;
 import Map.LocationsReader;
+import Processing.API;
+import Processing.CustomIncident;
 
 public class AnalyseData {
 	private ArrayList<CustomIncident> listOfIncidents;
@@ -24,13 +24,13 @@ public class AnalyseData {
 		
 		listOfIncidents = new ArrayList<CustomIncident>();
 		
-		listOfIncidents = Process.getCurrentIncidents();
+		listOfIncidents = API.getCurrentIncidents();
 
 		LocationsReader fileReader = new LocationsReader();
 
 		locations = fileReader.getLocations();
 
-		stateFrequency = Process.getStateFrequency();
+		stateFrequency = API.getStateFrequency();
 		
 	}
 	
@@ -82,14 +82,24 @@ public class AnalyseData {
 		this.likeliestState = highestState;
 	}
 
+	/**
+	 * @return The likeliest state to be affected
+	 */
 	public String getLikeliestState() {
 		return this.likeliestState;
 	}
-
+	/**
+	 * 
+	 * @return The number of possible hoaxes
+	 */
 	public int getNoOfHoaxes() {
 		return noOfHoaxes;
 	}
 
+	/**
+	 * The number of non us sightings
+	 * @return
+	 */
 	public int getNoOfNonUS() {
 		return noOfNonUS;
 	}
