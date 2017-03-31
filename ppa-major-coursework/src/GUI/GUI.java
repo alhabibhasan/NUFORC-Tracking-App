@@ -35,7 +35,7 @@ import controllers.RightButtonListener;
 /**
  * This class will be used to construct the GUI for the program.
  * 
- * @author Muhammed Hasan, Aflal Asker
+ * @author Muhammed Hasan, Aflal Asker, Jaman Salique
  *
  */
 public class GUI implements Observer {
