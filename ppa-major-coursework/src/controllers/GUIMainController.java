@@ -67,30 +67,49 @@ public class GUIMainController implements ActionListener {
 		
 		
 	}
-
+	/**
+	 * 
+	 * @return API version
+	 */
 	public double getVersion() {
 		return apiData.getVersion();
 	}
-
+	/**
+	 * 
+	 * @return Acknowledgement string from API
+	 */
 	public String getAcknowledgementString() {
 		// TODO Auto-generated method stub
 		return apiData.getAcknowledgementString();
 	}
-
+	/**
+	 * 
+	 * @return API last updated time and date
+	 */
 	public String getLastUpdated() {
 		return apiData.getLastUpdated();
 	}
-
+	/**
+	 * 
+	 * @return Date of earliest incident from API
+	 */
 	public int getStartYear() {
 		// TODO Auto-generated method stub
 		return apiData.getStartYear();
 	}
-	
+	/**
+	 * 
+	 * @return Date of latest year from API
+	 */
 	public int getLatestYear() {
 		// TODO Auto-generated method stub
 		return apiData.getLatestYear();
 	}
-	
+	/**
+	 * Converts miliseconds into time format -> n minutes n seconds
+	 * @param time
+	 * @return String representing the time
+	 */
 	public String convertMilisToMinutes(long time) {
 		String seconds, minutes;
 		long x;
