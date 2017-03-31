@@ -474,15 +474,23 @@ public class GUI implements Observer {
 	public void setSelectedDatesVisibility(boolean b) {
 		selectedDates.setVisible(b);
 	}
-
+	/**
+	 * Set the interact with data label to be visible or not
+	 * @param b
+	 */
 	public void setInteractDataVisibilty(boolean b) {
 		interactData.setVisible(b);
 	}
-
+	/**
+	 * Set frame visibility
+	 * @param b
+	 */
 	public void setVisibility(boolean b) {
 		frame.setVisible(b);
 	}
-
+	/**
+	 * Create panel 4
+	 */
 	public void createPanel4() {
 		panel4gui.CreateGUI();
 	}
