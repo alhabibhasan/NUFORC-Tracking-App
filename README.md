@@ -1,5 +1,5 @@
 # ppa-major-coursework
-2nd Semester Major Group Project
+2nd Semester Group Project
 
 This was project was done as a part of the group project in our <b>first year</b> for the programming module. We were required to create a Java Swing 
 application which processed data from the NUFORC API and generated various statistics from the data as well as a visual representation of the 
